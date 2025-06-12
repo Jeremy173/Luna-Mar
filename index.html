@@ -178,23 +178,24 @@
         .hero-content {
             position: relative;
             z-index: 2; /* Контент поверх изображения */
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.4); /* Полупрозрачный фон для читаемости текста */
+            padding: 15px 30px; /* Уменьшил паддинг */
+            /* background-color: rgba(0, 0, 0, 0.4); */ /* Убрал фоновый цвет */
             border-radius: 10px;
-            max-width: 800px;
-            box-shadow: 0 5px 20px rgba(0, 255, 0, 0.2); /* Зеленая тень */
+            max-width: 600px; /* Уменьшил максимальную ширину */
+            /* box-shadow: 0 5px 20px rgba(0, 255, 0, 0.2); */ /* Убрал тень */
         }
 
         .hero-content h2 {
-            font-size: 3.5em; /* Большой заголовок */
-            margin-bottom: 20px;
+            font-size: 2.8em; /* Уменьшил размер заголовка */
+            font-family: 'Razer Blackwidow', sans-serif; /* Применил шрифт Razer */
+            margin-bottom: 15px; /* Уменьшил отступ */
             color: var(--accent-green);
-            text-shadow: 0 0 15px rgba(0, 255, 0, 0.7);
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.7); /* Чуть уменьшил тень */
         }
 
         .hero-content p {
-            font-size: 1.5em;
-            margin-bottom: 30px;
+            font-size: 1.2em; /* Уменьшил размер параграфа */
+            margin-bottom: 25px; /* Уменьшил отступ */
             color: var(--text-light);
         }
 
@@ -411,12 +412,12 @@
                 transform: translateY(-11px) rotate(-45deg);
             }
 
-            .banner h1 {
-                font-size: 36px; /* Меньший размер заголовка на мобильных */
+            .hero-content h2 {
+                font-size: 2.2em; /* Адаптация для мобильных */
             }
 
-            .banner p {
-                font-size: 18px; /* Меньший размер текста на мобильных */
+            .hero-content p {
+                font-size: 1em; /* Адаптация для мобильных */
             }
         }
 
