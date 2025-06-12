@@ -559,20 +559,20 @@
 
     <div class="hero-sections">
         <section class="hero-slide">
-            <img src="img/image0_large (4) (1).jpg" alt="Игровая периферия Luna" class="hero-background-image">
-            <div class="hero-content">
-                <h2>Полная Боевая Готовность</h2>
-                <p>Оснастите свою станцию лучшей игровой периферией для максимальной производительности и комфорта.</p>
-                <button class="btn" data-scroll-to="peripherals-section">Изучить Периферию</button>
-            </div>
-        </section>
-
-        <section class="hero-slide">
             <img src="img/Airbrush-Image-Enhancer-1749760872731.jpeg" alt="Игровые мониторы Luna" class="hero-background-image">
             <div class="hero-content">
                 <h2>Визуальное Превосходство</h2>
                 <p>Погрузитесь в игровой мир с кристально чистым изображением на наших высокопроизводительных мониторах.</p>
                 <button class="btn" data-scroll-to="monitors-section">Посмотреть Мониторы</button>
+            </div>
+        </section>
+
+        <section class="hero-slide">
+            <img src="img/image0_large (4) (1).jpg" alt="Игровая периферия Luna" class="hero-background-image">
+            <div class="hero-content">
+                <h2>Полная Боевая Готовность</h2>
+                <p>Оснастите свою станцию лучшей игровой периферией для максимальной производительности и комфорта.</p>
+                <button class="btn" data-scroll-to="peripherals-section">Изучить Периферию</button>
             </div>
         </section>
 
@@ -917,10 +917,8 @@
             });
         });
 
-        // Добавляем обработчики для пунктов меню "Мониторы" и "Клавиатуры"
         document.querySelectorAll('.nav .menu-item a').forEach(link => {
             link.addEventListener('click', (event) => {
-                // Если ссылка ведет на один из наших новых разделов, прокручиваем к нему
                 const linkText = event.target.textContent.trim();
                 let targetId = '';
 
@@ -929,7 +927,7 @@
                 } else if (linkText === 'Клавиатуры') {
                     targetId = 'keyboards-section';
                 } else if (linkText === 'Мышки') {
-                    targetId = 'peripherals-section'; // Мышки это часть периферии
+                    targetId = 'peripherals-section';
                 }
 
                 if (targetId) {
@@ -937,7 +935,6 @@
                     const targetElement = document.getElementById(targetId);
                     if (targetElement) {
                         targetElement.scrollIntoView({ behavior: 'smooth' });
-                        // Закрываем мобильное меню после перехода
                         if (navMenu.classList.contains('open')) {
                             navMenu.classList.remove('open');
                             burger.classList.remove('open');
