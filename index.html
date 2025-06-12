@@ -495,6 +495,29 @@
         .loading-indicator.active {
             display: block;
         }
+        /* Стили для индикатора загрузки изображения */
+        .image-loading-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 150px; /* Должен быть равен высоте img */
+            background-color: #333;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .image-loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--accent-green);
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            animation: spin 1s linear infinite;
+        }
+
+        .product-card img.hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -527,8 +550,8 @@
                         <li><a href="#">Logitech</a></li>
                         <li><a href="#">Razer</a></li>
                     </ul>
-                </li>
-                <li class="menu-item">
+                </li
+>                <li class="menu-item">
                     <a href="#">Мышки</a>
                     <ul class="submenu">
                         <li><a href="#">Проводные</a></li>
@@ -559,7 +582,7 @@
 
     <div class="hero-sections">
         <section class="hero-slide">
-            <img src="img/Airbrush-Image-Enhancer-1749760872731.jpeg" alt="Игровые мониторы Luna" class="hero-background-image">
+            <img src="img/image0_large (4) (1).jpg" alt="Игровая периферия Luna" class="hero-background-image">
             <div class="hero-content">
                 <h2>Полная Боевая Готовность</h2>
                 <p>Оснастите свою станцию лучшей игровой периферией для максимальной производительности и комфорта.</p>
@@ -568,7 +591,7 @@
         </section>
 
         <section class="hero-slide">
-            <img src="img/image0_large (4) (1).jpg" alt="Игровая периферия Luna" class="hero-background-image">
+            <img src="img/Airbrush-Image-Enhancer-1749760872731.jpeg" alt="Игровые мониторы Luna" class="hero-background-image">
             <div class="hero-content">
                 <h2>Визуальное Превосходство</h2>
                 <p>Погрузитесь в игровой мир с кристально чистым изображением на наших высокопроизводительных мониторах.</p>
@@ -591,7 +614,10 @@
 
         <section class="products">
             <div class="product-card">
-                <img src="https://placehold.co/200x150/111/0f0?text=МОЩНЫЙ+ПК" alt="Игровой ПК Luna Pro">
+                <div class="image-loading-indicator" id="img-loading-pc">
+                    <div class="image-loading-spinner"></div>
+                </div>
+                <img src="" alt="Игровой ПК Luna Pro" class="hidden" data-product-name="Игровой ПК Luna Pro" data-product-type="игровой ПК">
                 <h3 class="product-name">Игровой ПК Luna Pro</h3>
                 <p class="product-description-short">Мощный компьютер для максимальной производительности в любых играх.</p>
                 <div class="price">499 990 KZT</div>
@@ -600,7 +626,10 @@
             </div>
 
             <div class="product-card">
-                <img src="https://placehold.co/200x150/111/0f0?text=МОНИТОР+144ГЦ" alt="Монитор Luna UltraView 144Hz">
+                <div class="image-loading-indicator" id="img-loading-monitor">
+                    <div class="image-loading-spinner"></div>
+                </div>
+                <img src="" alt="Монитор Luna UltraView 144Hz" class="hidden" data-product-name="Монитор Luna UltraView 144Hz" data-product-type="игровой монитор 144Hz">
                 <h3 class="product-name">Монитор Luna UltraView 144Hz</h3>
                 <p class="product-description-short">Погрузитесь в игру с высокой частотой обновления и четким изображением.</p>
                 <div class="price">125 000 KZT</div>
@@ -609,7 +638,10 @@
             </div>
 
             <div class="product-card">
-                <img src="https://placehold.co/200x150/111/0f0?text=ИГРОВАЯ+МЫШЬ" alt="Игровая мышь Luna Precision">
+                <div class="image-loading-indicator" id="img-loading-mouse">
+                    <div class="image-loading-spinner"></div>
+                </div>
+                <img src="" alt="Игровая мышь Luna Precision" class="hidden" data-product-name="Игровая мышь Luna Precision" data-product-type="игровая мышь">
                 <h3 class="product-name">Игровая мышь Luna Precision</h3>
                 <p class="product-description-short">Точность и комфорт для долгих игровых сессий.</p>
                 <div class="price">25 000 KZT</div>
@@ -618,7 +650,10 @@
             </div>
 
             <div class="product-card">
-                <img src="https://placehold.co/200x150/111/0f0?text=МЕХ.+КЛАВИАТУРА" alt="Механическая клавиатура Luna Tactile">
+                <div class="image-loading-indicator" id="img-loading-keyboard">
+                    <div class="image-loading-spinner"></div>
+                </div>
+                <img src="" alt="Механическая клавиатура Luna Tactile" class="hidden" data-product-name="Механическая Клавиатура Luna Tactile" data-product-type="механическая игровая клавиатура">
                 <h3 class="product-name">Механическая Клавиатура Luna Tactile</h3>
                 <p class="product-description-short">Быстрый отклик и приятные тактильные ощущения.</p>
                 <div class="price">45 000 KZT</div>
@@ -627,7 +662,10 @@
             </div>
 
             <div class="product-card">
-                <img src="https://placehold.co/200x150/111/0f0?text=ИГРОВОЙ+НОУТБУК" alt="Игровой ноутбук Luna Blaze">
+                <div class="image-loading-indicator" id="img-loading-laptop">
+                    <div class="image-loading-spinner"></div>
+                </div>
+                <img src="" alt="Игровой ноутбук Luna Blaze" class="hidden" data-product-name="Игровой ноутбук Luna Blaze" data-product-type="игровой ноутбук">
                 <h3 class="product-name">Игровой ноутбук Luna Blaze</h3>
                 <p class="product-description-short">Мощность настольного ПК в компактном корпусе.</p>
                 <div class="price">399 990 KZT</div>
@@ -636,7 +674,10 @@
             </div>
 
             <div class="product-card">
-                <img src="https://placehold.co/200x150/111/0f0?text=ИГР.+НАУШНИКИ" alt="Игровые наушники Luna Aura">
+                <div class="image-loading-indicator" id="img-loading-headphones">
+                    <div class="image-loading-spinner"></div>
+                </div>
+                <img src="" alt="Игровые наушники Luna Aura" class="hidden" data-product-name="Игровые наушники Luna Aura" data-product-type="игровые наушники">
                 <h3 class="product-name">Игровые наушники Luna Aura</h3>
                 <p class="product-description-short">Чистый звук и удобство для полного погружения.</p>
                 <div class="price">35 000 KZT</div>
@@ -945,6 +986,55 @@
             });
         });
 
+        // Функция для генерации и установки изображения
+        async function generateAndSetImage(imgElement, promptText, loadingIndicatorId) {
+            const loadingIndicator = document.getElementById(loadingIndicatorId);
+            const imgAlt = imgElement.alt;
+
+            // Скрываем изображение и показываем индикатор загрузки
+            imgElement.classList.add('hidden');
+            loadingIndicator.classList.add('active');
+
+            const payload = { instances: { prompt: promptText }, parameters: { "sampleCount": 1 } };
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+
+                if (result.predictions && result.predictions.length > 0 && result.predictions[0].bytesBase64Encoded) {
+                    const imageUrl = `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
+                    imgElement.src = imageUrl;
+                    imgElement.classList.remove('hidden'); // Показываем изображение
+                } else {
+                    console.error('Не удалось сгенерировать изображение для:', imgAlt, result);
+                    imgElement.src = `https://placehold.co/200x150/111/0f0?text=Ошибка+изображения`; // Fallback placeholder
+                    imgElement.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Ошибка при вызове Imagen API для', imgAlt, error);
+                imgElement.src = `https://placehold.co/200x150/111/0f0?text=Ошибка+изображения`; // Fallback placeholder
+                imgElement.classList.remove('hidden');
+            } finally {
+                loadingIndicator.classList.remove('active'); // Скрываем индикатор загрузки
+            }
+        }
+
+        // Запуск генерации изображений при загрузке страницы
+        window.onload = function() {
+            const productImages = document.querySelectorAll('.main .product-card img[data-product-name]');
+            productImages.forEach((img) => {
+                const productName = img.dataset.productName;
+                const productType = img.dataset.productType;
+                const prompt = `Gaming product image, ${productType} for an online store, modern, sleek, glowing green accents, dark background, futuristic, clean, high resolution, studio lighting, close-up.`;
+                generateAndSetImage(img, prompt, `img-loading-${productType.replace(/[^a-zA-Z0-9]/g, '').toLowerCase()}`);
+            });
+        };
     </script>
 </body>
 </html>
