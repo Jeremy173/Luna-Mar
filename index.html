@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luna — Gaming Tech Store</title>
+    <!-- Подключение шрифтов Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Подключение шрифта Razer Blackwidow (с внешнего CDN) -->
+    <link href="https://fonts.cdnfonts.com/css/razer-blackwidow" rel="stylesheet">
+    <style>
+        /* CSS-переменные для легкой настройки цветов и других значений */
+        :root {
+            --bg-dark: #0f0f0f; /* Основной темный фон */
+            --header-bg: #111; /* Фон хедера/подменю */
+            --accent-green: #0f0; /* Основной зеленый акцент */
+            --accent-green-hover: #0c0; /* Зеленый при наведении */
+            --text-light: #eee; /* Светлый текст */
+            --text-medium: #ccc; /* Средний текст */
+            --border-color: #333; /* Цвет границ карточек */
+            --product-card-bg: #1a1a1a; /* Фон карточки продукта */
+        }
+
+        /* Общие сбросы стилей для всех элементов */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; /* Удобная модель коробки для расчета размеров */
+        }
+
+        /* Стили для тела документа и HTML для основного скролла */
+        html, body {
+            height: 100%; /* Убедимся, что html и body занимают всю высоту */
+            margin: 0;
+            padding: 0;
+            font-family: 'Titillium Web', sans-serif; /* Основной шрифт */
+            background: var(--bg-dark); /* Темный фон из переменной */
+            color: var(--text-light); /* Светлый текст из переменной */
+            overflow-x: hidden; /* Запрещает горизонтальную прокрутку */
+            scroll-behavior: smooth; /* Плавная прокрутка */
+            scroll-snap-type: y mandatory; /* Принудительная привязка к секциям при прокрутке */
+        }
+
+        /* Предотвращает прокрутку страницы, когда мобильное меню открыто */
+        body.no-scroll {
+            overflow: hidden;
+        }
+
+        /* Стили для заголовка (шапки) сайта */
+        .header {
+            position: sticky; /* Шапка "прилипает" к верху при прокрутке */
+            top: 0;
+            background: var(--header-bg); /* Фон шапки из переменной */
+            padding: 16px 32px;
+            display: flex; /* Flexbox для выравнивания элементов */
+            justify-content: space-between; /* Распределяет элементы по краям */
+            align-items: center; /* Выравнивает элементы по центру по вертикали */
+            border-bottom: 1px solid var(--accent-green); /* Зеленая нижняя граница */
+            z-index: 1000; /* Устанавливает порядок наложения элементов */
+        }
+
+        /* Стили для логотипа */
+        .logo {
+            font-family: 'Razer Blackwidow', sans-serif; /* Специальный шрифт для логотипа */
+            font-size: 28px;
+            color: var(--accent-green); /* Цвет логотипа из переменной */
+            font-weight: bold;
+            text-decoration: none; /* Убираем подчеркивание у ссылки-логотипа */
+        }
+
+        /* Стили для навигационного меню */
+        .nav .menu {
+            list-style: none; /* Убираем маркеры списка */
+            display: flex; /* Flexbox для горизонтального расположения пунктов меню */
+            gap: 24px; /* Расстояние между пунктами меню */
+        }
+
+        .menu-item {
+            position: relative; /* Для позиционирования выпадающего подменю */
+        }
+
+        .menu-item a {
+            text-decoration: none; /* Убираем подчеркивание у ссылок */
+            color: var(--text-light); /* Цвет текста ссылок из переменной */
+            padding: 8px 12px;
+            display: block; /* Ссылка как блочный элемент для заполнения пространства */
+            transition: color 0.3s; /* Плавный переход цвета при наведении */
+        }
+
+        .menu-item a:hover {
+            color: var(--accent-green); /* Изменение цвета при наведении */
+        }
+
+        /* Фокусное состояние для доступности (для пользователей клавиатуры) */
+        .menu-item a:focus,
+        .btn:focus,
+        .gemini-btn:focus { /* Добавлено фокусное состояние для кнопки Gemini */
+            outline: 2px solid var(--accent-green); /* Зеленая рамка вокруг сфокусированного элемента */
+            outline-offset: 2px; /* Отступ рамки от элемента */
+            border-radius: 4px; /* Округлить углы рамки */
+        }
+
+        /* Стили для выпадающего подменю */
+        .submenu {
+            position: absolute; /* Позиционирование относительно родительского .menu-item */
+            top: 100%; /* Размещает подменю сразу под родительским пунктом */
+            left: 0;
+            background: var(--header-bg); /* Фон подменю из переменной */
+            border: 1px solid var(--accent-green); /* Зеленая рамка */
+            border-radius: 4px;
+            min-width: 180px; /* Минимальная ширина подменю */
+            z-index: 999; /* Порядок наложения */
+
+            opacity: 0; /* Изначально подменю невидимо */
+            visibility: hidden; /* Изначально подменю скрыто от взаимодействия */
+            transform: translateY(10px); /* Небольшое смещение вниз для анимации */
+            transition: all 0.3s ease; /* Плавный переход для всех свойств */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Небольшая тень для глубины */
+        }
+
+        /* Анимация появления подменю при наведении на родительский пункт */
+        .menu-item:hover .submenu {
+            opacity: 1; /* Делаем видимым */
+            visibility: visible; /* Делаем интерактивным */
+            transform: translateY(0); /* Смещаем в исходное положение */
+        }
+
+        .submenu li a {
+            display: block; /* Ссылка как блочный элемент */
+            padding: 10px 16px;
+            color: var(--text-medium); /* Цвет текста подменю из переменной */
+            text-decoration: none;
+            white-space: nowrap; /* Запрещает перенос текста на новую строку */
+            transition: background 0.3s, color 0.3s; /* Плавный переход фона и цвета текста */
+        }
+
+        .submenu li a:hover {
+            background: var(--accent-green); /* Фон при наведении */
+            color: var(--header-bg); /* Цвет текста при наведении */
+        }
+
+        /* Стили для основной секции с прокручивающимися изображениями (похоже на Razer) */
+        .hero-sections {
+            /* Убрали overflow-y: scroll и scroll-snap-type отсюда, т.к. это теперь на html,body */
+        }
+
+        .hero-slide {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            scroll-snap-align: start; /* Привязываем к началу секции */
+            overflow: hidden; /* Скрываем содержимое, выходящее за пределы слайда */
+            /* z-index: 1; */ /* Убрали z-index отсюда, чтобы контент ниже мог перекрывать */
+        }
+
+        .hero-background-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Изображение покрывает всю область, сохраняя пропорции */
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1; /* Фон под контентом слайда */
+            opacity: 0; /* Изначально скрыто для анимации */
+            transform: scale(1.1); /* Слегка увеличено для эффекта зума при появлении */
+            transition: opacity 1s ease-out, transform 1s ease-out; /* Плавное появление */
+        }
+
+        .hero-slide.fade-in .hero-background-image {
+            opacity: 1; /* Появляется */
+            transform: scale(1); /* Возвращается к исходному размеру */
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2; /* Контент поверх изображения */
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.4); /* Полупрозрачный фон для читаемости текста */
+            border-radius: 10px;
+            max-width: 800px;
+            box-shadow: 0 5px 20px rgba(0, 255, 0, 0.2); /* Зеленая тень */
+        }
+
+        .hero-content h2 {
+            font-size: 3.5em; /* Большой заголовок */
+            margin-bottom: 20px;
+            color: var(--accent-green);
+            text-shadow: 0 0 15px rgba(0, 255, 0, 0.7);
+        }
+
+        .hero-content p {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            color: var(--text-light);
+        }
+
+        /* Стили для основного контента страницы */
+        .content {
+            padding: 40px 32px;
+            max-width: 1200px; /* Ограничиваем максимальную ширину контента */
+            margin: 0 auto; /* Центрируем контент по горизонтали */
+            background: var(--bg-dark); /* Фон для контентной части */
+            position: relative; /* Нужно для z-index */
+            z-index: 10; /* Убедимся, что контент поверх hero-sections при прокрутке */
+            scroll-snap-align: start; /* Контентная секция также привязывается при прокрутке */
+        }
+
+        /* Стили для заголовка секции продуктов */
+        .products-section-title {
+            text-align: center;
+            font-size: 36px;
+            color: var(--accent-green);
+            margin-bottom: 40px;
+            text-shadow: 0 0 8px rgba(0, 255, 0, 0.3);
+        }
+
+        /* Стили для контейнера продуктов (сетка) */
+        .products {
+            display: grid; /* Используем CSS Grid для создания адаптивной сетки */
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Автоматически подстраивает колонки */
+            gap: 30px; /* Расстояние между карточками */
+            justify-content: center; /* Центрирует карточки, если их не хватает для полной строки */
+        }
+
+        /* Стили для карточки продукта */
+        .product-card {
+            background: var(--product-card-bg); /* Фон карточки из переменной */
+            border: 1px solid var(--border-color); /* Граница карточки */
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s; /* Плавные переходы для трансформации и тени */
+            display: flex; /* Flexbox для содержимого карточки */
+            flex-direction: column; /* Элементы внутри карточки располагаются вертикально */
+            justify-content: space-between; /* Распределяет содержимое по вертикали */
+        }
+
+        /* Эффект при наведении на карточку продукта */
+        .product-card:hover {
+            transform: translateY(-8px); /* Карточка немного поднимается */
+            box-shadow: 0 10px 20px rgba(0, 255, 0, 0.4); /* Более выраженная тень */
+            border-color: var(--accent-green); /* Подсвечиваем границу зеленым */
+        }
+
+        .product-card img {
+            max-width: 100%; /* Изображение не выходит за пределы карточки */
+            height: 150px; /* Фиксированная высота для единообразия */
+            object-fit: contain; /* Изображение масштабируется, сохраняя пропорции, чтобы уместиться */
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .product-card h3 {
+            font-size: 20px;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .product-card p {
+            font-size: 16px;
+            color: var(--text-medium);
+            flex-grow: 1; /* Позволяет описанию занимать все доступное пространство */
+        }
+
+        .price {
+            font-size: 22px;
+            color: var(--accent-green);
+            font-weight: bold;
+            margin: 15px 0;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.2); /* Легкая тень для цены */
+        }
+
+        /* Стили для кнопки "Купить" */
+        .btn {
+            padding: 10px 20px;
+            background: var(--accent-green); /* Фон кнопки из переменной */
+            color: var(--header-bg); /* Цвет текста на кнопке из переменной */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s, transform 0.2s; /* Плавные переходы */
+            text-transform: uppercase; /* Текст в верхнем регистре */
+            letter-spacing: 0.5px; /* Расстояние между буквами */
+            box-shadow: 0 2px 5px rgba(0, 255, 0, 0.3); /* Тень для кнопки */
+            margin-top: 15px; /* Отступ сверху от кнопки "Купить" */
+        }
+
+        .btn:hover {
+            background: var(--accent-green-hover); /* Изменение фона при наведении */
+            transform: translateY(-2px); /* Легкий эффект поднятия кнопки */
+            box-shadow: 0 4px 8px rgba(0, 255, 0, 0.4); /* Увеличение тени */
+        }
+
+        /* Стили для кнопки "Улучшить описание" */
+        .gemini-btn {
+            background: #007bff; /* Синий цвет для кнопки Gemini */
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px; /* Отступ сверху */
+            transition: background 0.3s ease;
+            display: block; /* Делаем кнопку блочной, чтобы она занимала всю ширину */
+            width: 100%;
+        }
+
+        .gemini-btn:hover {
+            background: #0056b3; /* Более темный синий при наведении */
+        }
+
+        /* Стили для кнопки-бургер (для мобильной навигации) */
+        .burger {
+            display: none; /* Скрываем бургер по умолчанию на десктопе */
+            cursor: pointer;
+            flex-direction: column; /* Линии бургера располагаются вертикально */
+            justify-content: space-around; /* Равномерное распределение линий */
+            width: 30px;
+            height: 25px;
+            z-index: 1001; /* Бургер выше меню */
+            position: relative; /* Для правильной работы трансформаций линий */
+        }
+
+        .burger .line {
+            width: 100%;
+            height: 3px;
+            background: var(--accent-green); /* Цвет линий бургера */
+            border-radius: 5px;
+            transition: all 0.3s ease; /* Плавная анимация линий */
+        }
+
+        /* Медиа-запрос: стили для экранов шириной до 992px (планшеты и мобильные) */
+        @media (max-width: 992px) {
+            .nav {
+                position: fixed; /* Меню фиксировано на экране */
+                top: 0;
+                right: 0;
+                width: 100%;
+                height: 100%; /* Занимает всю высоту экрана */
+                background: var(--header-bg); /* Темный фон для меню */
+                display: flex; /* Flexbox для центрирования содержимого */
+                justify-content: center;
+                align-items: center;
+                transform: translateX(100%); /* Меню скрыто за пределами экрана справа */
+                transition: transform 0.4s ease-in-out; /* Плавное выезжание/заезжание */
+                z-index: 998; /* Должен быть ниже хедера, но выше остального контента */
+            }
+
+            .nav.open {
+                transform: translateX(0); /* Меню выезжает на экран */
+            }
+
+            .nav .menu {
+                flex-direction: column; /* Пункты меню располагаются вертикально */
+                text-align: center;
+                gap: 30px; /* Отступы между пунктами меню */
+            }
+
+            .nav .menu-item a {
+                font-size: 28px; /* Увеличиваем размер шрифта для мобильных */
+                padding: 15px;
+            }
+
+            .nav .submenu {
+                position: static; /* Подменю отображается inline, а не выпадает */
+                opacity: 1; /* Всегда видимо */
+                visibility: visible; /* Всегда интерактивно */
+                transform: translateY(0); /* Без смещения */
+                background: none; /* Без фона */
+                border: none; /* Без рамки */
+                width: auto;
+                min-width: unset;
+                margin-top: 15px; /* Отступ от родительского пункта */
+                padding-left: 0; /* Убрать отступ для подменю */
+                box-shadow: none;
+            }
+
+            .nav .submenu li a {
+                font-size: 20px; /* Чуть меньше для подменю */
+                padding: 10px 0;
+                color: var(--text-medium);
+            }
+
+            .nav .submenu li a:hover {
+                background: none; /* Без фона при наведении */
+                color: var(--accent-green);
+            }
+
+            /* Показать бургер на маленьких экранах */
+            .burger {
+                display: flex;
+            }
+
+            /* Анимация бургера при открытии меню */
+            .burger.open .line:nth-child(1) {
+                transform: translateY(11px) rotate(45deg);
+            }
+
+            .burger.open .line:nth-child(2) {
+                opacity: 0; /* Скрыть среднюю линию */
+            }
+
+            .burger.open .line:nth-child(3) {
+                transform: translateY(-11px) rotate(-45deg);
+            }
+
+            .banner h1 {
+                font-size: 36px; /* Меньший размер заголовка на мобильных */
+            }
+
+            .banner p {
+                font-size: 18px; /* Меньший размер текста на мобильных */
+            }
+        }
+
+        /* Медиа-запрос: стили для очень маленьких экранов (смартфоны) */
+        @media (max-width: 600px) {
+            .header {
+                padding: 10px 20px;
+            }
+            .logo {
+                font-size: 24px;
+            }
+            .content {
+                padding: 20px 15px;
+            }
+            .products {
+                grid-template-columns: 1fr; /* Один столбец на очень маленьких экранах */
+            }
+            .product-card {
+                width: 100%; /* Карточки занимают всю ширину */
+            }
+        }
+
+        /* Стили для модального окна */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7); /* Полупрозрачный черный фон */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000; /* Выше всех остальных элементов */
+            visibility: hidden; /* Скрыто по умолчанию */
+            opacity: 0;
+            transition: visibility 0.3s, opacity 0.3s;
+        }
+
+        .modal-overlay.open {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: var(--product-card-bg); /* Темный фон из карточки продукта */
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.3); /* Тень с зеленым свечением */
+            position: relative;
+            max-height: 80vh; /* Ограничиваем высоту модального окна */
+            overflow-y: auto; /* Добавляем прокрутку, если контент не помещается */
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .modal-close-btn:hover {
+            color: var(--accent-green);
+        }
+
+        .modal-title {
+            color: var(--accent-green);
+            font-size: 24px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .modal-description {
+            color: var(--text-light);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* Стили для индикатора загрузки */
+        .loading-indicator {
+            display: none; /* Скрыто по умолчанию */
+            border: 4px solid #f3f3f3; /* Светлая рамка */
+            border-top: 4px solid var(--accent-green); /* Зеленая рамка для анимации */
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite; /* Анимация вращения */
+            margin: 20px auto; /* Центрируем */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-indicator.active {
+            display: block; /* Показываем при активной загрузке */
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">Luna</a>
+        <nav class="nav">
+            <ul class="menu">
+                <li class="menu-item">
+                    <a href="#">Компьютеры</a>
+                    <ul class="submenu">
+                        <li><a href="#">Готовые сборки</a></li>
+                        <li><a href="#">Комплектующие</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="#">Мониторы</a>
+                    <ul class="submenu">
+                        <li><a href="#">60 Гц</a></li>
+                        <li><a href="#">75 Гц</a></li>
+                        <li><a href="#">90 Гц</a></li>
+                        <li><a href="#">120 Гц</a></li>
+                        <li><a href="#">144 Гц</a></li>
+                        <li><a href="#">165 Гц</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="#">Ноутбуки</a>
+                    <ul class="submenu">
+                        <li><a href="#">Hypex</a></li>
+                        <li><a href="#">Logitech</a></li>
+                        <li><a href="#">Razer</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="#">Мышки</a>
+                    <ul class="submenu">
+                        <li><a href="#">Проводные</a></li>
+                        <li><a href="#">Беспроводные</a></li>
+                        <li><a href="#">Игровые</a></li>
+                        <li><a href="#">Лёгкие</a></li>
+                        <li><a href="#">С макросами</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="#">Клавиатуры</a>
+                    <ul class="submenu">
+                        <li><a href="#">Механические</a></li>
+                        <li><a href="#">Мембранные</a></li>
+                        <li><a href="#">С подсветкой</a></li>
+                        <li><a href="#">Без подсветки</a></li>
+                        <li><a href="#">Беспроводные</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <!-- Кнопка-бургер для мобильной навигации -->
+        <div class="burger" id="burger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+    </header>
+
+    <!-- Новая секция для Hero-изображений -->
+    <div class="hero-sections">
+        <section class="hero-slide">
+            <img src="image0_large.jpg" alt="Игровые мониторы Luna" class="hero-background-image">
+            <div class="hero-content">
+                <h2>Визуальное Превосходство</h2>
+                <p>Погрузитесь в игровой мир с кристально чистым изображением на наших высокопроизводительных мониторах.</p>
+                <button class="btn">Посмотреть Мониторы</button>
+            </div>
+        </section>
+
+        <section class="hero-slide">
+            <img src="image0_large (1).jpg" alt="Игровая периферия Luna" class="hero-background-image">
+            <div class="hero-content">
+                <h2>Полная Боевая Готовность</h2>
+                <p>Оснастите свою станцию лучшей игровой периферией для максимальной производительности и комфорта.</p>
+                <button class="btn">Изучить Периферию</button>
+            </div>
+        </section>
+
+        <section class="hero-slide">
+            <img src="image0_large (2).jpg" alt="Игровые клавиатуры Luna" class="hero-background-image">
+            <div class="hero-content">
+                <h2>Превосходство в Каждом Нажатии</h2>
+                <p>Выберите свою идеальную клавиатуру для мгновенного отклика и тактического преимущества.</p>
+                <button class="btn">Найти Клавиатуру</button>
+            </div>
+        </section>
+    </div>
+
+    <main class="content">
+        <h2 class="products-section-title">Наши Хиты Продаж</h2>
+
+        <section class="products">
+            <!-- Пример карточки продукта 1 -->
+            <div class="product-card">
+                <!-- Заглушка изображения продукта -->
+                <img src="https://placehold.co/200x150/1a1a1a/0f0?text=Игровой+ПК" alt="Игровой ПК Luna Pro">
+                <h3 class="product-name">Игровой ПК Luna Pro</h3>
+                <p class="product-description-short">Мощный компьютер для максимальной производительности в любых играх.</p>
+                <div class="price">499 990 KZT</div>
+                <button class="btn">Купить</button>
+                <button class="gemini-btn">✨ Улучшить описание</button>
+            </div>
+
+            <!-- Пример карточки продукта 2 -->
+            <div class="product-card">
+                <img src="https://placehold.co/200x150/1a1a1a/0f0?text=Монитор+144Гц" alt="Монитор Luna UltraView 144Hz">
+                <h3 class="product-name">Монитор Luna UltraView 144Hz</h3>
+                <p class="product-description-short">Погрузитесь в игру с высокой частотой обновления и четким изображением.</p>
+                <div class="price">125 000 KZT</div>
+                <button class="btn">Купить</button>
+                <button class="gemini-btn">✨ Улучшить описание</button>
+            </div>
+
+            <!-- Пример карточки продукта 3 -->
+            <div class="product-card">
+                <img src="https://placehold.co/200x150/1a1a1a/0f0?text=Мышь+Gaming" alt="Игровая мышь Luna Precision">
+                <h3 class="product-name">Игровая мышь Luna Precision</h3>
+                <p class="product-description-short">Точность и комфорт для долгих игровых сессий.</p>
+                <div class="price">25 000 KZT</div>
+                <button class="btn">Купить</button>
+                <button class="gemini-btn">✨ Улучшить описание</button>
+            </div>
+
+            <!-- Пример карточки продукта 4 -->
+            <div class="product-card">
+                <img src="https://placehold.co/200x150/1a1a1a/0f0?text=Клавиатура" alt="Механическая клавиатура Luna Tactile">
+                <h3 class="product-name">Механическая клавиатура Luna Tactile</h3>
+                <p class="product-description-short">Быстрый отклик и приятные тактильные ощущения.</p>
+                <div class="price">45 000 KZT</div>
+                <button class="btn">Купить</button>
+                <button class="gemini-btn">✨ Улучшить описание</button>
+            </div>
+
+            <!-- Пример карточки продукта 5 -->
+            <div class="product-card">
+                <img src="https://placehold.co/200x150/1a1a1a/0f0?text=Ноутбук+Gaming" alt="Игровой ноутбук Luna Blaze">
+                <h3 class="product-name">Игровой ноутбук Luna Blaze</h3>
+                <p class="product-description-short">Мощность настольного ПК в компактном корпусе.</p>
+                <div class="price">399 990 KZT</div>
+                <button class="btn">Купить</button>
+                <button class="gemini-btn">✨ Улучшить описание</button>
+            </div>
+
+            <!-- Пример карточки продукта 6 -->
+            <div class="product-card">
+                <img src="https://placehold.co/200x150/1a1a1a/0f0?text=Наушники" alt="Игровые наушники Luna Aura">
+                <h3 class="product-name">Игровые наушники Luna Aura</h3>
+                <p class="product-description-short">Чистый звук и удобство для полного погружения.</p>
+                <div class="price">35 000 KZT</div>
+                <button class="btn">Купить</button>
+                <button class="gemini-btn">✨ Улучшить описание</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Модальное окно для детального описания -->
+    <div id="description-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-btn">&times;</button>
+            <h2 id="modal-product-name" class="modal-title"></h2>
+            <div id="loading-indicator" class="loading-indicator"></div>
+            <p id="modal-product-description" class="modal-description"></p>
+        </div>
+    </div>
+
+    <script>
+        // Получаем ссылки на кнопку-бургер и навигационное меню
+        const burger = document.getElementById('burger');
+        const navMenu = document.querySelector('.nav');
+
+        // Мобильное меню: открытие/закрытие
+        if (burger && navMenu) {
+            burger.addEventListener('click', () => {
+                navMenu.classList.toggle('open');
+                burger.classList.toggle('open');
+                document.body.classList.toggle('no-scroll');
+            });
+
+            document.addEventListener('click', (event) => {
+                if (!burger.contains(event.target) && !navMenu.contains(event.target) && navMenu.classList.contains('open')) {
+                    navMenu.classList.remove('open');
+                    burger.classList.remove('open');
+                    document.body.classList.remove('no-scroll');
+                }
+            });
+
+            const menuLinks = document.querySelectorAll('.nav .menu a');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (!link.closest('.menu-item').querySelector('.submenu')) {
+                        if (navMenu.classList.contains('open')) {
+                            navMenu.classList.remove('open');
+                            burger.classList.remove('open');
+                            document.body.classList.remove('no-scroll');
+                        }
+                    }
+                });
+            });
+        }
+
+        // ---------- Gemini API Интеграция: Улучшение описаний продуктов ----------
+
+        // Получаем ссылки на элементы модального окна
+        const descriptionModal = document.getElementById('description-modal');
+        const modalProductName = document.getElementById('modal-product-name');
+        const modalProductDescription = document.getElementById('modal-product-description');
+        const modalCloseBtn = document.querySelector('.modal-close-btn');
+        const loadingIndicator = document.getElementById('loading-indicator');
+
+        // Получаем все кнопки "Улучшить описание"
+        const geminiButtons = document.querySelectorAll('.gemini-btn');
+
+        // Добавляем слушатель событий на каждую кнопку
+        geminiButtons.forEach(button => {
+            button.addEventListener('click', async () => {
+                const productCard = button.closest('.product-card');
+                const productName = productCard.querySelector('.product-name').textContent;
+                const productShortDescription = productCard.querySelector('.product-description-short').textContent;
+
+                // Показываем модальное окно и индикатор загрузки
+                modalProductName.textContent = productName;
+                modalProductDescription.textContent = ''; // Очищаем старое описание
+                loadingIndicator.classList.add('active'); // Активируем индикатор загрузки
+                descriptionModal.classList.add('open'); // Показываем модальное окно
+                document.body.classList.add('no-scroll'); // Запрещаем прокрутку фона
+
+                // Формируем промпт для Gemini API
+                const prompt = `Расширьте и сделайте более привлекательным следующее описание игрового продукта для магазина:
+                Название продукта: ${productName}
+                Краткое описание: ${productShortDescription}
+                Сделайте описание более подробным, вдохновляющим и технически грамотным, но понятным для геймеров. Включите 3-5 ключевых преимуществ или особенностей. Максимум 150 слов.`;
+
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+
+                const apiKey = ""; // Canvas предоставит ключ во время выполнения
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(`API error: ${response.status} - ${errorData.error.message || 'Unknown error'}`);
+                    }
+
+                    const result = await response.json();
+
+                    // Обработка ответа от Gemini API
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const generatedText = result.candidates[0].content.parts[0].text;
+                        modalProductDescription.textContent = generatedText;
+                    } else {
+                        modalProductDescription.textContent = 'Не удалось получить улучшенное описание. Попробуйте еще раз.';
+                        console.error('Неожиданная структура ответа от Gemini API:', result);
+                    }
+                } catch (error) {
+                    modalProductDescription.textContent = `Ошибка при получении описания: ${error.message}`;
+                    console.error('Ошибка вызова Gemini API:', error);
+                } finally {
+                    loadingIndicator.classList.remove('active'); // Скрываем индикатор загрузки
+                }
+            });
+        });
+
+        // Закрытие модального окна
+        modalCloseBtn.addEventListener('click', () => {
+            descriptionModal.classList.remove('open');
+            document.body.classList.remove('no-scroll');
+        });
+
+        // Закрытие модального окна при клике вне его
+        descriptionModal.addEventListener('click', (event) => {
+            if (event.target === descriptionModal) { // Проверяем, что клик был именно по оверлею, а не по контенту
+                descriptionModal.classList.remove('open');
+                document.body.classList.remove('no-scroll');
+            }
+        });
+
+        // ---------- Intersection Observer для эффекта fade-in ----------
+        const heroSlides = document.querySelectorAll('.hero-slide');
+
+        const observerOptions = {
+            root: null, // Наблюдатель относительно viewport
+            rootMargin: '0px',
+            threshold: 0.5 // Элемент считается видимым, когда 50% его площади находится в viewport
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in'); // Добавляем класс для активации анимации
+                    // observer.unobserve(entry.target); // Можно отключить наблюдение после первого появления
+                } else {
+                    entry.target.classList.remove('fade-in'); // Убираем класс, если элемент не виден
+                }
+            });
+        }, observerOptions);
+
+        heroSlides.forEach(slide => {
+            observer.observe(slide); // Наблюдаем за каждым слайдом
+        });
+    </script>
+</body>
+</html>
