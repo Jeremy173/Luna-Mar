@@ -572,7 +572,7 @@
             <div class="hero-content">
                 <h2>Визуальное Превосходство</h2>
                 <p>Погрузитесь в игровой мир с кристально чистым изображением на наших высокопроизводительных мониторах.</p>
-                <button class="btn">Посмотреть Мониторы</button>
+                <button class="btn" data-scroll-to="monitors-section">Посмотреть Мониторы</button>
             </div>
         </section>
 
@@ -581,7 +581,7 @@
             <div class="hero-content">
                 <h2>Превосходство в Каждом Нажатии</h2>
                 <p>Выберите свою идеальную клавиатуру для мгновенного отклика и тактического преимущества.</p>
-                <button class="btn">Найти Клавиатуру</button>
+                <button class="btn" data-scroll-to="keyboards-section">Найти Клавиатуру</button>
             </div>
         </section>
     </div>
@@ -700,6 +700,66 @@
         </section>
     </section>
 
+    <section id="monitors-section" class="content">
+        <h2 class="products-section-title">Игровые Мониторы</h2>
+        <section class="products">
+            <div class="product-card">
+                <img src="https://placehold.co/200x150/1a1a1a/0f0?text=Монитор+24дюйма" alt="Монитор Luna 24 дюйма 144Hz">
+                <h3 class="product-name">Монитор Luna 24" 144Hz</h3>
+                <p class="product-description-short">Быстрое время отклика и 144 Гц для плавного геймплея.</p>
+                <div class="price">95 000 KZT</div>
+                <button class="btn">Купить</button>
+                <button class="gemini-btn">✨ Улучшить описание</button>
+            </div>
+            <div class="product-card">
+                <img src="https://placehold.co/200x150/1a1a1a/0f0?text=Монитор+27дюйма" alt="Монитор Luna 27 дюйма QHD">
+                <h3 class="product-name">Монитор Luna 27" QHD 165Hz</h3>
+                <p class="product-description-short">Детализированное QHD изображение и сверхвысокая частота обновления.</p>
+                <div class="price">180 000 KZT</div>
+                <button class="btn">Купить</button>
+                <button class="gemini-btn">✨ Улучшить описание</button>
+            </div>
+            <div class="product-card">
+                <img src="https://placehold.co/200x150/1a1a1a/0f0?text=Изогнутый+Монитор" alt="Изогнутый Монитор Luna UltraWide">
+                <h3 class="product-name">Изогнутый Монитор Luna UltraWide</h3>
+                <p class="product-description-short">Погружение в игру с панорамным видом на изогнутом экране.</p>
+                <div class="price">250 000 KZT</div>
+                <button class="btn">Купить</button>
+                <button class="gemini-btn">✨ Улучшить описание</button>
+            </div>
+        </section>
+    </section>
+
+    <section id="keyboards-section" class="content">
+        <h2 class="products-section-title">Игровые Клавиатуры</h2>
+        <section class="products">
+            <div class="product-card">
+                <img src="https://placehold.co/200x150/1a1a1a/0f0?text=Мех.+Клавиатура+RGB" alt="Механическая Клавиатура Luna RGB Pro">
+                <h3 class="product-name">Механическая Клавиатура Luna RGB Pro</h3>
+                <p class="product-description-short">Полноразмерная клавиатура с настраиваемой RGB подсветкой и переключателями Cherry MX.</p>
+                <div class="price">60 000 KZT</div>
+                <button class="btn">Купить</button>
+                <button class="gemini-btn">✨ Улучшить описание</button>
+            </div>
+            <div class="product-card">
+                <img src="https://placehold.co/200x150/1a1a1a/0f0?text=Беспроводная+Клавиатура" alt="Беспроводная Клавиатура Luna Compact">
+                <h3 class="product-name">Беспроводная Клавиатура Luna Compact</h3>
+                <p class="product-description-short">Компактная беспроводная клавиатура с быстрым откликом, идеальна для путешествий.</p>
+                <div class="price">48 000 KZT</div>
+                <button class="btn">Купить</button>
+                <button class="gemini-btn">✨ Улучшить описание</button>
+            </div>
+            <div class="product-card">
+                <img src="https://placehold.co/200x150/1a1a1a/0f0?text=Мембранная+Клавиатура" alt="Мембранная Клавиатура Luna Silent">
+                <h3 class="product-name">Мембранная Клавиатура Luna Silent</h3>
+                <p class="product-description-short">Тихая мембранная клавиатура с мягким нажатием для комфортной игры.</p>
+                <div class="price">20 000 KZT</div>
+                <button class="btn">Купить</button>
+                <button class="gemini-btn">✨ Улучшить описание</button>
+            </div>
+        </section>
+    </section>
+
     <div id="description-modal" class="modal-overlay">
         <div class="modal-content">
             <button class="modal-close-btn">&times;</button>
@@ -811,6 +871,12 @@
             document.body.classList.remove('no-scroll');
         });
 
+        modalCloseBtn.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                modalCloseBtn.click();
+            }
+        });
+
         descriptionModal.addEventListener('click', (event) => {
             if (event.target === descriptionModal) {
                 descriptionModal.classList.remove('open');
@@ -840,18 +906,48 @@
             observer.observe(slide);
         });
 
-        // Добавляем обработчик для кнопки "Изучить Периферию"
-        const explorePeripheralsBtn = document.querySelector('.hero-slide .btn[data-scroll-to="peripherals-section"]');
-        if (explorePeripheralsBtn) {
-            explorePeripheralsBtn.addEventListener('click', (event) => {
-                event.preventDefault(); // Предотвращаем стандартное действие ссылки
+        document.querySelectorAll('.hero-slide .btn[data-scroll-to]').forEach(button => {
+            button.addEventListener('click', (event) => {
+                event.preventDefault();
                 const targetId = event.target.dataset.scrollTo;
                 const targetElement = document.getElementById(targetId);
                 if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: 'smooth' }); // Плавная прокрутка
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
                 }
             });
-        }
+        });
+
+        // Добавляем обработчики для пунктов меню "Мониторы" и "Клавиатуры"
+        document.querySelectorAll('.nav .menu-item a').forEach(link => {
+            link.addEventListener('click', (event) => {
+                // Если ссылка ведет на один из наших новых разделов, прокручиваем к нему
+                const linkText = event.target.textContent.trim();
+                let targetId = '';
+
+                if (linkText === 'Мониторы') {
+                    targetId = 'monitors-section';
+                } else if (linkText === 'Клавиатуры') {
+                    targetId = 'keyboards-section';
+                } else if (linkText === 'Мышки') {
+                    targetId = 'peripherals-section'; // Мышки это часть периферии
+                }
+
+                if (targetId) {
+                    event.preventDefault();
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                        // Закрываем мобильное меню после перехода
+                        if (navMenu.classList.contains('open')) {
+                            navMenu.classList.remove('open');
+                            burger.classList.remove('open');
+                            document.body.classList.remove('no-scroll');
+                        }
+                    }
+                }
+            });
+        });
+
     </script>
 </body>
 </html>
