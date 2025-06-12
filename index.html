@@ -178,25 +178,26 @@
         .hero-content {
             position: relative;
             z-index: 2; /* Контент поверх изображения */
-            padding: 20px 30px; /* Немного уменьшил паддинг */
-            background-color: rgba(0, 0, 0, 0.4); /* Полупрозрачный черный фон для читаемости (было 0.6) */
+            padding: 20px 30px;
+            background-color: rgba(0, 0, 0, 0.6); /* Увеличил прозрачность фона для лучшей читаемости (было 0.4) */
             border-radius: 10px;
-            max-width: 550px; /* Уменьшил максимальную ширину (было 600px) */
-            box-shadow: 0 4px 15px rgba(0, 255, 0, 0.15); /* Более мягкая тень (было 0.2) */
+            max-width: 550px;
+            box-shadow: 0 5px 20px rgba(0, 255, 0, 0.25); /* Усилил тень блока */
         }
 
         .hero-content h2 {
-            font-size: 2.5em; /* Уменьшил размер заголовка (было 3.5em) */
-            font-family: 'Razer Blackwidow', sans-serif; /* Применил шрифт Razer */
-            margin-bottom: 12px; /* Уменьшил отступ */
+            font-size: 2.5em;
+            font-family: 'Razer Blackwidow', sans-serif; /* Применяем шрифт Razer Blackwidow */
+            margin-bottom: 12px;
             color: var(--accent-green);
-            text-shadow: 0 0 8px rgba(0, 255, 0, 0.6); /* Чуть уменьшил тень */
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.8), 0 0 20px rgba(0, 255, 0, 0.4); /* Усиленная тень для заголовка */
         }
 
         .hero-content p {
-            font-size: 1.1em; /* Уменьшил размер параграфа (было 1.5em) */
-            margin-bottom: 20px; /* Уменьшил отступ */
+            font-size: 1.1em;
+            margin-bottom: 20px;
             color: var(--text-light);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); /* Тень для обычного текста */
         }
 
         /* Стили для основного контента страницы */
