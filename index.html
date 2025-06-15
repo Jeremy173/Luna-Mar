@@ -735,4 +735,230 @@
             </div>
             <div class="product-card">
                 <!-- Убедитесь, что файл '20250615_2057_image.png' находится в папке img -->
-                <img src="im
+                <img src="img/20250615_2057_image.png" alt="Изогнутый Монитор Luna UltraWide">
+                <h3 class="product-name">Изогнутый Монитор Luna UltraWide</h3>
+                <p class="product-description-short">Погружение в игру с панорамным видом на изогнутом экране.</p>
+                <div class="price">250 000 KZT</div>
+                <button class="btn">Купить</button>
+                <button class="gemini-btn">✨ Улучшить описание</button>
+            </div>
+        </section>
+    </section>
+
+    <section id="keyboards-section" class="content">
+        <h2 class="products-section-title">Игровые Клавиатуры</h2>
+        <section class="products">
+            <div class="product-card">
+                <img src="https://placehold.co/200x150/1a1a1a/0f0?text=Мех.+Клавиатура+RGB" alt="Механическая Клавиатура Luna RGB Pro">
+                <h3 class="product-name">Механическая Клавиатура Luna RGB Pro</h3>
+                <p class="product-description-short">Полноразмерная клавиатура с настраиваемой RGB подсветкой и переключателями Cherry MX.</p>
+                <div class="price">60 000 KZT</div>
+                <button class="btn">Купить</button>
+                <button class="gemini-btn">✨ Улучшить описание</button>
+            </div>
+            <div class="product-card">
+                <img src="https://placehold.co/200x150/1a1a1a/0f0?text=Беспроводная+Клавиатура" alt="Беспроводная Клавиатура Luna Compact">
+                <h3 class="product-name">Беспроводная Клавиатура Luna Compact</h3>
+                <p class="product-description-short">Компактная беспроводная клавиатура с быстрым откликом, идеальна для путешествий.</p>
+                <div class="price">48 000 KZT</div>
+                <button class="btn">Купить</button>
+                <button class="gemini-btn">✨ Улучшить описание</button>
+            </div>
+            <div class="product-card">
+                <img src="https://placehold.co/200x150/1a1a1a/0f0?text=Мембранная+Клавиатура" alt="Мембранная Клавиатура Luna Silent">
+                <h3 class="product-name">Мембранная Клавиатура Luna Silent</h3>
+                <p class="product-description-short">Тихая мембранная клавиатура с мягким нажатием для комфортной игры.</p>
+                <div class="price">20 000 KZT</div>
+                <button class="btn">Купить</button>
+                <button class="gemini-btn">✨ Улучшить описание</button>
+            </div>
+        </section>
+    </section>
+
+    <div id="description-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-btn">&times;</button>
+            <h2 id="modal-product-name" class="modal-title"></h2>
+            <div id="loading-indicator" class="loading-indicator"></div>
+            <p id="modal-product-description" class="modal-description"></p>
+        </div>
+    </div>
+
+    <script>
+        const burger = document.getElementById('burger');
+        const navMenu = document.querySelector('.nav');
+
+        if (burger && navMenu) {
+            burger.addEventListener('click', () => {
+                navMenu.classList.toggle('open');
+                burger.classList.toggle('open');
+                document.body.classList.toggle('no-scroll');
+            });
+
+            document.addEventListener('click', (event) => {
+                if (!burger.contains(event.target) && !navMenu.contains(event.target) && navMenu.classList.contains('open')) {
+                    navMenu.classList.remove('open');
+                    burger.classList.remove('open');
+                    document.body.classList.remove('no-scroll');
+                }
+            });
+
+            const menuLinks = document.querySelectorAll('.nav .menu a');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (!link.closest('.menu-item').querySelector('.submenu')) {
+                        if (navMenu.classList.contains('open')) {
+                            navMenu.classList.remove('open');
+                            burger.classList.remove('open');
+                            document.body.classList.remove('no-scroll');
+                        }
+                    }
+                });
+            });
+        }
+
+        const descriptionModal = document.getElementById('description-modal');
+        const modalProductName = document.getElementById('modal-product-name');
+        const modalProductDescription = document.getElementById('modal-product-description');
+        const modalCloseBtn = document.querySelector('.modal-close-btn');
+        const loadingIndicator = document.getElementById('loading-indicator');
+
+        const geminiButtons = document.querySelectorAll('.gemini-btn');
+
+        geminiButtons.forEach(button => {
+            button.addEventListener('click', async () => {
+                const productCard = button.closest('.product-card');
+                const productName = productCard.querySelector('.product-name').textContent;
+                const productShortDescription = productCard.querySelector('.product-description-short').textContent;
+
+                modalProductName.textContent = productName;
+                modalProductDescription.textContent = '';
+                loadingIndicator.classList.add('active');
+                descriptionModal.classList.add('open');
+                document.body.classList.add('no-scroll');
+
+                const prompt = `Расширьте и сделайте более привлекательным следующее описание игрового продукта для магазина:
+                Название продукта: ${productName}
+                Краткое описание: ${productShortDescription}
+                Сделайте описание более подробным, вдохновляющим и технически грамотным, но понятным для геймеров. Включите 3-5 ключевых преимуществ или особенностей. Максимум 150 слов.`;
+
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(`API error: ${response.status} - ${errorData.error.message || 'Unknown error'}`);
+                    }
+
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const generatedText = result.candidates[0].content.parts[0].text;
+                        modalProductDescription.textContent = generatedText;
+                    } else {
+                        modalProductDescription.textContent = 'Не удалось получить улучшенное описание. Попробуйте еще раз.';
+                        console.error('Неожиданная структура ответа от Gemini API:', result);
+                    }
+                } catch (error) {
+                    modalProductDescription.textContent = `Ошибка при получении описания: ${error.message}`;
+                    console.error('Ошибка вызова Gemini API:', error);
+                } finally {
+                    loadingIndicator.classList.remove('active');
+                }
+            });
+        });
+
+        modalCloseBtn.addEventListener('click', () => {
+            descriptionModal.classList.remove('open');
+            document.body.classList.remove('no-scroll');
+        });
+
+        modalCloseBtn.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                modalCloseBtn.click();
+            }
+        });
+
+        descriptionModal.addEventListener('click', (event) => {
+            if (event.target === descriptionModal) {
+                descriptionModal.classList.remove('open');
+                document.body.classList.remove('no-scroll');
+            }
+        });
+
+        const heroSlides = document.querySelectorAll('.hero-slide');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                } else {
+                    entry.target.classList.remove('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        heroSlides.forEach(slide => {
+            observer.observe(slide);
+        });
+
+        document.querySelectorAll('.hero-slide .btn[data-scroll-to]').forEach(button => {
+            button.addEventListener('click', (event) => {
+                event.preventDefault();
+                const targetId = event.target.dataset.scrollTo;
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        document.querySelectorAll('.nav .menu-item a').forEach(link => {
+            link.addEventListener('click', (event) => {
+                const linkText = event.target.textContent.trim();
+                let targetId = '';
+
+                if (linkText === 'Мониторы') {
+                    targetId = 'monitors-section';
+                } else if (linkText === 'Клавиатуры') {
+                    targetId = 'keyboards-section';
+                } else if (linkText === 'Мышки') {
+                    targetId = 'peripherals-section';
+                }
+
+                if (targetId) {
+                    event.preventDefault();
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                        if (navMenu.classList.contains('open')) {
+                            navMenu.classList.remove('open');
+                            burger.classList.remove('open');
+                            document.body.classList.remove('no-scroll');
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
