@@ -1192,7 +1192,7 @@
                         data-product-old-price="28 000 KZT"
                         data-product-article="МШ-001"
                         data-product-availability="В наличии"
-                        data-product-thumbnails="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_hdd_he4_9829121949726_viper-mini-se-white-500x500.png, img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_h3a_hb0_9529652609054_basilisk-v3-x-hyperspeed-2-500x500.png">Купить</button>
+                        data-product-thumbnails="">Купить</button>
                 <button class="gemini-btn">Узнать больше</button>
             </div>
 
@@ -1261,7 +1261,8 @@
                         data-product-price="30 000 KZT"
                         data-product-old-price=""
                         data-product-article="МШ-002"
-                        data-product-availability="В наличии">Купить</button>
+                        data-product-availability="В наличии"
+                        data-product-thumbnails="">Купить</button>
                 <button class="gemini-btn">Узнать больше</button>
             </div>
             <div class="product-card">
@@ -1348,7 +1349,7 @@
             <div class="product-card">
                 <!-- Убедитесь, что файл '2342342.jpg' находится в папке img -->
                 <img src="img/2342342.jpg" alt="Монитор Luna 24 дюйма 144Hz">
-                <h3 class="product-name">Монитор Luna 24" 144Hz</h3>
+                <h3 class="product-name">Монитор Luna 24 дюйма 144Hz</h3> <!-- Исправлено название -->
                 <p class="product-description-short">Быстрое время отклика и 144 Гц для плавного геймплея.</p>
                 <div class="price">95 000 KZT</div>
                 <button class="btn"
@@ -1362,13 +1363,13 @@
             </div>
             <div class="product-card">
                 <!-- Убедитесь, что файл '20250615_2056_image.png' находится в папке img -->
-                <img src="img/20250615_2056_image.png" alt="Монитор Luna 27 дюйма QHD">
-                <h3 class="product-name">Монитор Luna 27" QHD 165Hz</h3>
+                <img src="img/20250615_2056_image.png" alt="Монитор Luna 27 дюйма QHD 165Hz">
+                <h3 class="product-name">Монитор Luna 27 дюйма QHD 165Hz</h3> <!-- Исправлено название -->
                 <p class="product-description-short">Детализированное QHD изображение и сверхвысокая частота обновления.</p>
                 <div class="price">180 000 KZT</div>
                 <button class="btn"
                         data-product-image="img/20250615_2056_image.png"
-                        data-product-name="Монитор Luna 27 дюйма QHD"
+                        data-product-name="Монитор Luna 27 дюйма QHD 165Hz"
                         data-product-price="180 000 KZT"
                         data-product-old-price=""
                         data-product-article="МН-003"
@@ -1504,21 +1505,6 @@
 
                     <p id="product-detail-availability" class="product-detail-availability">В наличии</p>
                     <a href="#" class="product-detail-add-to-razer">ДОБАВИТЬ В МОЙ RAZER</a>
-
-                    <!-- Секция для технических характеристик (скрыта по умолчанию, т.к. есть отдельная колонка) -->
-                    <div id="technical-specs-content" class="technical-specs-section" style="display: none;">
-                        <h3>Подробные характеристики:</h3>
-                        <ul>
-                            <li><strong>Тип подключения:</strong> Беспроводной (2.4 ГГц и Bluetooth)</li>
-                            <li><strong>Сенсор:</strong> Оптический, до 16000 DPI</li>
-                            <li><strong>Кнопки:</strong> 8 программируемых кнопок</li>
-                            <li><strong>Подсветка:</strong> Razer Chroma RGB</li>
-                            <li><strong>Аккумулятор:</strong> До 70 часов автономной работы</li>
-                            <li><strong>Вес:</strong> 74 грамма</li>
-                            <li><strong>Материал:</strong> Высокопрочный пластик</li>
-                            <li><strong>Совместимость:</strong> PC, Mac</li>
-                        </ul>
-                    </div>
 
                     <!-- Форма для заказа -->
                     <div class="purchase-form-section">
@@ -1872,7 +1858,9 @@
                 const productOldPrice = button.dataset.productOldPrice || '';
                 const productArticle = button.dataset.productArticle || 'Не указан';
                 const productAvailability = button.dataset.productAvailability || 'В наличии'; // По умолчанию "В наличии"
-                const productThumbnails = button.dataset.productThumbnails ? button.dataset.productThumbnails.split(',') : [productImageSrc]; // Если нет миниатюр, используем основное изображение
+                // Исправлено: если data-product-thumbnails пуст, используем только основное изображение
+                const productThumbnails = button.dataset.productThumbnails ? button.dataset.productThumbnails.split(',').filter(src => src.trim() !== '') : [];
+
 
                 // Заполняем "страницу" продукта данными
                 productDetailName.textContent = productName;
@@ -1971,7 +1959,7 @@
         //     if (technicalSpecsContent.classList.contains('open')) {
         //         toggleSpecsBtn.textContent = 'Скрыть технические характеристики';
         //     } else {
-        //         toggleSpecsBtn.textContent = 'Показать технические характеристики';
+        //         toggleSpecsContent.textContent = 'Показать технические характеристики';
         //     }
         // });
 
