@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Оформление покупки - Luna</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luna — Gaming Tech Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/razer-blackwidow" rel="stylesheet">
     <style>
@@ -16,82 +16,561 @@
             --text-medium: #ccc;
             --border-color: #333;
             --product-card-bg: #1a1a1a;
-            --razer-green: #00FF00;
-            --razer-text-color: #777;
+            --razer-green: #00FF00; /* Цвет Razer green */
+            --razer-text-color: #777; /* Для артикля и тех.характеристик */
         }
 
-        body {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
             font-family: 'Titillium Web', sans-serif;
             background: var(--bg-dark);
             color: var(--text-light);
-            margin: 0;
-            padding: 0; /* Changed to 0 to allow full width */
-            box-sizing: border-box;
-            line-height: 1.6;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory;
         }
 
-        /* The main container to fill the full width */
-        .full-width-container { /* Renamed from .container */
-            width: 100%; /* Take full width */
-            margin: 0 auto; /* Center content within it if needed for max-width content */
-            background: var(--bg-dark); /* Match body background */
-            min-height: 100vh; /* Ensure it takes at least full viewport height */
-            position: relative; /* For the close button positioning */
-            padding: 40px 32px; /* Consistent padding with main site content */
-            box-shadow: none; /* No shadow for the main page wrapper */
-            border-radius: 0; /* No rounded corners for a page feel */
+        body.no-scroll {
+            overflow: hidden;
         }
 
-        .close-btn {
+        .header {
+            position: sticky;
+            top: 0;
+            background: var(--header-bg);
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--accent-green);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: 'Razer Blackwidow', sans-serif;
+            font-size: 28px;
+            color: var(--accent-green);
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav .menu {
+            list-style: none;
+            display: flex;
+            gap: 24px;
+        }
+
+        .menu-item {
+            position: relative;
+        }
+
+        .menu-item a {
+            text-decoration: none;
+            color: var(--text-light);
+            padding: 8px 12px;
+            display: block;
+            transition: color 0.3s;
+        }
+
+        .menu-item a:hover {
+            color: var(--accent-green);
+        }
+
+        .menu-item a:focus,
+        .btn:focus,
+        .gemini-btn:focus {
+            outline: 2px solid var(--accent-green);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
+        .submenu {
             position: absolute;
-            top: 20px; /* Adjusted position */
-            right: 32px; /* Adjusted position */
+            top: 100%;
+            left: 0;
+            background: var(--header-bg);
+            border: 1px solid var(--accent-green);
+            border-radius: 4px;
+            min-width: 180px;
+            z-index: 999;
+
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .menu-item:hover .submenu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .submenu li a {
+            display: block;
+            padding: 10px 16px;
+            color: var(--text-medium);
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .submenu li a:hover {
+            background: var(--accent-green);
+            color: var(--header-bg);
+        }
+
+        .hero-sections {
+        }
+
+        .hero-slide {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            scroll-snap-align: start;
+            overflow: hidden;
+        }
+
+        .hero-background-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            opacity: 0;
+            transform: scale(1.05);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .hero-slide.fade-in .hero-background-image {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 20px 30px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            max-width: 550px;
+            box-shadow: 0 5px 20px rgba(0, 255, 0, 0.25);
+        }
+
+        .hero-content h2 {
+            font-size: 2.5em;
+            font-family: 'Razer Blackwidow', sans-serif;
+            margin-bottom: 12px;
+            color: var(--accent-green);
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.8), 0 0 20px rgba(0, 255, 0, 0.4);
+        }
+
+        .hero-content p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            color: var(--text-light);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+        }
+
+        .content {
+            padding: 40px 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--bg-dark);
+            position: relative;
+            z-index: 10;
+            scroll-snap-align: start;
+        }
+
+        .products-section-title {
+            text-align: center;
+            font-size: 36px;
+            color: var(--accent-green);
+            margin-bottom: 40px;
+            text-shadow: 0 0 8px rgba(0, 255, 0, 0.3);
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .product-card {
+            background: var(--product-card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0, 255, 0, 0.4);
+            border-color: var(--accent-green);
+        }
+
+        .product-card img {
+            max-width: 100%;
+            height: 220px; /* Увеличена высота изображений */
+            object-fit: contain;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .product-card h3 {
+            font-size: 20px;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .product-card p {
+            font-size: 16px;
+            color: var(--text-medium);
+            flex-grow: 1;
+        }
+
+        .price {
+            font-size: 22px;
+            color: var(--accent-green);
+            font-weight: bold;
+            margin: 15px 0;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.2);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: var(--accent-green);
+            color: var(--header-bg);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s, transform 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 5px rgba(0, 255, 0, 0.3);
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            background: var(--accent-green-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 255, 0, 0.4);
+        }
+
+        .gemini-btn {
+            background: #007bff;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: background 0.3s ease;
+            display: block;
+            width: 100%;
+        }
+
+        .gemini-btn:hover {
+            background: #0056b3;
+        }
+
+        .burger {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            z-index: 1001;
+            position: relative;
+        }
+
+        .burger .line {
+            width: 100%;
+            height: 3px;
+            background: var(--accent-green);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 992px) {
+            .nav {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 100%;
+                height: 100%;
+                background: var(--header-bg);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transform: translateX(100%);
+                transition: transform 0.4s ease-in-out;
+                z-index: 998;
+            }
+
+            .nav.open {
+                transform: translateX(0);
+            }
+
+            .nav .menu {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+            }
+
+            .nav .menu-item a {
+                font-size: 28px;
+                padding: 15px;
+            }
+
+            .nav .submenu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+                background: none;
+                border: none;
+                width: auto;
+                min-width: unset;
+                margin-top: 15px;
+                padding-left: 0;
+                box-shadow: none;
+            }
+
+            .nav .submenu li a {
+                font-size: 20px;
+                padding: 10px 0;
+                color: var(--text-medium);
+            }
+
+            .nav .submenu li a:hover {
+                background: none;
+                color: var(--accent-green);
+            }
+
+            .burger {
+                display: flex;
+            }
+
+            .burger.open .line:nth-child(1) {
+                transform: translateY(11px) rotate(45deg);
+            }
+
+            .burger.open .line:nth-child(2) {
+                opacity: 0;
+            }
+
+            .burger.open .line:nth-child(3) {
+                transform: translateY(-11px) rotate(-45deg);
+            }
+
+            .hero-content h2 {
+                font-size: 2.2em;
+            }
+
+            .hero-content p {
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                padding: 10px 20px;
+            }
+            .logo {
+                font-size: 24px;
+            }
+            .content {
+                padding: 20px 15px;
+            }
+            .products {
+                grid-template-columns: 1fr;
+            }
+            .product-card {
+                width: 100%;
+            }
+        }
+
+        /* Styles for the Description Modal (small overlay) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.3s, opacity 0.3s;
+        }
+
+        .modal-overlay.open {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: var(--product-card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px; /* Max width for description modal */
+            width: 90%;
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.3);
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
             background: none;
             border: none;
             color: var(--text-light);
             font-size: 24px;
             cursor: pointer;
             transition: color 0.2s;
-            z-index: 10; /* Ensure it's above other elements */
         }
 
-        .close-btn:hover {
+        .modal-close-btn:hover {
             color: var(--accent-green);
         }
 
-        h1 {
-            font-family: 'Razer Blackwidow', sans-serif;
-            color: var(--razer-green);
+        .modal-title {
+            color: var(--accent-green);
+            font-size: 24px;
+            margin-bottom: 15px;
             text-align: center;
-            font-size: 2.5em;
-            margin-bottom: 30px;
-            padding-top: 20px; /* Add padding for title below close button */
         }
 
-        .product-detail-section {
+        .modal-description {
+            color: var(--text-light);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .loading-indicator {
+            display: none;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--accent-green);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-indicator.active {
+            display: block;
+        }
+
+        /* Styles for Product Detail Page (Full-screen Overlay) - RE-ADDED */
+        #product-detail-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8); /* Slightly transparent background for overlay effect */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.4s, opacity 0.4s;
+            overflow-y: auto; /* Allow scrolling within the overlay */
+            padding: 20px; /* Add some padding around the modal content */
+            box-sizing: border-box;
+        }
+
+        #product-detail-page.open {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        #product-detail-page .page-content-wrapper { /* This acts as the inner modal content */
+            background: var(--product-card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 900px; /* Max width for the modal content */
+            width: 90%; /* Responsive width */
+            box-shadow: 0 5px 20px rgba(0, 255, 0, 0.3);
+            position: relative;
+            max-height: 90vh; /* Max height to prevent overflow on small screens */
+            overflow-y: auto; /* Scroll content if it's too tall */
+        }
+
+        #product-detail-page .close-btn-page { /* Specific close button for the page */
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        #product-detail-page .close-btn-page:hover {
+            color: var(--accent-green);
+        }
+
+        .product-detail-content {
             display: flex;
             flex-wrap: wrap;
             gap: 30px;
             margin-bottom: 40px;
-            max-width: 1200px; /* Limit content width for better readability */
-            margin-left: auto;
-            margin-right: auto;
-            background: var(--product-card-bg); /* Inner content block with distinct background */
-            border-radius: 10px; /* Rounded corners for the inner content block */
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.3); /* Shadow for inner content block */
+            justify-content: center; /* Center items in flex */
         }
 
-        .product-image-gallery {
+        .product-detail-image-section {
             flex: 1;
-            min-width: 300px;
+            min-width: 300px; /* Minimum width for image section */
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        .main-image {
+        .product-detail-main-image {
             max-width: 100%;
             height: auto;
             border-radius: 8px;
@@ -99,14 +578,15 @@
             box-shadow: 0 5px 15px rgba(0, 255, 0, 0.2);
         }
 
-        .thumbnails {
+        .product-detail-thumbnails {
             display: flex;
             gap: 10px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
             justify-content: center;
         }
 
-        .thumbnail {
+        .product-detail-thumbnail {
             width: 70px;
             height: 70px;
             object-fit: contain;
@@ -116,117 +596,224 @@
             transition: border-color 0.3s;
         }
 
-        .thumbnail.active,
-        .thumbnail:hover {
+        .product-detail-thumbnail.active,
+        .product-detail-thumbnail:hover {
             border-color: var(--accent-green);
         }
 
-        .product-info-details {
+        .product-detail-info-section {
             flex: 1;
-            min-width: 350px;
+            min-width: 350px; /* Minimum width for info section */
+            display: flex;
+            flex-direction: column;
             padding-left: 20px;
-            border-left: 1px solid var(--border-color);
+            border-left: 1px solid var(--border-color); /* Separator */
+            text-align: left; /* Align text to left inside info section */
         }
+
         @media (max-width: 768px) {
-            .product-info-details {
+            #product-detail-page .page-content-wrapper {
+                padding: 20px; /* Adjust padding for mobile */
+                width: 95%; /* Wider on small screens */
+            }
+            .product-detail-content {
+                flex-direction: column; /* Stack vertically on small screens */
+                gap: 20px;
+            }
+
+            .product-detail-image-section,
+            .product-detail-info-section {
+                min-width: unset;
+                width: 100%;
                 padding-left: 0;
-                border-left: none;
-                text-align: center;
+                border-left: none; /* Remove separator on mobile */
+                align-items: center; /* Center items for single column */
+                text-align: center; /* Center text for single column */
+            }
+            .product-detail-availability,
+            .product-detail-prices {
+                justify-content: center; /* Center these elements */
+            }
+            .product-detail-specs-button,
+            .product-detail-add-to-razer {
+                text-align: center; /* Center text */
             }
         }
 
-        .product-title {
-            font-size: 2em;
-            color: var(--text-light);
+        .product-detail-title {
+            font-family: 'Razer Blackwidow', sans-serif;
+            font-size: 32px;
+            color: var(--razer-green);
             margin-bottom: 10px;
         }
 
-        .product-article {
-            font-size: 0.9em;
+        .product-detail-article {
+            font-size: 14px;
             color: var(--razer-text-color);
             margin-bottom: 5px;
         }
 
-        .product-price-current {
-            font-size: 2.2em;
-            color: var(--razer-green);
+        .product-detail-specs-button { /* New class for the button */
+            font-size: 14px;
+            color: var(--razer-text-color);
+            text-decoration: underline;
+            margin-bottom: 20px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            /* text-align: left; */ /* Adjusted to be dynamic based on parent */
+            transition: color 0.3s;
+        }
+
+        .product-detail-specs-button:hover {
+            color: var(--accent-green);
+        }
+
+        .product-detail-price-current {
+            font-size: 36px;
+            color: var(--text-light);
             font-weight: bold;
             margin-bottom: 5px;
         }
 
-        .product-price-old {
-            font-size: 1.1em;
+        .product-detail-price-old {
+            font-size: 18px;
             color: var(--razer-text-color);
             text-decoration: line-through;
             margin-bottom: 20px;
         }
 
-        .product-availability {
-            font-size: 1em;
+        .product-detail-btn-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .product-detail-add-to-cart {
+            padding: 12px 25px;
+            background-color: var(--razer-green);
+            color: var(--header-bg);
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            flex-grow: 1; /* Чтобы кнопка занимала доступное пространство */
+            text-transform: uppercase;
+        }
+
+        .product-detail-add-to-cart:hover {
+            background-color: var(--accent-green-hover);
+        }
+
+        .product-detail-availability {
+            font-size: 14px;
             color: var(--text-medium);
             margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 5px;
         }
-        @media (max-width: 768px) {
-            .product-availability {
-                justify-content: center;
-            }
-        }
 
-        .product-availability::before {
+        .product-detail-availability::before {
             content: '•';
             color: var(--razer-green);
             font-size: 20px;
             line-height: 1;
         }
 
-        .specs-toggle-btn {
-            background: none;
-            border: none;
-            color: var(--razer-text-color);
-            text-decoration: underline;
-            cursor: pointer;
-            font-size: 1em;
+        .product-detail-add-to-razer {
+            font-size: 14px;
+            color: var(--razer-green);
+            text-decoration: none;
             margin-bottom: 20px;
-            padding: 0;
-            text-align: left;
-            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
-        .specs-toggle-btn:hover {
-            color: var(--accent-green);
+        .product-detail-add-to-razer:hover {
+            text-decoration: underline;
         }
 
-        .technical-specs-section {
+        .product-detail-features {
             border-top: 1px solid var(--border-color);
             padding-top: 20px;
             margin-top: 20px;
-            overflow: hidden;
-            max-height: 0;
-            opacity: 0;
-            transition: max-height 0.7s ease-out, opacity 0.7s ease-out;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 15px;
+            color: var(--text-medium);
+        }
+
+        .feature-item svg {
+            color: var(--razer-green);
+            min-width: 20px;
+            min-height: 20px;
+        }
+
+        .contact-button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .contact-button {
+            background-color: var(--razer-green);
+            color: var(--header-bg);
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 8px rgba(0, 255, 0, 0.3);
+        }
+
+        .contact-button:hover {
+            background-color: var(--accent-green-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Styles for technical specifications section */
+        .technical-specs-section {
+            margin-top: 30px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+            overflow: hidden; /* For smooth max-height transition */
+            max-height: 0; /* Initially hidden */
+            opacity: 0; /* Initially transparent */
+            transition: max-height 0.7s ease-out, opacity 0.7s ease-out; /* Animation */
         }
 
         .technical-specs-section.open {
-            max-height: 1000px; /* Adjust as needed */
+            max-height: 1000px; /* Large enough to accommodate content */
             opacity: 1;
         }
 
         .technical-specs-section h3 {
-            font-size: 1.3em;
+            font-size: 20px;
             color: var(--accent-green);
             margin-bottom: 15px;
+            text-align: left;
         }
 
         .technical-specs-section ul {
             list-style: none;
             padding: 0;
+            text-align: left;
         }
 
         .technical-specs-section li {
-            font-size: 0.95em;
+            font-size: 15px;
             color: var(--text-medium);
             margin-bottom: 8px;
             display: flex;
@@ -236,75 +823,11 @@
 
         .technical-specs-section li strong {
             color: var(--text-light);
-            min-width: 120px;
+            min-width: 120px; /* Align content for key-value pairs */
         }
 
-        .purchase-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 30px;
-            border-top: 1px solid var(--border-color);
-            padding-top: 20px;
-        }
-
-        .form-group {
-            text-align: left;
-        }
-
-        .purchase-form label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--text-light);
-            font-weight: 600;
-        }
-
-        .purchase-form input[type="text"],
-        .purchase-form input[type="email"],
-        .purchase-form input[type="tel"],
-        .purchase-form textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-            background-color: #222;
-            color: var(--text-light);
-            font-size: 1em;
-            box-sizing: border-box;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        .purchase-form input[type="text"]:focus,
-        .purchase-form input[type="email"]:focus,
-        .purchase-form input[type="tel"]:focus,
-        .purchase-form textarea:focus {
-            outline: none;
-            border-color: var(--razer-green);
-            box-shadow: 0 0 8px rgba(0, 255, 0, 0.4);
-        }
-
-        .submit-btn {
-            padding: 15px 30px;
-            background-color: var(--razer-green);
-            color: var(--header-bg);
-            border: none;
-            border-radius: 5px;
-            font-size: 1.2em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-            box-shadow: 0 4px 10px rgba(0, 255, 0, 0.4);
-            text-transform: uppercase;
-            width: fit-content;
-            margin-top: 10px; /* Space between form fields and button */
-        }
-
-        .submit-btn:hover {
-            background-color: var(--accent-green-hover);
-            transform: translateY(-2px);
-        }
-
-        .message-box {
+        /* Styles for the message box within the product detail page */
+        .order-message-box {
             background-color: #333;
             color: var(--text-light);
             padding: 15px;
@@ -315,359 +838,822 @@
             text-align: left;
         }
 
-        .message-box.show {
+        .order-message-box.show {
             display: block;
-        }
-
-        /* Styles from the provided screenshot image for product details */
-        .product-features-section {
-            border-top: 1px solid var(--border-color);
-            padding-top: 20px;
-            margin-top: 20px;
-        }
-
-        .product-features-section ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .product-features-section li {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            font-size: 0.95em;
-            color: var(--text-medium);
-        }
-
-        .product-features-section li svg {
-            color: var(--razer-green);
-            min-width: 20px;
-            min-height: 20px;
-        }
-
-        .contact-us-button {
-            background-color: var(--razer-green);
-            color: var(--header-bg);
-            padding: 15px 30px;
-            border: none;
-            border-radius: 5px;
-            font-size: 1.2em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-            box-shadow: 0 4px 10px rgba(0, 255, 0, 0.4);
-            text-transform: uppercase;
-            width: fit-content;
-            margin-top: 20px;
-            display: block; /* Make it a block element to center with margin auto */
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .contact-us-button:hover {
-            background-color: var(--accent-green-hover);
-            transform: translateY(-2px);
-        }
-
-        .add-to-my-razer {
-            font-size: 0.9em;
-            color: var(--razer-green);
-            text-decoration: none;
-            display: block;
-            text-align: right;
-            margin-top: 10px;
-            transition: text-decoration 0.3s;
-        }
-
-        .add-to-my-razer:hover {
-            text-decoration: underline;
-        }
-
-        /* Styles for price display */
-        .product-prices {
-            display: flex;
-            align-items: baseline;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .product-price-current {
-            font-size: 2.5em;
-            color: var(--razer-green);
-            font-weight: bold;
-        }
-
-        .product-price-old {
-            font-size: 1.2em;
-            color: var(--razer-text-color);
-            text-decoration: line-through;
-        }
-
-        /* Media queries for responsiveness */
-        @media (max-width: 1024px) {
-            .full-width-container {
-                padding: 20px;
-            }
-            .product-detail-section {
-                padding: 20px;
-                gap: 20px;
-            }
-            h1 {
-                font-size: 2em;
-            }
-            .product-title {
-                font-size: 1.8em;
-            }
-            .product-price-current {
-                font-size: 2em;
-            }
-            .submit-btn {
-                padding: 12px 20px;
-                font-size: 1em;
-            }
-            .contact-us-button {
-                padding: 12px 20px;
-                font-size: 1em;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .product-detail-section {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-            .product-image-gallery, .product-info-details {
-                min-width: unset;
-                width: 100%;
-            }
-            .product-info-details {
-                padding-left: 0;
-                border-left: none;
-            }
-            .product-availability, .product-prices {
-                justify-content: center;
-            }
-            .submit-btn, .contact-us-button {
-                width: 100%;
-            }
-            .add-to-my-razer {
-                text-align: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .full-width-container {
-                padding: 15px;
-            }
-            .product-detail-section {
-                padding: 15px;
-            }
-            h1 {
-                font-size: 1.8em;
-            }
-            .product-title {
-                font-size: 1.5em;
-            }
-            .product-price-current {
-                font-size: 1.8em;
-            }
-            .product-price-old {
-                font-size: 1em;
-            }
-            .thumbnail {
-                width: 50px;
-                height: 50px;
-            }
-            .product-features-section li, .technical-specs-section li {
-                font-size: 0.85em;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 5px;
-            }
-            .product-features-section li strong, .technical-specs-section li strong {
-                min-width: unset;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="full-width-container">
-        <button class="close-btn" onclick="window.close()">&times;</button>
-        <h1>Детали продукта и оформление заказа</h1>
+    <header class="header">
+        <a href="index.html" class="logo">Luna</a>
+        <nav class="nav">
+            <ul class="menu">
+                <li class="menu-item">
+                    <a href="#">Компьютеры</a>
+                    <ul class="submenu">
+                        <li><a href="#">Готовые сборки</a></li>
+                        <li><a href="#">Комплектующие</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="#">Мониторы</a>
+                    <ul class="submenu">
+                        <li><a href="#">60 Гц</a></li>
+                        <li><a href="#">75 Гц</a></li>
+                        <li><a href="#">90 Гц</a></li>
+                        <li><a href="#">120 Гц</a></li>
+                        <li><a href="#">144 Гц</a></li>
+                        <li><a href="#">165 Гц</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="#">Ноутбуки</a>
+                    <ul class="submenu">
+                        <li><a href="#">Hypex</a></li>
+                        <li><a href="#">Logitech</a></li>
+                        <li><a href="#">Razer</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="#">Мышки</a>
+                    <ul class="submenu">
+                        <li><a href="#">Проводные</a></li>
+                        <li><a href="#">Беспроводные</a></li>
+                        <li><a href="#">Игровые</a></li>
+                        <li><a href="#">Лёгкие</a></li>
+                        <li><a href="#">С макросами</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="#">Клавиатуры</a>
+                    <ul class="submenu">
+                        <li><a href="#">Механические</a></li>
+                        <li><a href="#">Мембранные</a></li>
+                        <li><a href="#">С подсветкой</a></li>
+                        <li><a href="#">Без подсветки</a></li>
+                        <li><a href="#">Беспроводные</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div class="burger" id="burger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+    </header>
 
-        <div class="product-detail-section">
-            <div class="product-image-gallery">
-                <img id="main-product-image" src="" alt="Изображение продукта" class="main-image">
-                <div class="thumbnails" id="product-thumbnails">
-                    <!-- Thumbnails will be populated here -->
-                </div>
+    <div class="hero-sections">
+        <section class="hero-slide">
+            <img src="img/image0_large (4) (1).jpg" alt="Игровая периферия Luna" class="hero-background-image">
+            <div class="hero-content">
+                <h2>Полная Боевая Готовность</h2>
+                <p>Оснастите свою станцию лучшей игровой периферией для максимальной производительности и комфорта.</p>
+                <button class="btn" data-scroll-to="peripherals-section">Изучить Периферию</button>
+            </div>
+        </section>
+
+        <section class="hero-slide">
+            <img src="img/Airbrush-Image-Enhancer-1749760872731.jpeg" alt="Игровые мониторы Luna" class="hero-background-image">
+            <div class="hero-content">
+                <h2>Визуальное Превосходство</h2>
+                <p>Погрузитесь в игровой мир с кристально чистым изображением на наших высокопроизводительных мониторах.</p>
+                <button class="btn" data-scroll-to="monitors-section">Посмотреть Мониторы</button>
+            </div>
+        </section>
+
+        <section class="hero-slide">
+            <img src="img/Снимок экрана 2025-06-13 014401.png" alt="Игровые клавиатуры Luna" class="hero-background-image">
+            <div class="hero-content">
+                <h2>Превосходство в Каждом Нажатии</h2>
+                <p>Выберите свою идеальную клавиатуру для мгновенного отклика и тактического преимущества.</p>
+                <button class="btn" data-scroll-to="keyboards-section">Найти Клавиатуру</button>
+            </div>
+        </section>
+    </div>
+
+    <main class="content">
+        <h2 class="products-section-title">Наши Хиты Продаж</h2>
+
+        <section class="products">
+            <div class="product-card">
+                <!-- Убедитесь, что файл '20250613_1853_image.png' находится в папке img -->
+                <img src="img/20250613_1853_image.png" alt="Игровой ПК Luna Pro">
+                <h3 class="product-name">Игровой ПК Luna Pro</h3>
+                <p class="product-description-short">Мощный компьютер для максимальной производительности в любых играх.</p>
+                <div class="price">499 990 KZT</div>
+                <button class="btn"
+                        data-product-image="img/20250613_1853_image.png"
+                        data-product-name="Игровой ПК Luna Pro"
+                        data-product-price="499 990 KZT"
+                        data-product-old-price=""
+                        data-product-article="ПК-001"
+                        data-product-availability="В наличии">Купить</button>
+                <button class="gemini-btn">Узнать больше</button>
             </div>
 
-            <div class="product-info-details">
-                <h2 id="product-name" class="product-title"></h2>
-                <p id="product-article" class="product-article"></p>
-                
-                <div class="product-prices">
-                    <p class="product-price-current" id="product-price-current"></p>
-                    <p class="product-price-old" id="product-price-old" style="display: none;"></p>
+            <div class="product-card">
+                <!-- Убедитесь, что файл '20250615_2001_image.png' находится в папке img -->
+                <img src="img/20250615_2001_image.png" alt="Монитор Luna UltraView 144Hz">
+                <h3 class="product-name">Монитор Luna UltraView 144Hz</h3>
+                <p class="product-description-short">Погрузитесь в игру с высокой частотой обновления и четким изображением.</p>
+                <div class="price">125 000 KZT</div>
+                <button class="btn"
+                        data-product-image="img/20250615_2001_image.png"
+                        data-product-name="Монитор Luna UltraView 144Hz"
+                        data-product-price="125 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="МН-001"
+                        data-product-availability="В наличии">Купить</button>
+                <button class="gemini-btn">Узнать больше</button>
+            </div>
+
+            <div class="product-card">
+                <!-- Убедитесь, что файл 'https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_h3a_hb0_9529652609054_basilisk-v3-x-hyperspeed-2-500x500.png' находится в папке img -->
+                <img src="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_h3a_hb0_9529652609054_basilisk-v3-x-hyperspeed-2-500x500.png" alt="Игровая мышь Luna Precision">
+                <h3 class="product-name">Игровая мышь Luna Precision</h3>
+                <p class="product-description-short">Точность и комфорт для долгих игровых сессий.</p>
+                <div class="price">25 000 KZT</div>
+                <button class="btn"
+                        data-product-image="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_h3a_hb0_9529652609054_basilisk-v3-x-hyperspeed-2-500x500.png"
+                        data-product-name="Игровая мышь Luna Precision"
+                        data-product-price="25 000 KZT"
+                        data-product-old-price="28 000 KZT"
+                        data-product-article="МШ-001"
+                        data-product-availability="В наличии"
+                        data-product-thumbnails="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_hdd_he4_9829121949726_viper-mini-se-white-500x500.png, img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_h3a_hb0_9529652609054_basilisk-v3-x-hyperspeed-2-500x500.png">Купить</button>
+                <button class="gemini-btn">Узнать больше</button>
+            </div>
+
+            <div class="product-card">
+                <!-- Убедитесь, что файл 'deathstalker-v2-pro-tkl-4-500x500.webp' находится в папке img -->
+                <img src="img/deathstalker-v2-pro-tkl-4-500x500.webp" alt="Механическая клавиатура Luna Tactile">
+                <h3 class="product-name">Механическая Клавиатура Luna Tactile</h3>
+                <p class="product-description-short">Быстрый отклик и приятные тактильные ощущения.</p>
+                <div class="price">45 000 KZT</div>
+                <button class="btn"
+                        data-product-image="img/deathstalker-v2-pro-tkl-4-500x500.webp"
+                        data-product-name="Механическая Клавиатура Luna Tactile"
+                        data-product-price="45 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="КЛ-001"
+                        data-product-availability="В наличии">Купить</button>
+                <button class="gemini-btn">Узнать больше</button>
+            </div>
+
+            <div class="product-card">
+                <!-- Убедитесь, что файл 'https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_hbf_hde_9876443660318_250225-blade-16-s11-black-1500x1000-1.jpg' находится в папке img -->
+                <img src="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_hbf_hde_9876443660318_250225-blade-16-s11-black-1500x1000-1.jpg" alt="Игровой ноутбук Luna Blaze">
+                <h3 class="product-name">Игровой ноутбук Luna Blaze</h3>
+                <p class="product-description-short">Мощность настольного ПК в компактном корпусе.</p>
+                <div class="price">399 990 KZT</div>
+                <button class="btn"
+                        data-product-image="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_hbf_hde_9876443660318_250225-blade-16-s11-black-1500x1000-1.jpg"
+                        data-product-name="Игровой ноутбук Luna Blaze"
+                        data-product-price="399 990 KZT"
+                        data-product-old-price=""
+                        data-product-article="НТ-001"
+                        data-product-availability="В наличии">Купить</button>
+                <button class="gemini-btn">Узнать больше</button>
+            </div>
+
+            <div class="product-card">
+                <!-- Убедитесь, что файл 'https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_h46_h86_9807445753886_240820-BlackShark-V2-Pro-500x500.png' находится в папке img -->
+                <img src="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_h46_h86_9807445753886_240820-BlackShark-V2-Pro-500x500.png" alt="Игровые наушники Luna Aura">
+                <h3 class="product-name">Игровые наушники Luna Aura</h3>
+                <p class="product-description-short">Чистый звук и удобство для полного погружения.</p>
+                <div class="price">35 000 KZT</div>
+                <button class="btn"
+                        data-product-image="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_h46_h86_9807445753886_240820-BlackShark-V2-Pro-500x500.png"
+                        data-product-name="Игровые наушники Luna Aura"
+                        data-product-price="35 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="НШ-001"
+                        data-product-availability="В наличии">Купить</button>
+                <button class="gemini-btn">Узнать больше</button>
+            </div>
+        </section>
+    </main>
+
+    <section id="peripherals-section" class="content">
+        <h2 class="products-section-title">Игровая Периферия</h2>
+        <section class="products">
+            <div class="product-card">
+                <!-- Убедитесь, что файл 'https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_hdd_he4_9829121949726_viper-mini-se-white-500x500.png' находится в папке img -->
+                <img src="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_hdd_he4_9829121949726_viper-mini-se-white-500x500.png" alt="Игровая Мышь Luna Pro X">
+                <h3 class="product-name">Игровая Мышь Luna Pro X</h3>
+                <p class="product-description-short">Высокоточная мышь для киберспортсменов, 16000 DPI.</p>
+                <div class="price">30 000 KZT</div>
+                <button class="btn"
+                        data-product-image="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_hdd_he4_9829121949726_viper-mini-se-white-500x500.png"
+                        data-product-name="Игровая Мышь Luna Pro X"
+                        data-product-price="30 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="МШ-002"
+                        data-product-availability="В наличии">Купить</button>
+                <button class="gemini-btn">Узнать больше</button>
+            </div>
+            <div class="product-card">
+                <!-- Убедитесь, что файл 'razer-huntsman-v3-pro-tkl-500x500-v2.webp' находится в папке img -->
+                <img src="img/razer-huntsman-v3-pro-tkl-500x500-v2.webp" alt="Механическая Клавиатура Luna RGB">
+                <h3 class="product-name">Механическая Клавиатура Luna RGB</h3>
+                <p class="product-description-short">Надежная механическая клавиатура с настраиваемой RGB подсветкой.</p>
+                <div class="price">55 000 KZT</div>
+                <button class="btn"
+                        data-product-image="img/razer-huntsman-v3-pro-tkl-500x500-v2.webp"
+                        data-product-name="Механическая Клавиатура Luna RGB"
+                        data-product-price="55 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="КЛ-002"
+                        data-product-availability="В наличии">Купить</button>
+                <button class="gemini-btn">Узнать больше</button>
+            </div>
+            <div class="product-card">
+                <!-- Убедитесь, что файл 'barracuda-x_render-middle.jpg' находится в папке img -->
+                <img src="img/barracuda-x_render-middle.jpg" alt="Игровая Гарнитура Luna SoundMaster">
+                <h3 class="product-name">Игровая Гарнитура Luna SoundMaster</h3>
+                <p class="product-description-short">Погрузитесь в игру с объемным звуком 7.1 и кристально чистым микрофоном.</p>
+                <div class="price">40 000 KZT</div>
+                <button class="btn"
+                        data-product-image="img/barracuda-x_render-middle.jpg"
+                        data-product-name="Игровая Гарнитура Luna SoundMaster"
+                        data-product-price="40 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="ГР-001"
+                        data-product-availability="В наличии">Купить</button>
+                <button class="gemini-btn">Узнать больше</button>
+            </div>
+             <div class="product-card">
+                <!-- Убедитесь, что файл 'fireflyv2pro-line-fireflyv2-thumbnail.webp' находится в папке img -->
+                <img src="img/fireflyv2pro-line-fireflyv2-thumbnail.webp" alt="Коврик для Мыши Luna Glide XL">
+                <h3 class="product-name">Коврик для Мыши Luna Glide XL</h3>
+                <p class="product-description-short">Игровой коврик увеличенного размера для максимального контроля.</p>
+                <div class="price">8 000 KZT</div>
+                <button class="btn"
+                        data-product-image="img/fireflyv2pro-line-fireflyv2-thumbnail.webp"
+                        data-product-name="Коврик для Мыши Luna Glide XL"
+                        data-product-price="8 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="КВ-001"
+                        data-product-availability="В наличии">Купить</button>
+                <button class="gemini-btn">Узнать больше</button>
+            </div>
+            <div class="product-card">
+                <!-- Убедитесь, что файл '300x410-kiyolinepg-kiyoproultra.webp' находится в папке img -->
+                <img src="img/300x410-kiyolinepg-kiyoproultra.webp" alt="Веб-камера Luna StreamCam Pro">
+                <h3 class="product-name">Веб-камера Luna StreamCam Pro</h3>
+                <p class="product-description-short">Full HD веб-камера для стримов и видеосвязи.</p>
+                <div class="price">28 000 KZT</div>
+                <button class="btn"
+                        data-product-image="img/300x410-kiyolinepg-kiyoproultra.webp"
+                        data-product-name="Веб-камера Luna StreamCam Pro"
+                        data-product-price="28 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="ВК-001"
+                        data-product-availability="В наличии">Купить</button>
+                <button class="gemini-btn">Узнать больше</button>
+            </div>
+             <div class="product-card">
+                <!-- Убедитесь, что файл '500x500_seiren-v3-chroma.webp' находится в папке img -->
+                <img src="img/500x500_seiren-v3-chroma.webp" alt="Микрофон Luna Broadcast">
+                <h3 class="product-name">Микрофон Luna Broadcast</h3>
+                <p class="product-description-short">Профессиональный USB-микрофон для чистого голоса в играх и стримах.</p>
+                <div class="price">32 000 KZT</div>
+                <button class="btn"
+                        data-product-image="img/500x500_seiren-v3-chroma.webp"
+                        data-product-name="Микрофон Luna Broadcast"
+                        data-product-price="32 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="МК-001"
+                        data-product-availability="В наличии">Купить</button>
+                <button class="gemini-btn">Узнать больше</button>
+            </div>
+        </section>
+    </section>
+
+    <section id="monitors-section" class="content">
+        <h2 class="products-section-title">Игровые Мониторы</h2>
+        <section class="products">
+            <div class="product-card">
+                <!-- Убедитесь, что файл '2342342.jpg' находится в папке img -->
+                <img src="img/2342342.jpg" alt="Монитор Luna 24 дюйма 144Hz">
+                <h3 class="product-name">Монитор Luna 24" 144Hz</h3>
+                <p class="product-description-short">Быстрое время отклика и 144 Гц для плавного геймплея.</p>
+                <div class="price">95 000 KZT</div>
+                <button class="btn"
+                        data-product-image="img/2342342.jpg"
+                        data-product-name="Монитор Luna 24 дюйма 144Hz"
+                        data-product-price="95 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="МН-002"
+                        data-product-availability="В наличии">Купить</button>
+                <button class="gemini-btn">Узнать больше</button>
+            </div>
+            <div class="product-card">
+                <!-- Убедитесь, что файл '20250615_2056_image.png' находится в папке img -->
+                <img src="img/20250615_2056_image.png" alt="Монитор Luna 27 дюйма QHD">
+                <h3 class="product-name">Монитор Luna 27" QHD 165Hz</h3>
+                <p class="product-description-short">Детализированное QHD изображение и сверхвысокая частота обновления.</p>
+                <div class="price">180 000 KZT</div>
+                <button class="btn"
+                        data-product-image="img/20250615_2056_image.png"
+                        data-product-name="Монитор Luna 27 дюйма QHD"
+                        data-product-price="180 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="МН-003"
+                        data-product-availability="В наличии">Купить</button>
+                <button class="gemini-btn">Узнать больше</button>
+            </div>
+            <div class="product-card">
+                <!-- Убедитесь, что файл '20250615_2057_image.png' находится в папке img -->
+                <img src="img/20250615_2057_image.png" alt="Изогнутый Монитор Luna UltraWide">
+                <h3 class="product-name">Изогнутый Монитор Luna UltraWide</h3>
+                <p class="product-description-short">Погружение в игру с панорамным видом на изогнутом экране.</p>
+                <div class="price">250 000 KZT</div>
+                <button class="btn"
+                        data-product-image="img/20250615_2057_image.png"
+                        data-product-name="Изогнутый Монитор Luna UltraWide"
+                        data-product-price="250 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="МН-004"
+                        data-product-availability="В наличии">Купить</button>
+                <button class="gemini-btn">Узнать больше</button>
+            </div>
+        </section>
+    </section>
+
+    <section id="keyboards-section" class="content">
+        <h2 class="products-section-title">Игровые Клавиатуры</h2>
+        <section class="products">
+            <div class="product-card">
+                <!-- Убедитесь, что файл '800x600-razer-ornata-v3-x-product-promo.png' находится в папке img -->
+                <img src="img/800x600-razer-ornata-v3-x-product-promo.png" alt="Мембранная Клавиатура Luna Silent">
+                <h3 class="product-name">Мембранная Клавиатура Luna Silent</h3>
+                <p class="product-description-short">Тихая мембранная клавиатура с мягким нажатием для комфортной игры.</p>
+                <div class="price">20 000 KZT</div>
+                <button class="btn"
+                        data-product-image="img/800x600-razer-ornata-v3-x-product-promo.png"
+                        data-product-name="Мембранная Клавиатура Luna Silent"
+                        data-product-price="20 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="КЛ-003"
+                        data-product-availability="В наличии">Купить</button>
+                <button class="gemini-btn">Узнать больше</button>
+            </div>
+            <div class="product-card">
+                <!-- Убедитесь, что файл '800x600-razer-blackwidow-v3-pro-product-promo.png' находится в папке img -->
+                <img src="img/800x600-razer-blackwidow-v3-pro-product-promo.png" alt="Механическая Клавиатура Luna RGB Pro">
+                <h3 class="product-name">Механическая Клавиатура Luna RGB Pro</h3>
+                <p class="product-description-short">Полноразмерная клавиатура с настраиваемой RGB подсветкой и переключателями Cherry MX.</p>
+                <div class="price">60 000 KZT</div>
+                <button class="btn"
+                        data-product-image="img/800x600-razer-blackwidow-v3-pro-product-promo.png"
+                        data-product-name="Механическая Клавиатура Luna RGB Pro"
+                        data-product-price="60 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="КЛ-004"
+                        data-product-availability="В наличии">Купить</button>
+                <button class="gemini-btn">Узнать больше</button>
+            </div>
+            <div class="product-card">
+                <!-- Убедитесь, что файл '800x600-razer-pro-type-ultra-product-promo.png' находится в папке img -->
+                <img src="img/800x600-razer-pro-type-ultra-product-promo.png" alt="Беспроводная Клавиатура Luna Compact">
+                <h3 class="product-name">Беспроводная Клавиатура Luna Compact</h3>
+                <p class="product-description-short">Компактная беспроводная клавиатура с быстрым откликом, идеальна для путешествий.</p>
+                <div class="price">48 000 KZT</div>
+                <button class="btn"
+                        data-product-image="img/800x600-razer-pro-type-ultra-product-promo.png"
+                        data-product-name="Беспроводная Клавиатура Luna Compact"
+                        data-product-price="48 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="КЛ-005"
+                        data-product-availability="В наличии">Купить</button>
+                <button class="gemini-btn">Узнать больше</button>
+            </div>
+        </section>
+    </section>
+
+    <!-- Модальное окно для описания, открываемое кнопкой "Узнать больше" -->
+    <div id="description-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-btn">&times;</button>
+            <h2 id="modal-product-name" class="modal-title"></h2>
+            <div id="loading-indicator" class="loading-indicator"></div>
+            <p id="modal-product-description" class="modal-description"></p>
+        </div>
+    </div>
+
+    <!-- Полноэкранный слой для детального просмотра и покупки (Оверлей) -->
+    <div id="product-detail-page">
+        <div class="page-content-wrapper">
+            <button class="close-btn-page">&times;</button>
+            <div class="product-detail-content">
+                <div class="product-detail-image-section">
+                    <div class="product-detail-thumbnails">
+                        <!-- Миниатюры будут добавлены здесь динамически -->
+                    </div>
+                    <img id="product-detail-main-image" src="" alt="Основное изображение продукта" class="product-detail-main-image">
                 </div>
-                
-                <p class="product-availability" id="product-availability"></p>
+                <div class="product-detail-info-section">
+                    <h2 id="product-detail-name" class="product-detail-title"></h2>
+                    <p id="product-detail-article" class="product-detail-article"></p>
+                    <!-- Кнопка для отображения технических характеристик -->
+                    <button id="toggle-specs-btn" class="product-detail-specs-button">Показать технические характеристики</button>
 
-                <button class="submit-btn">В КОРЗИНУ</button>
-                <a href="#" class="add-to-my-razer">ДОБАВИТЬ В МОЙ RAZER</a>
+                    <div class="product-detail-prices">
+                        <p id="product-detail-price-current" class="product-detail-price-current"></p>
+                        <p id="product-detail-price-old" class="product-detail-price-old"></p>
+                    </div>
 
-                <button id="specs-toggle-btn" class="specs-toggle-btn">Показать технические характеристики</button>
+                    <div class="product-detail-btn-group">
+                        <button class="product-detail-add-to-cart">В КОРЗИНУ</button>
+                    </div>
 
-                <!-- Technical Specifications Section -->
-                <div id="technical-specs-content" class="technical-specs-section">
-                    <h3>Подробные характеристики:</h3>
-                    <ul id="specs-list">
-                        <!-- Specs will be dynamically loaded or hardcoded here -->
-                        <li><strong>Тип подключения:</strong> Беспроводной (2.4 ГГц и Bluetooth)</li>
-                        <li><strong>Сенсор:</strong> Оптический, до 16000 DPI</li>
-                        <li><strong>Кнопки:</strong> 8 программируемых кнопок</li>
-                        <li><strong>Подсветка:</strong> Razer Chroma RGB</li>
-                        <li><strong>Аккумулятор:</strong> До 70 часов автономной работы</li>
-                        <li><strong>Вес:</strong> 74 грамма</li>
-                        <li><strong>Материал:</strong> Высокопрочный пластик</li>
-                        <li><strong>Совместимость:</strong> PC, Mac</li>
-                    </ul>
-                </div>
+                    <p id="product-detail-availability" class="product-detail-availability">В наличии</p>
+                    <a href="#" class="product-detail-add-to-razer">ДОБАВИТЬ В МОЙ RAZER</a>
 
-                <!-- Product Features Section (like on screenshot) -->
-                <div class="product-features-section">
-                    <ul>
-                        <li>
+                    <div class="product-detail-features">
+                        <div class="feature-item">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M10 18H7l-3-3"/><path d="M7 18v-3"/><path d="M14 18h6a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2h-3.9L14 18Z"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
                             Доставка 17.06.2025 <span style="color: var(--razer-green);">бесплатно</span> в Астана
-                        </li>
-                        <li>
+                        </div>
+                        <div class="feature-item">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
                             100% оригинальные устройства Luna
-                        </li>
-                        <li>
+                        </div>
+                        <div class="feature-item">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-award"><circle cx="12" cy="8" r="7"/><path d="M8.21 13.89 7 22l5-3 5 3-1.21-8.11"/></svg>
                             Официальная гарантия и техподдержка
-                        </li>
-                    </ul>
-                </div>
-                <button class="contact-us-button">Напишите нам, мы в сети</button>
+                        </div>
+                    </div>
 
-                <form class="purchase-form" id="purchaseForm">
-                    <h2>Информация для заказа</h2>
-                    <div class="form-group">
-                        <label for="fullName">ФИО:</label>
-                        <input type="text" id="fullName" name="fullName" required>
+                    <div class="contact-button-container">
+                        <button class="contact-button">Напишите нам, мы в сети</button>
                     </div>
-                    <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required>
+
+                    <!-- Секция для технических характеристик -->
+                    <div id="technical-specs-content" class="technical-specs-section">
+                        <h3>Подробные характеристики:</h3>
+                        <ul>
+                            <li><strong>Тип подключения:</strong> Беспроводной (2.4 ГГц и Bluetooth)</li>
+                            <li><strong>Сенсор:</strong> Оптический, до 16000 DPI</li>
+                            <li><strong>Кнопки:</strong> 8 программируемых кнопок</li>
+                            <li><strong>Подсветка:</strong> Razer Chroma RGB</li>
+                            <li><strong>Аккумулятор:</strong> До 70 часов автономной работы</li>
+                            <li><strong>Вес:</strong> 74 грамма</li>
+                            <li><strong>Материал:</strong> Высокопрочный пластик</li>
+                            <li><strong>Совместимость:</strong> PC, Mac</li>
+                        </ul>
                     </div>
-                    <div class="form-group">
-                        <label for="phone">Телефон:</label>
-                        <input type="tel" id="phone" name="phone" required>
+
+                    <!-- Форма для заказа -->
+                    <div class="purchase-form-section">
+                        <h3>Оформление заказа</h3>
+                        <form id="purchase-form">
+                            <div class="form-group">
+                                <label for="full-name">ФИО:</label>
+                                <input type="text" id="full-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" id="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Телефон:</label>
+                                <input type="tel" id="phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Адрес доставки (Город Астана):</label>
+                                <textarea id="address" rows="3" required></textarea>
+                            </div>
+                            <button type="submit" class="submit-order-btn">Подтвердить заказ</button>
+                        </form>
+                        <div id="order-message-box" class="order-message-box"></div>
                     </div>
-                    <div class="form-group">
-                        <label for="address">Адрес доставки (Город Астана):</label>
-                        <textarea id="address" name="address" rows="3" required></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Подтвердить заказ</button>
-                </form>
-                <div id="messageBox" class="message-box"></div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const params = new URLSearchParams(window.location.search);
-            const mainImage = document.getElementById('main-product-image');
-            const productName = document.getElementById('product-name');
-            const productArticle = document.getElementById('product-article');
-            const productPriceCurrent = document.getElementById('product-price-current');
-            const productPriceOld = document.getElementById('product-price-old');
-            const productAvailability = document.getElementById('product-availability');
-            const productThumbnailsContainer = document.getElementById('product-thumbnails');
-            const specsToggleButton = document.getElementById('specs-toggle-btn');
-            const technicalSpecsContent = document.getElementById('technical-specs-content');
-            const purchaseForm = document.getElementById('purchaseForm');
-            const messageBox = document.getElementById('messageBox');
+        const burger = document.getElementById('burger');
+        const navMenu = document.querySelector('.nav');
 
-            // Populate product details
-            mainImage.src = params.get('image') || 'https://placehold.co/300x300/1a1a1a/0f0?text=Product';
-            productName.textContent = params.get('name') || 'Название продукта';
-            productArticle.textContent = `Артикул: ${params.get('article') || 'Не указан'}`;
-            productPriceCurrent.textContent = params.get('price') || '0 KZT';
-            productAvailability.textContent = params.get('availability') || 'В наличии';
+        if (burger && navMenu) {
+            burger.addEventListener('click', () => {
+                navMenu.classList.toggle('open');
+                burger.classList.toggle('open');
+                document.body.classList.toggle('no-scroll');
+            });
 
-            const oldPrice = params.get('oldPrice');
-            if (oldPrice) {
-                productPriceOld.textContent = oldPrice;
-                productPriceOld.style.display = 'block';
-            } else {
-                productPriceOld.style.display = 'none';
-            }
-
-            // Populate thumbnails
-            const thumbnailsJson = params.get('thumbnails');
-            let thumbnails = [];
-            if (thumbnailsJson) {
-                try {
-                    thumbnails = JSON.parse(thumbnailsJson);
-                } catch (e) {
-                    console.error('Ошибка при парсинге миниатюр:', e);
+            document.addEventListener('click', (event) => {
+                if (!burger.contains(event.target) && !navMenu.contains(event.target) && navMenu.classList.contains('open')) {
+                    navMenu.classList.remove('open');
+                    burger.classList.remove('open');
+                    document.body.classList.remove('no-scroll');
                 }
-            }
-            // Ensure main image is always the first thumbnail displayed
-            if (!thumbnails.includes(mainImage.src) && mainImage.src.includes('img/')) { // Check if it's a valid local image
-                 thumbnails.unshift(mainImage.src);
-            } else if (!thumbnails.includes(mainImage.src) && !mainImage.src.includes('img/')) {
-                // If the main image is a placeholder and not in thumbnails, don't add it as a redundant thumbnail
-            }
+            });
 
-
-            productThumbnailsContainer.innerHTML = ''; // Clear existing
-            thumbnails.forEach((src, index) => {
-                const img = document.createElement('img');
-                img.src = src.trim();
-                img.alt = `Thumbnail ${index + 1}`;
-                img.classList.add('thumbnail');
-                if (mainImage.src.includes(src.trim())) { // Set active class if it's the current main image
-                    img.classList.add('active');
-                }
-                img.addEventListener('click', () => {
-                    mainImage.src = img.src;
-                    // Remove active class from all and add to clicked
-                    productThumbnailsContainer.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
-                    img.classList.add('active');
+            const menuLinks = document.querySelectorAll('.nav .menu a');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (!link.closest('.menu-item').querySelector('.submenu')) {
+                        if (navMenu.classList.contains('open')) {
+                            navMenu.classList.remove('open');
+                            burger.classList.remove('open');
+                            document.body.classList.remove('no-scroll');
+                        }
+                    }
                 });
-                productThumbnailsContainer.appendChild(img);
             });
+        }
 
-            // Toggle technical specifications section
-            specsToggleButton.addEventListener('click', () => {
-                technicalSpecsContent.classList.toggle('open');
-                if (technicalSpecsContent.classList.contains('open')) {
-                    specsToggleButton.textContent = 'Скрыть технические характеристики';
-                } else {
-                    specsToggleButton.textContent = 'Показать технические характеристики';
+        const descriptionModal = document.getElementById('description-modal');
+        const modalProductName = document.getElementById('modal-product-name');
+        const modalProductDescription = document.getElementById('modal-product-description');
+        const modalCloseBtn = document.querySelector('#description-modal .modal-close-btn');
+        const loadingIndicator = document.getElementById('loading-indicator');
+
+        const geminiButtons = document.querySelectorAll('.gemini-btn');
+
+        geminiButtons.forEach(button => {
+            button.addEventListener('click', async () => {
+                const productCard = button.closest('.product-card');
+                const productName = productCard.querySelector('.product-name').textContent;
+                const productShortDescription = productCard.querySelector('.product-description-short').textContent;
+
+                modalProductName.textContent = productName;
+                modalProductDescription.textContent = '';
+                loadingIndicator.classList.add('active');
+                descriptionModal.classList.add('open');
+                document.body.classList.add('no-scroll');
+
+                const prompt = `Расширьте и сделайте более привлекательным следующее описание игрового продукта для магазина:
+                Название продукта: ${productName}
+                Краткое описание: ${productShortDescription}
+                Сделайте описание более подробным, вдохновляющим и технически грамотным, но понятным для геймеров. Включите 3-5 ключевых преимуществ или особенностей. Максимум 150 слов.`;
+
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(`API error: ${response.status} - ${errorData.error.message || 'Unknown error'}`);
+                    }
+
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const generatedText = result.candidates[0].content.parts[0].text;
+                        modalProductDescription.textContent = generatedText;
+                    } else {
+                        modalProductDescription.textContent = 'Не удалось получить улучшенное описание. Попробуйте еще раз.';
+                        console.error('Неожиданная структура ответа от Gemini API:', result);
+                    }
+                } catch (error) {
+                    modalProductDescription.textContent = `Ошибка при получении описания: ${error.message}`;
+                    console.error('Ошибка вызова Gemini API:', error);
+                } finally {
+                    loadingIndicator.classList.remove('active');
                 }
             });
+        });
 
-            // Handle purchase form submission
-            purchaseForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                messageBox.textContent = 'Ваш заказ успешно отправлен! Мы свяжемся с вами в ближайшее время.';
-                messageBox.classList.add('show');
-                purchaseForm.reset();
+        modalCloseBtn.addEventListener('click', () => {
+            descriptionModal.classList.remove('open');
+            document.body.classList.remove('no-scroll');
+        });
 
-                // Close the tab after a delay
-                setTimeout(() => {
-                    window.close();
-                }, 3000);
+        modalCloseBtn.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                modalCloseBtn.click();
+            }
+        });
+
+        descriptionModal.addEventListener('click', (event) => {
+            if (event.target === descriptionModal) {
+                descriptionModal.classList.remove('open');
+                document.body.classList.remove('no-scroll');
+            }
+        });
+
+        // Скрипты для полноэкранного слоя детального просмотра и покупки
+        const productDetailPage = document.getElementById('product-detail-page');
+        const productDetailMainImage = document.getElementById('product-detail-main-image');
+        const productDetailName = document.getElementById('product-detail-name');
+        const productDetailArticle = document.getElementById('product-detail-article');
+        const productDetailPriceCurrent = document.getElementById('product-detail-price-current');
+        const productDetailPriceOld = document.getElementById('product-detail-price-old');
+        const productDetailAvailability = document.getElementById('product-detail-availability');
+        const productDetailThumbnailsContainer = productDetailPage.querySelector('.product-detail-thumbnails');
+        const productDetailCloseBtn = productDetailPage.querySelector('.close-btn-page');
+        const toggleSpecsBtn = document.getElementById('toggle-specs-btn'); // Кнопка для отображения/скрытия характеристик
+        const technicalSpecsContent = document.getElementById('technical-specs-content'); // Секция технических характеристик
+
+        // Элементы формы заказа
+        const purchaseForm = document.getElementById('purchase-form');
+        const fullNameInput = document.getElementById('full-name');
+        const emailInput = document.getElementById('email');
+        const phoneInput = document.getElementById('phone');
+        const addressInput = document.getElementById('address');
+        const orderMessageBox = document.getElementById('order-message-box');
+
+        // Обработчик отправки формы заказа
+        purchaseForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Предотвращаем стандартную отправку формы
+
+            // Получаем данные из формы
+            const orderDetails = {
+                productName: productDetailName.textContent,
+                productPrice: productDetailPriceCurrent.textContent,
+                fullName: fullNameInput.value,
+                email: emailInput.value,
+                phone: phoneInput.value,
+                address: addressInput.value
+            };
+
+            // Здесь вы можете отправить эти данные на сервер (например, через fetch API)
+            // Для примера, просто выведем сообщение об успехе и очистим форму.
+            orderMessageBox.textContent = 'Ваш заказ успешно оформлен! Мы свяжемся с вами в ближайшее время.';
+            orderMessageBox.classList.add('show');
+            purchaseForm.reset(); // Очищаем поля формы
+
+            console.log('Детали заказа:', orderDetails);
+
+            // Можно автоматически закрыть оверлей через несколько секунд
+            setTimeout(() => {
+                productDetailPage.classList.remove('open');
+                document.body.classList.remove('no-scroll');
+                orderMessageBox.classList.remove('show'); // Скрываем сообщение
+            }, 3000); // Закрыть через 3 секунды
+        });
+
+
+        const buyButtons = document.querySelectorAll('.product-card .btn:first-of-type');
+
+        buyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const productCard = button.closest('.product-card');
+                const productImageSrc = productCard.querySelector('img').src;
+                const productName = productCard.querySelector('.product-name').textContent;
+                const productPrice = productCard.querySelector('.price').textContent;
+
+                // Получаем данные из data-атрибутов
+                const productOldPrice = button.dataset.productOldPrice || '';
+                const productArticle = button.dataset.productArticle || 'Не указан';
+                const productAvailability = button.dataset.productAvailability || 'В наличии'; // По умолчанию "В наличии"
+                const productThumbnails = button.dataset.productThumbnails ? button.dataset.productThumbnails.split(',') : [productImageSrc]; // Если нет миниатюр, используем основное изображение
+
+                // Заполняем "страницу" продукта данными
+                productDetailName.textContent = productName;
+                productDetailArticle.textContent = `Артикул: ${productArticle}`;
+                productDetailPriceCurrent.textContent = productPrice;
+
+                if (productOldPrice) {
+                    productDetailPriceOld.textContent = productOldPrice;
+                    productDetailPriceOld.style.display = 'block'; // Показываем старую цену, если она есть
+                } else {
+                    productDetailPriceOld.style.display = 'none'; // Скрываем старую цену, если ее нет
+                }
+
+                productDetailAvailability.textContent = productAvailability;
+
+                // Очищаем и заполняем миниатюры
+                productDetailThumbnailsContainer.innerHTML = '';
+                // Добавляем основное изображение как первую миниатюру, если она не уже в списке
+                let thumbnailsToAdd = [productImageSrc, ...productThumbnails.filter(src => src.trim() !== productImageSrc.trim())];
+                
+                thumbnailsToAdd.forEach((src, index) => {
+                    const img = document.createElement('img');
+                    img.src = src.trim();
+                    img.alt = productName + ' thumbnail';
+                    img.classList.add('product-detail-thumbnail');
+                    productDetailThumbnailsContainer.appendChild(img);
+
+                    if (index === 0) { // Активируем первую миниатюру
+                        img.classList.add('active');
+                    }
+
+                    img.addEventListener('click', () => {
+                        productDetailMainImage.src = img.src;
+                        // Удаляем класс active со всех миниатюр и добавляем к текущей
+                        productDetailThumbnailsContainer.querySelectorAll('.product-detail-thumbnail').forEach(thumb => {
+                            thumb.classList.remove('active');
+                        });
+                        img.classList.add('active');
+                    });
+                });
+
+                // Устанавливаем основное изображение на основе первой миниатюры (или оригинального изображения)
+                productDetailMainImage.src = thumbnailsToAdd[0] || productImageSrc;
+
+
+                productDetailPage.classList.add('open');
+                document.body.classList.add('no-scroll');
+
+                // Reset technical specs section state when opening a new product
+                technicalSpecsContent.classList.remove('open');
+                toggleSpecsBtn.textContent = 'Показать технические характеристики'; // Сброс текста кнопки
+                orderMessageBox.classList.remove('show'); // Скрываем сообщение о заказе
+                purchaseForm.reset(); // Очищаем форму заказа
+            });
+        });
+
+        productDetailCloseBtn.addEventListener('click', () => {
+            productDetailPage.classList.remove('open');
+            document.body.classList.remove('no-scroll');
+        });
+
+        productDetailPage.addEventListener('click', (event) => {
+            // Закрытие "страницы" при клике вне содержимого
+            if (event.target === productDetailPage) {
+                productDetailPage.classList.remove('open');
+                document.body.classList.remove('no-scroll');
+            }
+        });
+
+        // Event listener for the "Показать технические характеристики" button
+        toggleSpecsBtn.addEventListener('click', () => {
+            technicalSpecsContent.classList.toggle('open');
+            if (technicalSpecsContent.classList.contains('open')) {
+                toggleSpecsBtn.textContent = 'Скрыть технические характеристики';
+            } else {
+                toggleSpecsBtn.textContent = 'Показать технические характеристики';
+            }
+        });
+
+
+        const heroSlides = document.querySelectorAll('.hero-slide');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                } else {
+                    entry.target.classList.remove('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        heroSlides.forEach(slide => {
+            observer.observe(slide);
+        });
+
+        document.querySelectorAll('.hero-slide .btn[data-scroll-to]').forEach(button => {
+            button.addEventListener('click', (event) => {
+                event.preventDefault();
+                const targetId = event.target.dataset.scrollTo;
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        document.querySelectorAll('.nav .menu-item a').forEach(link => {
+            link.addEventListener('click', (event) => {
+                const linkText = event.target.textContent.trim();
+                let targetId = '';
+
+                if (linkText === 'Мониторы') {
+                    targetId = 'monitors-section';
+                } else if (linkText === 'Клавиатуры') {
+                    targetId = 'keyboards-section';
+                } else if (linkText === 'Мышки') {
+                    targetId = 'peripherals-section';
+                }
+
+                if (targetId) {
+                    event.preventDefault();
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                        if (navMenu.classList.contains('open')) {
+                            navMenu.classList.remove('open');
+                            burger.classList.remove('open');
+                            document.body.classList.remove('no-scroll');
+                        }
+                    }
+                }
             });
         });
     </script>
