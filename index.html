@@ -963,7 +963,6 @@
             </div>
             <div class="product-card">
                 <!-- Убедитесь, что файл 'razer-huntsman-v3-pro-tkl-500x500-v2.webp' находится в папке img -->
-                <img src="img/razer-huntsman-v3-pro-tkl-500x500-v2.webp" alt="Механическая Клавиатура Luna RGB">
                 <h3 class="product-name">Механическая Клавиатура Luna RGB</h3>
                 <p class="product-description-short">Надежная механическая клавиатура с настраиваемой RGB подсветкой.</p>
                 <div class="price">55 000 KZT</div>
@@ -1141,64 +1140,13 @@
         </section>
     </section>
 
+    <!-- Модальное окно для описания, открываемое кнопкой "Узнать больше" -->
     <div id="description-modal" class="modal-overlay">
         <div class="modal-content">
             <button class="modal-close-btn">&times;</button>
             <h2 id="modal-product-name" class="modal-title"></h2>
             <div id="loading-indicator" class="loading-indicator"></div>
             <p id="modal-product-description" class="modal-description"></p>
-        </div>
-    </div>
-
-    <!-- Новый полноэкранный слой для детального просмотра и покупки -->
-    <div id="product-detail-page">
-        <div class="modal-content">
-            <button class="modal-close-btn">&times;</button>
-            <div class="product-detail-content">
-                <div class="product-detail-image-section">
-                    <div class="product-detail-thumbnails">
-                        <!-- Thumbnails will be dynamically added here if data-product-thumbnails is present -->
-                    </div>
-                    <img id="product-detail-main-image" src="" alt="Product Main Image" class="product-detail-main-image">
-                </div>
-                <div class="product-detail-info-section">
-                    <h2 id="product-detail-name" class="product-detail-title"></h2>
-                    <p id="product-detail-article" class="product-detail-article">Артикул: RZ01-05120400-R3M1</p>
-                    <a href="#" class="product-detail-specs-link">Технические характеристики</a>
-
-                    <div class="product-detail-prices">
-                        <p id="product-detail-price-current" class="product-detail-price-current"></p>
-                        <p id="product-detail-price-old" class="product-detail-price-old"></p>
-                    </div>
-
-                    <div class="product-detail-btn-group">
-                        <button class="product-detail-add-to-cart">В КОРЗИНУ</button>
-                    </div>
-
-                    <p id="product-detail-availability" class="product-detail-availability">В наличии</p>
-                    <a href="#" class="product-detail-add-to-razer">ДОБАВИТЬ В МОЙ RAZER</a>
-
-                    <!-- Секция "Без первого платежа на 12-24 месяца" удалена -->
-                    <div class="product-detail-features">
-                        <div class="feature-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M10 18H7l-3-3"/><path d="M7 18v-3"/><path d="M14 18h6a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2h-3.9L14 18Z"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
-                            Доставка 17.06.2025 <span style="color: var(--razer-green);">бесплатно</span> в Астана
-                        </div>
-                        <div class="feature-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
-                            100% оригинальные устройства Luna
-                        </div>
-                        <div class="feature-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-award"><circle cx="12" cy="8" r="7"/><path d="M8.21 13.89 7 22l5-3 5 3-1.21-8.11"/></svg>
-                            Официальная гарантия и техподдержка
-                        </div>
-                    </div>
-
-                    <div class="contact-button-container">
-                        <button class="contact-button">Напишите нам, мы в сети</button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -1317,17 +1265,7 @@
             }
         });
 
-        // Скрипты для нового полноэкранного слоя детального просмотра/покупки
-        const productDetailPage = document.getElementById('product-detail-page');
-        const productDetailMainImage = document.getElementById('product-detail-main-image');
-        const productDetailName = document.getElementById('product-detail-name');
-        const productDetailArticle = document.getElementById('product-detail-article');
-        const productDetailPriceCurrent = document.getElementById('product-detail-price-current');
-        const productDetailPriceOld = document.getElementById('product-detail-price-old');
-        const productDetailAvailability = document.getElementById('product-detail-availability');
-        const productDetailThumbnailsContainer = productDetailPage.querySelector('.product-detail-thumbnails');
-        const productDetailCloseBtn = productDetailPage.querySelector('.modal-close-btn');
-
+        // Обработчики для кнопок "Купить", открывающих новую страницу
         const buyButtons = document.querySelectorAll('.product-card .btn:first-of-type');
 
         buyButtons.forEach(button => {
@@ -1336,72 +1274,20 @@
                 const productImageSrc = productCard.querySelector('img').src;
                 const productName = productCard.querySelector('.product-name').textContent;
                 const productPrice = productCard.querySelector('.price').textContent;
+                const productArticle = button.dataset.productArticle || 'Не указан'; // Получаем артикул
 
-                // Получаем данные из data-атрибутов
-                const productOldPrice = button.dataset.productOldPrice || '';
-                const productArticle = button.dataset.productArticle || 'Не указан';
-                const productAvailability = button.dataset.productAvailability || 'В наличии'; // По умолчанию "В наличии"
-                const productThumbnails = button.dataset.productThumbnails ? button.dataset.productThumbnails.split(',') : [productImageSrc]; // Если нет миниатюр, используем основное изображение
+                // Кодируем параметры для URL
+                const queryParams = new URLSearchParams({
+                    image: productImageSrc,
+                    name: productName,
+                    price: productPrice,
+                    article: productArticle
+                }).toString();
 
-                // Заполняем "страницу" продукта данными
-                productDetailName.textContent = productName;
-                productDetailArticle.textContent = `Артикул: ${productArticle}`;
-                productDetailPriceCurrent.textContent = productPrice;
-
-                if (productOldPrice) {
-                    productDetailPriceOld.textContent = productOldPrice;
-                    productDetailPriceOld.style.display = 'block'; // Показываем старую цену, если она есть
-                } else {
-                    productDetailPriceOld.style.display = 'none'; // Скрываем старую цену, если ее нет
-                }
-
-                productDetailAvailability.textContent = productAvailability;
-
-                // Очищаем и заполняем миниатюры
-                productDetailThumbnailsContainer.innerHTML = '';
-                productThumbnails.forEach(src => {
-                    const img = document.createElement('img');
-                    img.src = src.trim();
-                    img.alt = productName + ' thumbnail';
-                    img.classList.add('product-detail-thumbnail');
-                    productDetailThumbnailsContainer.appendChild(img);
-
-                    img.addEventListener('click', () => {
-                        productDetailMainImage.src = img.src;
-                        // Удаляем класс active со всех миниатюр и добавляем к текущей
-                        productDetailThumbnailsContainer.querySelectorAll('.product-detail-thumbnail').forEach(thumb => {
-                            thumb.classList.remove('active');
-                        });
-                        img.classList.add('active');
-                    });
-                });
-
-                // Устанавливаем основное изображение и активируем первую миниатюру
-                productDetailMainImage.src = productImageSrc;
-                const firstThumbnail = productDetailThumbnailsContainer.querySelector('.product-detail-thumbnail');
-                if (firstThumbnail) {
-                    firstThumbnail.classList.add('active');
-                }
-
-
-                productDetailPage.classList.add('open');
-                document.body.classList.add('no-scroll');
+                // Открываем новую HTML-страницу с параметрами в URL
+                window.open(`purchase_page.html?${queryParams}`, '_blank');
             });
         });
-
-        productDetailCloseBtn.addEventListener('click', () => {
-            productDetailPage.classList.remove('open');
-            document.body.classList.remove('no-scroll');
-        });
-
-        productDetailPage.addEventListener('click', (event) => {
-            // Закрытие "страницы" при клике вне содержимого
-            if (event.target === productDetailPage) {
-                productDetailPage.classList.remove('open');
-                document.body.classList.remove('no-scroll');
-            }
-        });
-
 
         const heroSlides = document.querySelectorAll('.hero-slide');
 
