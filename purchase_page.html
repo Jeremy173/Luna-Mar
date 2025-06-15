@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оформление покупки - Luna</title>
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f0f0f;
+            --header-bg: #111;
+            --accent-green: #0f0;
+            --accent-green-hover: #0c0;
+            --text-light: #eee;
+            --text-medium: #ccc;
+            --border-color: #333;
+            --product-card-bg: #1a1a1a;
+            --razer-green: #00FF00;
+            --razer-text-color: #777;
+        }
+
+        body {
+            font-family: 'Titillium Web', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background: var(--product-card-bg);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 255, 0, 0.3);
+            position: relative; /* Для кнопки закрытия */
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: var(--accent-green);
+        }
+
+        h1 {
+            color: var(--razer-green);
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        .product-detail-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .product-image-gallery {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.2);
+        }
+
+        .thumbnails {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .thumbnail {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            border-radius: 4px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .thumbnail.active,
+        .thumbnail:hover {
+            border-color: var(--accent-green);
+        }
+
+        .product-info-details {
+            flex: 1;
+            min-width: 350px;
+            padding-left: 20px;
+            border-left: 1px solid var(--border-color);
+        }
+        @media (max-width: 768px) {
+            .product-info-details {
+                padding-left: 0;
+                border-left: none;
+                text-align: center;
+            }
+        }
+
+        .product-title {
+            font-size: 2em;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .product-article {
+            font-size: 0.9em;
+            color: var(--razer-text-color);
+            margin-bottom: 5px;
+        }
+
+        .product-price-current {
+            font-size: 2.2em;
+            color: var(--razer-green);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .product-price-old {
+            font-size: 1.1em;
+            color: var(--razer-text-color);
+            text-decoration: line-through;
+            margin-bottom: 20px;
+        }
+
+        .product-availability {
+            font-size: 1em;
+            color: var(--text-medium);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        @media (max-width: 768px) {
+            .product-availability {
+                justify-content: center;
+            }
+        }
+
+        .product-availability::before {
+            content: '•';
+            color: var(--razer-green);
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        .specs-toggle-btn {
+            background: none;
+            border: none;
+            color: var(--razer-text-color);
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 1em;
+            margin-bottom: 20px;
+            padding: 0;
+            text-align: left;
+            transition: color 0.3s;
+        }
+
+        .specs-toggle-btn:hover {
+            color: var(--accent-green);
+        }
+
+        .technical-specs-section {
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+            margin-top: 20px;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.7s ease-out, opacity 0.7s ease-out;
+        }
+
+        .technical-specs-section.open {
+            max-height: 1000px; /* Adjust as needed */
+            opacity: 1;
+        }
+
+        .technical-specs-section h3 {
+            font-size: 1.3em;
+            color: var(--accent-green);
+            margin-bottom: 15px;
+        }
+
+        .technical-specs-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .technical-specs-section li {
+            font-size: 0.95em;
+            color: var(--text-medium);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .technical-specs-section li strong {
+            color: var(--text-light);
+            min-width: 120px;
+        }
+
+        .purchase-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+
+        .form-group {
+            text-align: left;
+        }
+
+        .purchase-form label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .purchase-form input[type="text"],
+        .purchase-form input[type="email"],
+        .purchase-form input[type="tel"],
+        .purchase-form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            background-color: #222;
+            color: var(--text-light);
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .purchase-form input[type="text"]:focus,
+        .purchase-form input[type="email"]:focus,
+        .purchase-form input[type="tel"]:focus,
+        .purchase-form textarea:focus {
+            outline: none;
+            border-color: var(--razer-green);
+            box-shadow: 0 0 8px rgba(0, 255, 0, 0.4);
+        }
+
+        .submit-btn {
+            padding: 15px 30px;
+            background-color: var(--razer-green);
+            color: var(--header-bg);
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 10px rgba(0, 255, 0, 0.4);
+            text-transform: uppercase;
+            width: fit-content;
+            margin-top: 10px; /* Space between form fields and button */
+        }
+
+        .submit-btn:hover {
+            background-color: var(--accent-green-hover);
+            transform: translateY(-2px);
+        }
+
+        .message-box {
+            background-color: #333;
+            color: var(--text-light);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none;
+            font-size: 0.9em;
+            text-align: left;
+        }
+
+        .message-box.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="close-btn" onclick="window.close()">&times;</button>
+        <h1>Детали продукта и оформление заказа</h1>
+
+        <div class="product-detail-section">
+            <div class="product-image-gallery">
+                <img id="main-product-image" src="" alt="Изображение продукта" class="main-image">
+                <div class="thumbnails" id="product-thumbnails">
+                    <!-- Thumbnails will be populated here -->
+                </div>
+            </div>
+
+            <div class="product-info-details">
+                <h2 id="product-name" class="product-title"></h2>
+                <p id="product-article" class="product-article"></p>
+                
+                <p class="product-price-current" id="product-price-current"></p>
+                <p class="product-price-old" id="product-price-old" style="display: none;"></p>
+                
+                <p class="product-availability" id="product-availability"></p>
+
+                <button id="specs-toggle-btn" class="specs-toggle-btn">Показать технические характеристики</button>
+
+                <!-- Technical Specifications Section -->
+                <div id="technical-specs-content" class="technical-specs-section">
+                    <h3>Подробные характеристики:</h3>
+                    <ul id="specs-list">
+                        <!-- Specs will be dynamically loaded or hardcoded here -->
+                        <li><strong>Тип подключения:</strong> Беспроводной (2.4 ГГц и Bluetooth)</li>
+                        <li><strong>Сенсор:</strong> Оптический, до 16000 DPI</li>
+                        <li><strong>Кнопки:</strong> 8 программируемых кнопок</li>
+                        <li><strong>Подсветка:</strong> Razer Chroma RGB</li>
+                        <li><strong>Аккумулятор:</strong> До 70 часов автономной работы</li>
+                        <li><strong>Вес:</strong> 74 грамма</li>
+                        <li><strong>Материал:</strong> Высокопрочный пластик</li>
+                        <li><strong>Совместимость:</strong> PC, Mac</li>
+                    </ul>
+                </div>
+
+                <form class="purchase-form" id="purchaseForm">
+                    <h2>Информация для заказа</h2>
+                    <div class="form-group">
+                        <label for="fullName">ФИО:</label>
+                        <input type="text" id="fullName" name="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Телефон:</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Адрес доставки (Город Астана):</label>
+                        <textarea id="address" name="address" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Подтвердить заказ</button>
+                </form>
+                <div id="messageBox" class="message-box"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const mainImage = document.getElementById('main-product-image');
+            const productName = document.getElementById('product-name');
+            const productArticle = document.getElementById('product-article');
+            const productPriceCurrent = document.getElementById('product-price-current');
+            const productPriceOld = document.getElementById('product-price-old');
+            const productAvailability = document.getElementById('product-availability');
+            const productThumbnailsContainer = document.getElementById('product-thumbnails');
+            const specsToggleButton = document.getElementById('specs-toggle-btn');
+            const technicalSpecsContent = document.getElementById('technical-specs-content');
+            const purchaseForm = document.getElementById('purchaseForm');
+            const messageBox = document.getElementById('messageBox');
+
+            // Populate product details
+            mainImage.src = params.get('image') || 'https://placehold.co/300x300/1a1a1a/0f0?text=Product';
+            productName.textContent = params.get('name') || 'Название продукта';
+            productArticle.textContent = `Артикул: ${params.get('article') || 'Не указан'}`;
+            productPriceCurrent.textContent = params.get('price') || '0 KZT';
+            productAvailability.textContent = params.get('availability') || 'В наличии';
+
+            const oldPrice = params.get('oldPrice');
+            if (oldPrice) {
+                productPriceOld.textContent = oldPrice;
+                productPriceOld.style.display = 'block';
+            } else {
+                productPriceOld.style.display = 'none';
+            }
+
+            // Populate thumbnails
+            const thumbnailsJson = params.get('thumbnails');
+            let thumbnails = [];
+            if (thumbnailsJson) {
+                try {
+                    thumbnails = JSON.parse(thumbnailsJson);
+                } catch (e) {
+                    console.error('Ошибка при парсинге миниатюр:', e);
+                }
+            }
+            // Ensure main image is always the first thumbnail displayed
+            if (!thumbnails.includes(mainImage.src) && mainImage.src.includes('img/')) { // Check if it's a valid local image
+                 thumbnails.unshift(mainImage.src);
+            } else if (!thumbnails.includes(mainImage.src) && !mainImage.src.includes('img/')) {
+                // If the main image is a placeholder and not in thumbnails, don't add it as a redundant thumbnail
+            }
+
+
+            productThumbnailsContainer.innerHTML = ''; // Clear existing
+            thumbnails.forEach((src, index) => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = `Thumbnail ${index + 1}`;
+                img.classList.add('thumbnail');
+                if (mainImage.src === src) { // Set active class if it's the current main image
+                    img.classList.add('active');
+                }
+                img.addEventListener('click', () => {
+                    mainImage.src = img.src;
+                    // Remove active class from all and add to clicked
+                    productThumbnailsContainer.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+                    img.classList.add('active');
+                });
+                productThumbnailsContainer.appendChild(img);
+            });
+
+            // Toggle technical specifications section
+            specsToggleButton.addEventListener('click', () => {
+                technicalSpecsContent.classList.toggle('open');
+                if (technicalSpecsContent.classList.contains('open')) {
+                    specsToggleButton.textContent = 'Скрыть технические характеристики';
+                } else {
+                    specsToggleButton.textContent = 'Показать технические характеристики';
+                }
+            });
+
+            // Handle purchase form submission
+            purchaseForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                messageBox.textContent = 'Ваш заказ успешно отправлен! Мы свяжемся с вами в ближайшее время.';
+                messageBox.classList.add('show');
+                purchaseForm.reset();
+
+                // Close the tab after a delay
+                setTimeout(() => {
+                    window.close();
+                }, 3000);
+            });
+        });
+    </script>
+</body>
+</html>
