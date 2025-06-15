@@ -530,12 +530,15 @@
             background: var(--product-card-bg);
             padding: 30px;
             border-radius: 10px;
-            max-width: 900px; /* Max width for the modal content */
-            width: 90%; /* Responsive width */
+            max-width: 1300px; /* Увеличена максимальная ширина */
+            width: 95%; /* Responsive width */
             box-shadow: 0 5px 20px rgba(0, 255, 0, 0.3);
             position: relative;
-            max-height: 90vh; /* Max height to prevent overflow on small screens */
+            max-height: 95vh; /* Увеличена максимальная высота */
             overflow-y: auto; /* Scroll content if it's too tall */
+            display: flex; /* Использовать flexbox для колонок */
+            gap: 40px; /* Промежуток между колонками */
+            align-items: flex-start; /* Выравнивание элементов по верху */
         }
 
         #product-detail-page .close-btn-page { /* Specific close button for the page */
@@ -554,21 +557,65 @@
             color: var(--accent-green);
         }
 
-        .product-detail-content {
+        .product-detail-content { /* Общий контейнер для содержимого */
             display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            margin-bottom: 40px;
-            justify-content: center; /* Center items in flex */
+            flex-wrap: wrap; /* Разрешить перенос элементов */
+            width: 100%; /* Занять всю доступную ширину родителя */
         }
 
-        .product-detail-image-section {
+        .product-detail-specs-column { /* Левая колонка для характеристик */
             flex: 1;
-            min-width: 300px; /* Minimum width for image section */
+            min-width: 280px; /* Минимальная ширина для характеристик */
+            padding-right: 20px; /* Отступ справа от изображения */
+            border-right: 1px solid var(--border-color); /* Разделитель */
+            text-align: left;
+        }
+
+        .product-detail-image-info-column { /* Правая колонка для изображения и инфо */
+            flex: 2; /* Занимает большую часть пространства */
+            min-width: 450px; /* Минимальная ширина для правой колонки */
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start; /* Выравнивание по левому краю */
+            text-align: left;
+            padding-left: 20px; /* Отступ слева от разделителя */
         }
+
+        .product-detail-specs-column h3 {
+            font-size: 22px;
+            color: var(--accent-green);
+            margin-bottom: 20px;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.2);
+        }
+
+        .product-detail-specs-column ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .product-detail-specs-column li {
+            font-size: 16px;
+            color: var(--text-medium);
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between; /* Распределение между названием и значением */
+            gap: 10px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 5px;
+        }
+        .product-detail-specs-column li:last-child {
+            border-bottom: none;
+        }
+
+        .product-detail-specs-column li strong {
+            color: var(--text-light);
+            flex-shrink: 0; /* Не сжимать название характеристики */
+        }
+        .product-detail-specs-column li span {
+            text-align: right; /* Выравнивание значения характеристики по правому краю */
+            flex-grow: 1;
+        }
+
 
         .product-detail-main-image {
             max-width: 100%;
@@ -583,156 +630,129 @@
             gap: 10px;
             margin-bottom: 20px;
             flex-wrap: wrap;
-            justify-content: center;
+            justify-content: flex-start; /* Выравнивание миниатюр по левому краю */
         }
 
         .product-detail-thumbnail {
-            width: 70px;
-            height: 70px;
+            width: 80px; /* Увеличен размер миниатюр */
+            height: 80px; /* Увеличен размер миниатюр */
             object-fit: contain;
-            border-radius: 4px;
+            border-radius: 6px; /* Больший радиус */
             border: 2px solid transparent;
             cursor: pointer;
-            transition: border-color 0.3s;
+            transition: border-color 0.3s, transform 0.2s;
         }
 
         .product-detail-thumbnail.active,
         .product-detail-thumbnail:hover {
             border-color: var(--accent-green);
-        }
-
-        .product-detail-info-section {
-            flex: 1;
-            min-width: 350px; /* Minimum width for info section */
-            display: flex;
-            flex-direction: column;
-            padding-left: 20px;
-            border-left: 1px solid var(--border-color); /* Separator */
-            text-align: left; /* Align text to left inside info section */
-        }
-
-        @media (max-width: 768px) {
-            #product-detail-page .page-content-wrapper {
-                padding: 20px; /* Adjust padding for mobile */
-                width: 95%; /* Wider on small screens */
-            }
-            .product-detail-content {
-                flex-direction: column; /* Stack vertically on small screens */
-                gap: 20px;
-            }
-
-            .product-detail-image-section,
-            .product-detail-info-section {
-                min-width: unset;
-                width: 100%;
-                padding-left: 0;
-                border-left: none; /* Remove separator on mobile */
-                align-items: center; /* Center items for single column */
-                text-align: center; /* Center text for single column */
-            }
-            .product-detail-availability,
-            .product-detail-prices {
-                justify-content: center; /* Center these elements */
-            }
-            .product-detail-specs-button,
-            .product-detail-add-to-razer {
-                text-align: center; /* Center text */
-            }
+            transform: translateY(-2px);
         }
 
         .product-detail-title {
             font-family: 'Razer Blackwidow', sans-serif;
-            font-size: 32px;
+            font-size: 38px; /* Увеличен размер заголовка */
             color: var(--razer-green);
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
         }
 
         .product-detail-article {
-            font-size: 14px;
+            font-size: 15px;
             color: var(--razer-text-color);
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
 
-        .product-detail-specs-button { /* New class for the button */
-            font-size: 14px;
+        .product-detail-specs-button {
+            font-size: 15px;
             color: var(--razer-text-color);
             text-decoration: underline;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             cursor: pointer;
             background: none;
             border: none;
             padding: 0;
-            /* text-align: left; */ /* Adjusted to be dynamic based on parent */
             transition: color 0.3s;
+            align-self: flex-start; /* Выравнивание кнопки по левому краю */
         }
 
         .product-detail-specs-button:hover {
             color: var(--accent-green);
         }
 
+        .product-detail-prices {
+            display: flex;
+            align-items: baseline;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
         .product-detail-price-current {
-            font-size: 36px;
+            font-size: 42px; /* Увеличен размер текущей цены */
             color: var(--text-light);
             font-weight: bold;
-            margin-bottom: 5px;
         }
 
         .product-detail-price-old {
-            font-size: 18px;
+            font-size: 22px; /* Увеличен размер старой цены */
             color: var(--razer-text-color);
             text-decoration: line-through;
-            margin-bottom: 20px;
         }
 
         .product-detail-btn-group {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 15px; /* Увеличен промежуток между кнопками */
+            margin-bottom: 25px;
             flex-wrap: wrap;
+            width: 100%; /* Занимает всю ширину */
         }
 
         .product-detail-add-to-cart {
-            padding: 12px 25px;
+            padding: 15px 30px; /* Увеличен размер кнопки */
             background-color: var(--razer-green);
             color: var(--header-bg);
             border: none;
-            border-radius: 5px;
-            font-size: 18px;
+            border-radius: 8px; /* Больший радиус */
+            font-size: 20px; /* Увеличен размер текста */
             font-weight: bold;
             cursor: pointer;
-            transition: background-color 0.3s;
-            flex-grow: 1; /* Чтобы кнопка занимала доступное пространство */
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            flex-grow: 1;
             text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(0, 255, 0, 0.4);
         }
 
         .product-detail-add-to-cart:hover {
             background-color: var(--accent-green-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 255, 0, 0.5);
         }
 
         .product-detail-availability {
-            font-size: 14px;
+            font-size: 16px;
             color: var(--text-medium);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
         }
 
         .product-detail-availability::before {
             content: '•';
             color: var(--razer-green);
-            font-size: 20px;
+            font-size: 24px; /* Увеличен размер точки */
             line-height: 1;
         }
 
         .product-detail-add-to-razer {
-            font-size: 14px;
+            font-size: 16px;
             color: var(--razer-green);
             text-decoration: none;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
+            align-self: flex-end; /* Выравнивание по правому краю */
         }
 
         .product-detail-add-to-razer:hover {
@@ -741,61 +761,62 @@
 
         .product-detail-features {
             border-top: 1px solid var(--border-color);
-            padding-top: 20px;
-            margin-top: 20px;
+            padding-top: 25px;
+            margin-top: 25px;
         }
 
         .feature-item {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            font-size: 15px;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 16px;
             color: var(--text-medium);
         }
 
         .feature-item svg {
             color: var(--razer-green);
-            min-width: 20px;
-            min-height: 20px;
+            min-width: 22px; /* Увеличен размер иконок */
+            min-height: 22px;
         }
 
         .contact-button-container {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 40px;
         }
 
         .contact-button {
             background-color: var(--razer-green);
             color: var(--header-bg);
-            padding: 15px 30px;
+            padding: 18px 35px; /* Увеличен размер кнопки */
             border: none;
-            border-radius: 5px;
-            font-size: 18px;
+            border-radius: 8px;
+            font-size: 20px;
             font-weight: bold;
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-            box-shadow: 0 4px 8px rgba(0, 255, 0, 0.3);
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 255, 0, 0.4);
         }
 
         .contact-button:hover {
             background-color: var(--accent-green-hover);
             transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 255, 0, 0.5);
         }
 
-        /* Styles for technical specifications section */
+        /* Styles for technical specifications section (within right column) */
         .technical-specs-section {
             margin-top: 30px;
             border-top: 1px solid var(--border-color);
             padding-top: 20px;
-            overflow: hidden; /* For smooth max-height transition */
-            max-height: 0; /* Initially hidden */
-            opacity: 0; /* Initially transparent */
-            transition: max-height 0.7s ease-out, opacity 0.7s ease-out; /* Animation */
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.7s ease-out, opacity 0.7s ease-out;
         }
 
         .technical-specs-section.open {
-            max-height: 1000px; /* Large enough to accommodate content */
+            max-height: 1000px;
             opacity: 1;
         }
 
@@ -823,7 +844,7 @@
 
         .technical-specs-section li strong {
             color: var(--text-light);
-            min-width: 120px; /* Align content for key-value pairs */
+            min-width: 120px;
         }
 
         /* Styles for the message box within the product detail page */
@@ -841,6 +862,196 @@
         .order-message-box.show {
             display: block;
         }
+
+        /* Purchase form styling - NEW and IMPROVED */
+        .purchase-form-section {
+            margin-top: 40px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 30px;
+            background: #151515; /* Темный фон для формы */
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+        }
+
+        .purchase-form-section h3 {
+            font-size: 24px;
+            color: var(--accent-green);
+            margin-bottom: 25px;
+            text-align: center;
+            text-shadow: 0 0 8px rgba(0, 255, 0, 0.3);
+        }
+
+        .purchase-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Две колонки для полей ввода */
+            gap: 20px; /* Промежуток между полями */
+            margin-bottom: 20px;
+        }
+        .purchase-form .form-group {
+            margin-bottom: 0; /* Убрать маргин, так как есть gap */
+        }
+
+        .purchase-form label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .purchase-form input[type="text"],
+        .purchase-form input[type="email"],
+        .purchase-form input[type="tel"],
+        .purchase-form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--razer-green); /* Зеленая обводка */
+            border-radius: 5px;
+            background-color: #0d0d0d; /* Еще темнее фон поля */
+            color: var(--text-light);
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .purchase-form input[type="text"]:focus,
+        .purchase-form input[type="email"]:focus,
+        .purchase-form input[type="tel"]:focus,
+        .purchase-form textarea:focus {
+            outline: none;
+            border-color: var(--accent-green-hover);
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.6);
+        }
+
+        .purchase-form textarea {
+            grid-column: span 2; /* Текстовое поле на две колонки */
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .submit-order-btn {
+            grid-column: span 2; /* Кнопка на две колонки */
+            padding: 15px 30px;
+            background-color: var(--razer-green);
+            color: var(--header-bg);
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 255, 0, 0.4);
+            text-transform: uppercase;
+            margin: 20px auto 0 auto; /* Центрирование кнопки */
+            display: block;
+            width: fit-content;
+        }
+        .submit-order-btn:hover {
+            background-color: var(--accent-green-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 255, 0, 0.5);
+        }
+
+
+        /* Media queries for responsiveness */
+        @media (max-width: 1200px) {
+            #product-detail-page .page-content-wrapper {
+                flex-direction: column; /* Stack columns on smaller desktops */
+                gap: 30px;
+                max-width: 95%;
+            }
+            .product-detail-specs-column,
+            .product-detail-image-info-column {
+                min-width: unset;
+                width: 100%;
+                padding-right: 0;
+                border-right: none;
+                padding-left: 0;
+            }
+            .product-detail-specs-column {
+                border-bottom: 1px solid var(--border-color); /* Add bottom border for separation */
+                padding-bottom: 20px;
+            }
+            .product-detail-image-info-column {
+                align-items: center; /* Center content in single column */
+                text-align: center;
+            }
+            .product-detail-thumbnails,
+            .product-detail-btn-group {
+                justify-content: center; /* Center items */
+            }
+            .product-detail-specs-button {
+                align-self: center; /* Center button */
+            }
+        }
+
+        @media (max-width: 768px) {
+            #product-detail-page .page-content-wrapper {
+                padding: 15px;
+            }
+            .product-detail-title {
+                font-size: 30px;
+            }
+            .product-detail-price-current {
+                font-size: 36px;
+            }
+            .product-detail-price-old {
+                font-size: 18px;
+            }
+            .product-detail-add-to-cart {
+                font-size: 16px;
+                padding: 12px 20px;
+            }
+            .product-detail-add-to-razer {
+                align-self: center; /* Center on mobile */
+            }
+            .purchase-form {
+                grid-template-columns: 1fr; /* Одна колонка для полей ввода */
+            }
+            .purchase-form textarea {
+                grid-column: span 1;
+            }
+            .submit-order-btn {
+                grid-column: span 1;
+                width: 100%; /* Кнопка на всю ширину */
+            }
+            .product-detail-specs-column li {
+                flex-direction: column;
+                align-items: flex-start;
+                text-align: left;
+            }
+            .product-detail-specs-column li span {
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-detail-title {
+                font-size: 24px;
+            }
+            .product-detail-price-current {
+                font-size: 28px;
+            }
+            .product-detail-price-old {
+                font-size: 16px;
+            }
+            .product-detail-thumbnail {
+                width: 60px;
+                height: 60px;
+            }
+            .feature-item, .product-detail-specs-column li {
+                font-size: 14px;
+            }
+            .feature-item svg {
+                min-width: 18px;
+                min-height: 18px;
+            }
+            .contact-button {
+                padding: 12px 25px;
+                font-size: 16px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -1248,30 +1459,12 @@
         <div class="page-content-wrapper">
             <button class="close-btn-page">&times;</button>
             <div class="product-detail-content">
-                <div class="product-detail-image-section">
-                    <div class="product-detail-thumbnails">
-                        <!-- Миниатюры будут добавлены здесь динамически -->
-                    </div>
-                    <img id="product-detail-main-image" src="" alt="Основное изображение продукта" class="product-detail-main-image">
-                </div>
-                <div class="product-detail-info-section">
-                    <h2 id="product-detail-name" class="product-detail-title"></h2>
-                    <p id="product-detail-article" class="product-detail-article"></p>
-                    <!-- Кнопка для отображения технических характеристик -->
-                    <button id="toggle-specs-btn" class="product-detail-specs-button">Показать технические характеристики</button>
-
-                    <div class="product-detail-prices">
-                        <p id="product-detail-price-current" class="product-detail-price-current"></p>
-                        <p id="product-detail-price-old" class="product-detail-price-old"></p>
-                    </div>
-
-                    <div class="product-detail-btn-group">
-                        <button class="product-detail-add-to-cart">В КОРЗИНУ</button>
-                    </div>
-
-                    <p id="product-detail-availability" class="product-detail-availability">В наличии</p>
-                    <a href="#" class="product-detail-add-to-razer">ДОБАВИТЬ В МОЙ RAZER</a>
-
+                <div class="product-detail-specs-column">
+                    <h3>Характеристики:</h3>
+                    <ul id="product-specs-list">
+                        <!-- Характеристики будут загружены здесь динамически -->
+                    </ul>
+                    <!-- Дополнительная информация, как на скриншоте -->
                     <div class="product-detail-features">
                         <div class="feature-item">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M10 18H7l-3-3"/><path d="M7 18v-3"/><path d="M14 18h6a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2h-3.9L14 18Z"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
@@ -1286,13 +1479,34 @@
                             Официальная гарантия и техподдержка
                         </div>
                     </div>
-
-                    <div class="contact-button-container">
+                     <div class="contact-button-container">
                         <button class="contact-button">Напишите нам, мы в сети</button>
                     </div>
+                </div>
 
-                    <!-- Секция для технических характеристик -->
-                    <div id="technical-specs-content" class="technical-specs-section">
+                <div class="product-detail-image-info-column">
+                    <div class="product-detail-thumbnails">
+                        <!-- Миниатюры будут добавлены здесь динамически -->
+                    </div>
+                    <img id="product-detail-main-image" src="" alt="Основное изображение продукта" class="product-detail-main-image">
+
+                    <h2 id="product-detail-name" class="product-detail-title"></h2>
+                    <p id="product-detail-article" class="product-detail-article"></p>
+                    
+                    <div class="product-detail-prices">
+                        <p id="product-detail-price-current" class="product-detail-price-current"></p>
+                        <p id="product-detail-price-old" class="product-detail-price-old"></p>
+                    </div>
+
+                    <div class="product-detail-btn-group">
+                        <button class="product-detail-add-to-cart">В КОРЗИНУ</button>
+                    </div>
+
+                    <p id="product-detail-availability" class="product-detail-availability">В наличии</p>
+                    <a href="#" class="product-detail-add-to-razer">ДОБАВИТЬ В МОЙ RAZER</a>
+
+                    <!-- Секция для технических характеристик (скрыта по умолчанию, т.к. есть отдельная колонка) -->
+                    <div id="technical-specs-content" class="technical-specs-section" style="display: none;">
                         <h3>Подробные характеристики:</h3>
                         <ul>
                             <li><strong>Тип подключения:</strong> Беспроводной (2.4 ГГц и Bluetooth)</li>
@@ -1450,7 +1664,151 @@
             }
         });
 
-        // Скрипты для полноэкранного слоя детального просмотра и покупки
+        // Object holding technical specifications for each product by its name
+        const productSpecs = {
+            "Игровой ПК Luna Pro": {
+                "Процессор": "Intel Core i9-14900K",
+                "Видеокарта": "NVIDIA GeForce RTX 4090",
+                "Оперативная память": "64GB DDR5 6000MHz",
+                "Накопитель": "2TB NVMe SSD",
+                "Блок питания": "1000W 80+ Gold",
+                "Охлаждение": "Жидкостное AIO 360мм",
+                "Корпус": "NZXT H7 Flow"
+            },
+            "Монитор Luna UltraView 144Hz": {
+                "Размер экрана": "27 дюймов",
+                "Разрешение": "2560x1440 (QHD)",
+                "Частота обновления": "144 Гц",
+                "Время отклика": "1 мс (GtG)",
+                "Тип матрицы": "IPS",
+                "Технологии": "AMD FreeSync Premium, HDR10",
+                "Порты": "2x HDMI 2.0, 1x DisplayPort 1.4"
+            },
+            "Игровая мышь Luna Precision": {
+                "Сенсор": "Оптический, до 20000 DPI",
+                "Кнопки": "11 программируемых",
+                "Подсветка": "Razer Chroma RGB",
+                "Тип подключения": "Проводная / Беспроводная (2.4 ГГц)",
+                "Вес": "85 г",
+                "Аккумулятор": "До 120 часов"
+            },
+            "Механическая Клавиатура Luna Tactile": {
+                "Тип переключателей": "Механические, тактильные (Brown)",
+                "Подсветка": "Настраиваемая RGB",
+                "Форм-фактор": "TKL (Tenkeyless)",
+                "Подключение": "Проводное (USB-C)",
+                "Материал корпуса": "Алюминий",
+                "Особенности": "N-key rollover, anti-ghosting"
+            },
+            "Игровой ноутбук Luna Blaze": {
+                "Процессор": "Intel Core i7-13700H",
+                "Видеокарта": "NVIDIA GeForce RTX 4070 Laptop",
+                "Оперативная память": "32GB DDR5 4800MHz",
+                "Накопитель": "1TB NVMe SSD",
+                "Экран": "16 дюймов, QHD (2560x1600), 240 Гц",
+                "Вес": "2.2 кг"
+            },
+            "Игровые наушники Luna Aura": {
+                "Тип подключения": "Беспроводной (2.4 ГГц) / Проводной (3.5мм)",
+                "Звук": "Виртуальный объемный 7.1",
+                "Микрофон": "Съемный, однонаправленный",
+                "Диаметр динамиков": "50 мм",
+                "Совместимость": "PC, PlayStation, Nintendo Switch, Mobile"
+            },
+            "Игровая Мышь Luna Pro X": {
+                "Сенсор": "Оптический, до 16000 DPI",
+                "Кнопки": "8 программируемых",
+                "Подсветка": "Razer Chroma RGB",
+                "Тип подключения": "Беспроводная (2.4 ГГц и Bluetooth)",
+                "Вес": "74 г",
+                "Аккумулятор": "До 70 часов"
+            },
+            "Механическая Клавиатура Luna RGB": {
+                "Тип переключателей": "Механические, линейные (Red)",
+                "Подсветка": "Полная RGB, настраиваемая",
+                "Форм-фактор": "Полноразмерная",
+                "Подключение": "Проводное (USB)",
+                "Особенности": "Мультимедийные клавиши, металлическая верхняя панель"
+            },
+            "Игровая Гарнитура Luna SoundMaster": {
+                "Тип подключения": "Проводной (USB)",
+                "Звук": "Виртуальный объемный 7.1",
+                "Микрофон": "Выдвижной, шумоподавление",
+                "Диаметр динамиков": "50 мм, неодимовые магниты",
+                "Особенности": "Мягкие амбушюры, прочная конструкция"
+            },
+            "Коврик для Мыши Luna Glide XL": {
+                "Материал": "Тканевый, с микротекстурой",
+                "Размер": "900 x 400 мм (XL)",
+                "Толщина": "4 мм",
+                "Основание": "Противоскользящая резина",
+                "Край": "Прошитые края"
+            },
+            "Веб-камера Luna StreamCam Pro": {
+                "Разрешение видео": "1080p Full HD при 60 FPS",
+                "Поле зрения": "78 градусов",
+                "Автофокус": "Да",
+                "Микрофон": "Встроенный стерео",
+                "Крепление": "Универсальное (монитор/штатив)",
+                "Особенности": "Коррекция освещенности, plug-and-play"
+            },
+            "Микрофон Luna Broadcast": {
+                "Тип": "Конденсаторный USB",
+                "Направленность": "Кардиоидная",
+                "Частотный диапазон": "20 Гц - 20 кГц",
+                "Частота дискретизации": "48 кГц / 16 бит",
+                "Особенности": "Встроенная поп-защита, выход на наушники"
+            },
+            "Монитор Luna 24 дюйма 144Hz": {
+                "Размер экрана": "24 дюйма",
+                "Разрешение": "1920x1080 (Full HD)",
+                "Частота обновления": "144 Гц",
+                "Время отклика": "1 мс (MPRT)",
+                "Тип матрицы": "TN",
+                "Технологии": "AMD FreeSync",
+                "Порты": "1x HDMI 1.4, 1x DisplayPort 1.2"
+            },
+            "Монитор Luna 27 дюйма QHD 165Hz": {
+                "Размер экрана": "27 дюймов",
+                "Разрешение": "2560x1440 (QHD)",
+                "Частота обновления": "165 Гц",
+                "Время отклика": "1 мс (GtG)",
+                "Тип матрицы": "IPS",
+                "Технологии": "NVIDIA G-Sync Compatible, HDR400",
+                "Порты": "2x HDMI 2.0, 1x DisplayPort 1.4, USB Hub"
+            },
+            "Изогнутый Монитор Luna UltraWide": {
+                "Размер экрана": "34 дюйма",
+                "Разрешение": "3440x1440 (UWQHD)",
+                "Частота обновления": "100 Гц",
+                "Время отклика": "4 мс (GtG)",
+                "Тип матрицы": "VA, изогнутая (1500R)",
+                "Технологии": "AMD FreeSync, Picture-by-Picture",
+                "Порты": "2x HDMI 2.0, 2x DisplayPort 1.4"
+            },
+            "Мембранная Клавиатура Luna Silent": {
+                "Тип переключателей": "Мембранные, бесшумные",
+                "Подсветка": "Одноцветная (зеленая) или без подсветки",
+                "Форм-фактор": "Полноразмерная",
+                "Подключение": "Проводное (USB)",
+                "Особенности": "Защита от проливания, мягкий ход клавиш"
+            },
+            "Механическая Клавиатура Luna RGB Pro": {
+                "Тип переключателей": "Механические, Clicky (Blue)",
+                "Подсветка": "Полная RGB, индивидуальная подсветка клавиш",
+                "Форм-фактор": "Полноразмерная",
+                "Подключение": "Проводное (USB) / Беспроводное (Bluetooth)",
+                "Особенности": "Программируемые макросы, металлическая пластина"
+            },
+            "Беспроводная Клавиатура Luna Compact": {
+                "Тип переключателей": "Ножничные",
+                "Подсветка": "Белая, регулируемая",
+                "Форм-фактор": "Компактная (75%)",
+                "Подключение": "Беспроводное (Bluetooth 5.0) / USB-C",
+                "Особенности": "Мульти-устройство, долгое время работы от батареи"
+            }
+        };
+
         const productDetailPage = document.getElementById('product-detail-page');
         const productDetailMainImage = document.getElementById('product-detail-main-image');
         const productDetailName = document.getElementById('product-detail-name');
@@ -1460,8 +1818,7 @@
         const productDetailAvailability = document.getElementById('product-detail-availability');
         const productDetailThumbnailsContainer = productDetailPage.querySelector('.product-detail-thumbnails');
         const productDetailCloseBtn = productDetailPage.querySelector('.close-btn-page');
-        const toggleSpecsBtn = document.getElementById('toggle-specs-btn'); // Кнопка для отображения/скрытия характеристик
-        const technicalSpecsContent = document.getElementById('technical-specs-content'); // Секция технических характеристик
+        const productSpecsList = document.getElementById('product-specs-list'); // Место для характеристик в левой колонке
 
         // Элементы формы заказа
         const purchaseForm = document.getElementById('purchase-form');
@@ -1531,6 +1888,27 @@
 
                 productDetailAvailability.textContent = productAvailability;
 
+                // Заполнение характеристик
+                productSpecsList.innerHTML = ''; // Очищаем старые характеристики
+                const specs = productSpecs[productName];
+                if (specs) {
+                    for (const key in specs) {
+                        const li = document.createElement('li');
+                        const strong = document.createElement('strong');
+                        strong.textContent = `${key}:`;
+                        const span = document.createElement('span');
+                        span.textContent = specs[key];
+                        li.appendChild(strong);
+                        li.appendChild(span);
+                        productSpecsList.appendChild(li);
+                    }
+                } else {
+                    const li = document.createElement('li');
+                    li.textContent = "Характеристики не найдены для этого продукта.";
+                    productSpecsList.appendChild(li);
+                }
+
+
                 // Очищаем и заполняем миниатюры
                 productDetailThumbnailsContainer.innerHTML = '';
                 // Добавляем основное изображение как первую миниатюру, если она не уже в списке
@@ -1565,8 +1943,9 @@
                 document.body.classList.add('no-scroll');
 
                 // Reset technical specs section state when opening a new product
-                technicalSpecsContent.classList.remove('open');
-                toggleSpecsBtn.textContent = 'Показать технические характеристики'; // Сброс текста кнопки
+                // This section is now static content on the left, so no toggle needed inside info section.
+                // technicalSpecsContent.classList.remove('open');
+                // toggleSpecsBtn.textContent = 'Показать технические характеристики'; // Сброс текста кнопки
                 orderMessageBox.classList.remove('show'); // Скрываем сообщение о заказе
                 purchaseForm.reset(); // Очищаем форму заказа
             });
@@ -1585,15 +1964,16 @@
             }
         });
 
-        // Event listener for the "Показать технические характеристики" button
-        toggleSpecsBtn.addEventListener('click', () => {
-            technicalSpecsContent.classList.toggle('open');
-            if (technicalSpecsContent.classList.contains('open')) {
-                toggleSpecsBtn.textContent = 'Скрыть технические характеристики';
-            } else {
-                toggleSpecsBtn.textContent = 'Показать технические характеристики';
-            }
-        });
+        // Event listener for the "Показать технические характеристики" button (if it were still visible)
+        // Removed as per new layout where specs are always visible on left.
+        // toggleSpecsBtn.addEventListener('click', () => {
+        //     technicalSpecsContent.classList.toggle('open');
+        //     if (technicalSpecsContent.classList.contains('open')) {
+        //         toggleSpecsBtn.textContent = 'Скрыть технические характеристики';
+        //     } else {
+        //         toggleSpecsBtn.textContent = 'Показать технические характеристики';
+        //     }
+        // });
 
 
         const heroSlides = document.querySelectorAll('.hero-slide');
