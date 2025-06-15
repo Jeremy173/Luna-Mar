@@ -1185,16 +1185,7 @@
                     <a href="#" class="product-detail-add-to-razer">ДОБАВИТЬ В МОЙ RAZER</a>
 
                     <div class="product-detail-payment-options">
-                        <div class="payment-option-block">
-                            <h4>Без переплат на 2 месяца</h4>
-                            <div class="payment-option-grid">
-                                <div class="payment-date-item highlight">Сегодня<br>4500 KZT</div>
-                                <div class="payment-date-item">29 Июн<br>4500 KZT</div>
-                                <div class="payment-date-item">13 Июл<br>4500 KZT</div>
-                                <div class="payment-date-item">27 Июл<br>4499 KZT</div>
-                            </div>
-                            <p class="payment-loan-terms">Либо на подольше с небольшой переплатой</p>
-                        </div>
+                        <!-- Секция "Без переплат на 2 месяца" удалена -->
                         <div class="payment-option-block">
                             <h4>Без первого платежа на 12-24 месяца</h4>
                             <p class="payment-loan-terms">Условия уточняйте у менеджера</p>
@@ -1204,7 +1195,7 @@
                     <div class="product-detail-features">
                         <div class="feature-item">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M10 18H7l-3-3"/><path d="M7 18v-3"/><path d="M14 18h6a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2h-3.9L14 18Z"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
-                            Доставка 17.06.2025 <span style="color: var(--razer-green);">бесплатно</span> в Москва
+                            Доставка 17.06.2025 <span style="color: var(--razer-green);">бесплатно</span> в Астана
                         </div>
                         <div class="feature-item">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
@@ -1362,7 +1353,7 @@
                 // Получаем данные из data-атрибутов
                 const productOldPrice = button.dataset.productOldPrice || '';
                 const productArticle = button.dataset.productArticle || 'Не указан';
-                const productAvailability = button.dataset.productAvailability || 'Уточняйте';
+                const productAvailability = button.dataset.productAvailability || 'В наличии'; // По умолчанию "В наличии"
                 const productThumbnails = button.dataset.productThumbnails ? button.dataset.productThumbnails.split(',') : [productImageSrc]; // Если нет миниатюр, используем основное изображение
 
                 // Заполняем модальное окно данными
