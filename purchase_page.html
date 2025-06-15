@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Оформление покупки - Luna</title>
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/razer-blackwidow" rel="stylesheet">
     <style>
         :root {
             --bg-dark: #0f0f0f;
@@ -56,6 +57,7 @@
         }
 
         h1 {
+            font-family: 'Razer Blackwidow', sans-serif;
             color: var(--razer-green);
             text-align: center;
             font-size: 2.5em;
@@ -304,6 +306,91 @@
         .message-box.show {
             display: block;
         }
+
+        /* Styles from the provided screenshot image for product details */
+        .product-features-section {
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+
+        .product-features-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .product-features-section li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+            color: var(--text-medium);
+        }
+
+        .product-features-section li svg {
+            color: var(--razer-green);
+            min-width: 20px;
+            min-height: 20px;
+        }
+
+        .contact-us-button {
+            background-color: var(--razer-green);
+            color: var(--header-bg);
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 10px rgba(0, 255, 0, 0.4);
+            text-transform: uppercase;
+            width: fit-content;
+            margin-top: 20px;
+            display: block; /* Make it a block element to center with margin auto */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-us-button:hover {
+            background-color: var(--accent-green-hover);
+            transform: translateY(-2px);
+        }
+
+        .add-to-my-razer {
+            font-size: 0.9em;
+            color: var(--razer-green);
+            text-decoration: none;
+            display: block;
+            text-align: right;
+            margin-top: 10px;
+            transition: text-decoration 0.3s;
+        }
+
+        .add-to-my-razer:hover {
+            text-decoration: underline;
+        }
+
+        /* Styles for price display */
+        .product-prices {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .product-price-current {
+            font-size: 2.5em;
+            color: var(--razer-green);
+            font-weight: bold;
+        }
+
+        .product-price-old {
+            font-size: 1.2em;
+            color: var(--razer-text-color);
+            text-decoration: line-through;
+        }
     </style>
 </head>
 <body>
@@ -323,10 +410,15 @@
                 <h2 id="product-name" class="product-title"></h2>
                 <p id="product-article" class="product-article"></p>
                 
-                <p class="product-price-current" id="product-price-current"></p>
-                <p class="product-price-old" id="product-price-old" style="display: none;"></p>
+                <div class="product-prices">
+                    <p class="product-price-current" id="product-price-current"></p>
+                    <p class="product-price-old" id="product-price-old" style="display: none;"></p>
+                </div>
                 
                 <p class="product-availability" id="product-availability"></p>
+
+                <button class="submit-btn">В КОРЗИНУ</button>
+                <a href="#" class="add-to-my-razer">ДОБАВИТЬ В МОЙ RAZER</a>
 
                 <button id="specs-toggle-btn" class="specs-toggle-btn">Показать технические характеристики</button>
 
@@ -345,6 +437,25 @@
                         <li><strong>Совместимость:</strong> PC, Mac</li>
                     </ul>
                 </div>
+
+                <!-- Product Features Section (like on screenshot) -->
+                <div class="product-features-section">
+                    <ul>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M10 18H7l-3-3"/><path d="M7 18v-3"/><path d="M14 18h6a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2h-3.9L14 18Z"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
+                            Доставка 17.06.2025 <span style="color: var(--razer-green);">бесплатно</span> в Астана
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+                            100% оригинальные устройства Luna
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-award"><circle cx="12" cy="8" r="7"/><path d="M8.21 13.89 7 22l5-3 5 3-1.21-8.11"/></svg>
+                            Официальная гарантия и техподдержка
+                        </li>
+                    </ul>
+                </div>
+                <button class="contact-us-button">Напишите нам, мы в сети</button>
 
                 <form class="purchase-form" id="purchaseForm">
                     <h2>Информация для заказа</h2>
@@ -422,10 +533,10 @@
             productThumbnailsContainer.innerHTML = ''; // Clear existing
             thumbnails.forEach((src, index) => {
                 const img = document.createElement('img');
-                img.src = src;
+                img.src = src.trim();
                 img.alt = `Thumbnail ${index + 1}`;
                 img.classList.add('thumbnail');
-                if (mainImage.src === src) { // Set active class if it's the current main image
+                if (mainImage.src.includes(src.trim())) { // Set active class if it's the current main image
                     img.classList.add('active');
                 }
                 img.addEventListener('click', () => {
