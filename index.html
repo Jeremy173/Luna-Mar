@@ -639,12 +639,21 @@
             margin-bottom: 5px;
         }
 
-        .product-detail-specs-link {
+        .product-detail-specs-button { /* New class for the button */
             font-size: 14px;
             color: var(--razer-text-color);
             text-decoration: underline;
             margin-bottom: 20px;
             cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            text-align: left;
+            transition: color 0.3s;
+        }
+
+        .product-detail-specs-button:hover {
+            color: var(--accent-green);
         }
 
         .product-detail-price-current {
@@ -758,6 +767,49 @@
         .contact-button:hover {
             background-color: var(--accent-green-hover);
             transform: translateY(-2px);
+        }
+
+        /* Styles for technical specifications section */
+        .technical-specs-section {
+            margin-top: 30px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+            overflow: hidden; /* For smooth max-height transition */
+            max-height: 0; /* Initially hidden */
+            opacity: 0; /* Initially transparent */
+            transition: max-height 0.7s ease-out, opacity 0.7s ease-out; /* Animation */
+        }
+
+        .technical-specs-section.open {
+            max-height: 1000px; /* Large enough to accommodate content */
+            opacity: 1;
+        }
+
+        .technical-specs-section h3 {
+            font-size: 20px;
+            color: var(--accent-green);
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .technical-specs-section ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+        }
+
+        .technical-specs-section li {
+            font-size: 15px;
+            color: var(--text-medium);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .technical-specs-section li strong {
+            color: var(--text-light);
+            min-width: 120px; /* Align content for key-value pairs */
         }
     </style>
 </head>
@@ -1174,7 +1226,8 @@
                 <div class="product-detail-info-section">
                     <h2 id="product-detail-name" class="product-detail-title"></h2>
                     <p id="product-detail-article" class="product-detail-article">Артикул: RZ01-05120400-R3M1</p>
-                    <a href="#" class="product-detail-specs-link">Технические характеристики</a>
+                    <!-- Кнопка для отображения технических характеристик -->
+                    <button id="toggle-specs-btn" class="product-detail-specs-button">Показать технические характеристики</button>
 
                     <div class="product-detail-prices">
                         <p id="product-detail-price-current" class="product-detail-price-current"></p>
@@ -1205,6 +1258,21 @@
 
                     <div class="contact-button-container">
                         <button class="contact-button">Напишите нам, мы в сети</button>
+                    </div>
+
+                    <!-- Секция для технических характеристик -->
+                    <div id="technical-specs-content" class="technical-specs-section">
+                        <h3>Подробные характеристики:</h3>
+                        <ul>
+                            <li><strong>Тип подключения:</strong> Беспроводной (2.4 ГГц и Bluetooth)</li>
+                            <li><strong>Сенсор:</strong> Оптический, до 16000 DPI</li>
+                            <li><strong>Кнопки:</strong> 8 программируемых кнопок</li>
+                            <li><strong>Подсветка:</strong> Razer Chroma RGB</li>
+                            <li><strong>Аккумулятор:</strong> До 70 часов автономной работы</li>
+                            <li><strong>Вес:</strong> 74 грамма</li>
+                            <li><strong>Материал:</strong> Высокопрочный пластик</li>
+                            <li><strong>Совместимость:</strong> PC, Mac</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -1337,6 +1405,8 @@
         const productDetailThumbnailsContainer = productDetailPage.querySelector('.product-detail-thumbnails');
         const productDetailCloseBtn = productDetailPage.querySelector('.close-btn-page');
         const productDetailAddToCartBtn = productDetailPage.querySelector('.product-detail-add-to-cart'); // Get the "В КОРЗИНУ" button
+        const toggleSpecsBtn = document.getElementById('toggle-specs-btn'); // New: Get the "Показать технические характеристики" button
+        const technicalSpecsContent = document.getElementById('technical-specs-content'); // New: Get the technical specs section
 
         // Function to handle "Оформить заказ" click
         productDetailAddToCartBtn.addEventListener('click', () => {
@@ -1410,6 +1480,9 @@
 
                 productDetailPage.classList.add('open');
                 document.body.classList.add('no-scroll');
+
+                // Reset technical specs section state when opening a new product
+                technicalSpecsContent.classList.remove('open');
             });
         });
 
@@ -1423,6 +1496,16 @@
             if (event.target === productDetailPage) {
                 productDetailPage.classList.remove('open');
                 document.body.classList.remove('no-scroll');
+            }
+        });
+
+        // New: Event listener for the "Показать технические характеристики" button
+        toggleSpecsBtn.addEventListener('click', () => {
+            technicalSpecsContent.classList.toggle('open');
+            if (technicalSpecsContent.classList.contains('open')) {
+                toggleSpecsBtn.textContent = 'Скрыть технические характеристики';
+            } else {
+                toggleSpecsBtn.textContent = 'Показать технические характеристики';
             }
         });
 
