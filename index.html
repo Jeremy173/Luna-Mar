@@ -416,6 +416,7 @@
             }
         }
 
+        /* Styles for the Description Modal (small overlay) */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -437,19 +438,18 @@
             opacity: 1;
         }
 
-        /* Общие стили для контента модального окна */
         .modal-content {
             background: var(--product-card-bg);
             padding: 30px;
             border-radius: 10px;
-            max-width: 900px; /* Увеличил максимальную ширину для нового модала */
+            max-width: 600px; /* Max width for description modal */
             width: 90%;
             box-shadow: 0 5px 15px rgba(0, 255, 0, 0.3);
             position: relative;
-            max-height: 90vh; /* Увеличил высоту */
+            max-height: 80vh;
             overflow-y: auto;
-            display: flex; /* Используем flexbox для внутреннего содержимого */
-            flex-direction: column; /* По умолчанию колонкой */
+            display: flex;
+            flex-direction: column;
         }
 
         .modal-close-btn {
@@ -501,16 +501,59 @@
             display: block;
         }
 
-        /* Styles for Product Detail Modal (New Purchase Modal) */
+        /* Styles for Product Detail Page (New Full-screen Page) */
+        #product-detail-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark); /* Match main page background */
+            z-index: 2000; /* Ensure it's above everything else */
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.4s, opacity 0.4s; /* Smooth transition for page effect */
+            overflow-y: auto; /* Allow scrolling within this "page" */
+        }
+
+        #product-detail-page.open {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        #product-detail-page .modal-content {
+            background: var(--bg-dark); /* The inner content wrapper, blend with page bg */
+            padding: 40px 32px; /* Consistent padding with main site content */
+            max-width: 1200px; /* Limit content width */
+            width: 100%;
+            height: auto; /* Content height defined by its children */
+            margin: 0 auto; /* Center the content horizontally */
+            border-radius: 0; /* No rounded corners for a page feel */
+            box-shadow: none; /* No shadow for the page wrapper */
+            display: block; /* Override flex, as it's not a modal-like structure anymore */
+        }
+
+        #product-detail-page .modal-close-btn {
+            position: absolute;
+            top: 20px; /* Adjust position for full-page */
+            right: 32px; /* Match header padding */
+            z-index: 2001; /* Above page content */
+        }
+
         .product-detail-content {
+            background: var(--product-card-bg); /* Inner content block with distinct background */
+            padding: 30px;
+            border-radius: 10px; /* Rounded corners for the inner content block */
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.3); /* Shadow for inner content block */
             display: flex;
             gap: 30px;
-            flex-wrap: wrap; /* Позволяет элементам переноситься на новую строку на маленьких экранах */
+            flex-wrap: wrap; /* Allows elements to wrap on smaller screens */
+            align-items: flex-start; /* Align items to the top */
         }
 
         .product-detail-image-section {
             flex: 1;
-            min-width: 300px; /* Минимальная ширина для секции изображений */
+            min-width: 300px; /* Minimum width for image section */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -547,23 +590,21 @@
 
         .product-detail-info-section {
             flex: 1;
-            min-width: 350px; /* Минимальная ширина для секции информации */
+            min-width: 350px; /* Minimum width for info section */
             display: flex;
             flex-direction: column;
             padding-left: 20px;
-            border-left: 1px solid var(--border-color); /* Разделитель */
+            border-left: 1px solid var(--border-color); /* Separator */
         }
 
         @media (max-width: 768px) {
-            .modal-content {
-                flex-direction: column; /* На маленьких экранах элементы располагаются в колонку */
-                max-width: 95%; /* Увеличиваем ширину модала на мобильных */
-                padding: 20px;
+            #product-detail-page .modal-content {
+                padding: 20px 15px; /* Adjust padding for mobile */
             }
-
             .product-detail-content {
-                flex-direction: column;
+                flex-direction: column; /* Stack vertically on small screens */
                 gap: 20px;
+                padding: 20px; /* Adjust padding for inner content block on mobile */
             }
 
             .product-detail-image-section,
@@ -571,7 +612,7 @@
                 min-width: unset;
                 width: 100%;
                 padding-left: 0;
-                border-left: none;
+                border-left: none; /* Remove separator on mobile */
             }
         }
 
@@ -665,53 +706,6 @@
             text-decoration: underline;
         }
 
-        .product-detail-payment-options {
-            border-top: 1px solid var(--border-color);
-            padding-top: 20px;
-            margin-top: 20px;
-        }
-
-        .payment-option-block {
-            background-color: #2a2a2a;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .payment-option-block h4 {
-            font-size: 16px;
-            color: var(--accent-green);
-            margin-bottom: 10px;
-        }
-
-        .payment-option-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            gap: 10px;
-            text-align: center;
-        }
-
-        .payment-date-item {
-            font-size: 14px;
-            color: var(--text-light);
-            background-color: #3a3a3a;
-            border-radius: 5px;
-            padding: 8px 5px;
-        }
-
-        .payment-date-item.highlight {
-            background-color: var(--accent-green);
-            color: var(--header-bg);
-            font-weight: bold;
-        }
-
-        .payment-loan-terms {
-            font-size: 14px;
-            color: var(--text-medium);
-            margin-top: 10px;
-        }
-
         .product-detail-features {
             border-top: 1px solid var(--border-color);
             padding-top: 20px;
@@ -759,7 +753,7 @@
 </head>
 <body>
     <header class="header">
-        <a href="index.html" class="logo">Luna">Luna</a>
+        <a href="index.html" class="logo">Luna</a>
         <nav class="nav">
             <ul class="menu">
                 <li class="menu-item">
@@ -1156,8 +1150,8 @@
         </div>
     </div>
 
-    <!-- Новый модальный слой для детального просмотра и покупки -->
-    <div id="product-detail-modal" class="modal-overlay">
+    <!-- Новый полноэкранный слой для детального просмотра и покупки -->
+    <div id="product-detail-page">
         <div class="modal-content">
             <button class="modal-close-btn">&times;</button>
             <div class="product-detail-content">
@@ -1184,7 +1178,7 @@
                     <p id="product-detail-availability" class="product-detail-availability">В наличии</p>
                     <a href="#" class="product-detail-add-to-razer">ДОБАВИТЬ В МОЙ RAZER</a>
 
-                    <!-- Секция "Без переплат на 2 месяца" и "Без первого платежа на 12-24 месяца" удалены -->
+                    <!-- Секция "Без первого платежа на 12-24 месяца" удалена -->
                     <div class="product-detail-features">
                         <div class="feature-item">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M10 18H7l-3-3"/><path d="M7 18v-3"/><path d="M14 18h6a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2h-3.9L14 18Z"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
@@ -1323,16 +1317,16 @@
             }
         });
 
-        // Скрипты для нового модального слоя детального просмотра/покупки
-        const productDetailModal = document.getElementById('product-detail-modal');
+        // Скрипты для нового полноэкранного слоя детального просмотра/покупки
+        const productDetailPage = document.getElementById('product-detail-page');
         const productDetailMainImage = document.getElementById('product-detail-main-image');
         const productDetailName = document.getElementById('product-detail-name');
         const productDetailArticle = document.getElementById('product-detail-article');
         const productDetailPriceCurrent = document.getElementById('product-detail-price-current');
         const productDetailPriceOld = document.getElementById('product-detail-price-old');
         const productDetailAvailability = document.getElementById('product-detail-availability');
-        const productDetailThumbnailsContainer = productDetailModal.querySelector('.product-detail-thumbnails');
-        const productDetailCloseBtn = productDetailModal.querySelector('.modal-close-btn');
+        const productDetailThumbnailsContainer = productDetailPage.querySelector('.product-detail-thumbnails');
+        const productDetailCloseBtn = productDetailPage.querySelector('.modal-close-btn');
 
         const buyButtons = document.querySelectorAll('.product-card .btn:first-of-type');
 
@@ -1349,7 +1343,7 @@
                 const productAvailability = button.dataset.productAvailability || 'В наличии'; // По умолчанию "В наличии"
                 const productThumbnails = button.dataset.productThumbnails ? button.dataset.productThumbnails.split(',') : [productImageSrc]; // Если нет миниатюр, используем основное изображение
 
-                // Заполняем модальное окно данными
+                // Заполняем "страницу" продукта данными
                 productDetailName.textContent = productName;
                 productDetailArticle.textContent = `Артикул: ${productArticle}`;
                 productDetailPriceCurrent.textContent = productPrice;
@@ -1390,19 +1384,20 @@
                 }
 
 
-                productDetailModal.classList.add('open');
+                productDetailPage.classList.add('open');
                 document.body.classList.add('no-scroll');
             });
         });
 
         productDetailCloseBtn.addEventListener('click', () => {
-            productDetailModal.classList.remove('open');
+            productDetailPage.classList.remove('open');
             document.body.classList.remove('no-scroll');
         });
 
-        productDetailModal.addEventListener('click', (event) => {
-            if (event.target === productDetailModal) {
-                productDetailModal.classList.remove('open');
+        productDetailPage.addEventListener('click', (event) => {
+            // Закрытие "страницы" при клике вне содержимого
+            if (event.target === productDetailPage) {
+                productDetailPage.classList.remove('open');
                 document.body.classList.remove('no-scroll');
             }
         });
