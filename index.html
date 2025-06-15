@@ -500,265 +500,6 @@
         .loading-indicator.active {
             display: block;
         }
-
-        /* Styles for Product Detail Page (Full-screen Overlay) */
-        #product-detail-page {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg-dark); /* Match main page background */
-            z-index: 2000; /* Ensure it's above everything else */
-            visibility: hidden;
-            opacity: 0;
-            transition: visibility 0.4s, opacity 0.4s; /* Smooth transition for page effect */
-            overflow-y: auto; /* Allow scrolling within this "page" */
-        }
-
-        #product-detail-page.open {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        #product-detail-page .page-content-wrapper { /* Renamed from .modal-content for clarity */
-            background: var(--bg-dark); /* The inner content wrapper, blend with page bg */
-            padding: 40px 32px; /* Consistent padding with main site content */
-            max-width: 1200px; /* Limit content width */
-            width: 100%;
-            height: auto; /* Content height defined by its children */
-            margin: 0 auto; /* Center the content horizontally */
-            border-radius: 0; /* No rounded corners for a page feel */
-            box-shadow: none; /* No shadow for the page wrapper */
-            display: block; /* Override flex, as it's not a modal-like structure anymore */
-        }
-
-        #product-detail-page .close-btn-page { /* Specific close button for the page */
-            position: absolute;
-            top: 20px; /* Adjust position for full-page */
-            right: 32px; /* Match header padding */
-            z-index: 2001; /* Above page content */
-            background: none;
-            border: none;
-            color: var(--text-light);
-            font-size: 24px;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-
-        #product-detail-page .close-btn-page:hover {
-            color: var(--accent-green);
-        }
-
-        .product-detail-content {
-            background: var(--product-card-bg); /* Inner content block with distinct background */
-            padding: 30px;
-            border-radius: 10px; /* Rounded corners for the inner content block */
-            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.3); /* Shadow for inner content block */
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap; /* Allows elements to wrap on smaller screens */
-            align-items: flex-start; /* Align items to the top */
-        }
-
-        .product-detail-image-section {
-            flex: 1;
-            min-width: 300px; /* Minimum width for image section */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .product-detail-main-image {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.2);
-        }
-
-        .product-detail-thumbnails {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .product-detail-thumbnail {
-            width: 70px;
-            height: 70px;
-            object-fit: contain;
-            border-radius: 4px;
-            border: 2px solid transparent;
-            cursor: pointer;
-            transition: border-color 0.3s;
-        }
-
-        .product-detail-thumbnail.active,
-        .product-detail-thumbnail:hover {
-            border-color: var(--accent-green);
-        }
-
-        .product-detail-info-section {
-            flex: 1;
-            min-width: 350px; /* Minimum width for info section */
-            display: flex;
-            flex-direction: column;
-            padding-left: 20px;
-            border-left: 1px solid var(--border-color); /* Separator */
-        }
-
-        @media (max-width: 768px) {
-            #product-detail-page .page-content-wrapper {
-                padding: 20px 15px; /* Adjust padding for mobile */
-            }
-            .product-detail-content {
-                flex-direction: column; /* Stack vertically on small screens */
-                gap: 20px;
-                padding: 20px; /* Adjust padding for inner content block on mobile */
-            }
-
-            .product-detail-image-section,
-            .product-detail-info-section {
-                min-width: unset;
-                width: 100%;
-                padding-left: 0;
-                border-left: none; /* Remove separator on mobile */
-            }
-        }
-
-        .product-detail-title {
-            font-family: 'Razer Blackwidow', sans-serif;
-            font-size: 32px;
-            color: var(--razer-green);
-            margin-bottom: 10px;
-        }
-
-        .product-detail-article {
-            font-size: 14px;
-            color: var(--razer-text-color);
-            margin-bottom: 5px;
-        }
-
-        .product-detail-specs-link {
-            font-size: 14px;
-            color: var(--razer-text-color);
-            text-decoration: underline;
-            margin-bottom: 20px;
-            cursor: pointer;
-        }
-
-        .product-detail-price-current {
-            font-size: 36px;
-            color: var(--text-light);
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .product-detail-price-old {
-            font-size: 18px;
-            color: var(--razer-text-color);
-            text-decoration: line-through;
-            margin-bottom: 20px;
-        }
-
-        .product-detail-btn-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .product-detail-add-to-cart {
-            padding: 12px 25px;
-            background-color: var(--razer-green);
-            color: var(--header-bg);
-            border: none;
-            border-radius: 5px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            flex-grow: 1; /* Чтобы кнопка занимала доступное пространство */
-            text-transform: uppercase;
-        }
-
-        .product-detail-add-to-cart:hover {
-            background-color: var(--accent-green-hover);
-        }
-
-        .product-detail-availability {
-            font-size: 14px;
-            color: var(--text-medium);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .product-detail-availability::before {
-            content: '•';
-            color: var(--razer-green);
-            font-size: 20px;
-            line-height: 1;
-        }
-
-        .product-detail-add-to-razer {
-            font-size: 14px;
-            color: var(--razer-green);
-            text-decoration: none;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .product-detail-add-to-razer:hover {
-            text-decoration: underline;
-        }
-
-        .product-detail-features {
-            border-top: 1px solid var(--border-color);
-            padding-top: 20px;
-            margin-top: 20px;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            font-size: 15px;
-            color: var(--text-medium);
-        }
-
-        .feature-item svg {
-            color: var(--razer-green);
-            min-width: 20px;
-            min-height: 20px;
-        }
-
-        .contact-button-container {
-            text-align: center;
-            margin-top: 30px;
-        }
-
-        .contact-button {
-            background-color: var(--razer-green);
-            color: var(--header-bg);
-            padding: 15px 30px;
-            border: none;
-            border-radius: 5px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-            box-shadow: 0 4px 8px rgba(0, 255, 0, 0.3);
-        }
-
-        .contact-button:hover {
-            background-color: var(--accent-green-hover);
-            transform: translateY(-2px);
-        }
     </style>
 </head>
 <body>
@@ -1161,56 +902,8 @@
         </div>
     </div>
 
-    <!-- Полноэкранный слой для детального просмотра и покупки -->
-    <div id="product-detail-page">
-        <div class="page-content-wrapper">
-            <button class="close-btn-page">&times;</button>
-            <div class="product-detail-content">
-                <div class="product-detail-image-section">
-                    <div class="product-detail-thumbnails">
-                        <!-- Миниатюры будут добавлены здесь динамически -->
-                    </div>
-                    <img id="product-detail-main-image" src="" alt="Основное изображение продукта" class="product-detail-main-image">
-                </div>
-                <div class="product-detail-info-section">
-                    <h2 id="product-detail-name" class="product-detail-title"></h2>
-                    <p id="product-detail-article" class="product-detail-article">Артикул: RZ01-05120400-R3M1</p>
-                    <a href="#" class="product-detail-specs-link">Технические характеристики</a>
-
-                    <div class="product-detail-prices">
-                        <p id="product-detail-price-current" class="product-detail-price-current"></p>
-                        <p id="product-detail-price-old" class="product-detail-price-old"></p>
-                    </div>
-
-                    <div class="product-detail-btn-group">
-                        <button class="product-detail-add-to-cart">В КОРЗИНУ</button>
-                    </div>
-
-                    <p id="product-detail-availability" class="product-detail-availability">В наличии</p>
-                    <a href="#" class="product-detail-add-to-razer">ДОБАВИТЬ В МОЙ RAZER</a>
-
-                    <div class="product-detail-features">
-                        <div class="feature-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M10 18H7l-3-3"/><path d="M7 18v-3"/><path d="M14 18h6a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2h-3.9L14 18Z"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
-                            Доставка 17.06.2025 <span style="color: var(--razer-green);">бесплатно</span> в Астана
-                        </div>
-                        <div class="feature-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
-                            100% оригинальные устройства Luna
-                        </div>
-                        <div class="feature-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-award"><circle cx="12" cy="8" r="7"/><path d="M8.21 13.89 7 22l5-3 5 3-1.21-8.11"/></svg>
-                            Официальная гарантия и техподдержка
-                        </div>
-                    </div>
-
-                    <div class="contact-button-container">
-                        <button class="contact-button">Напишите нам, мы в сети</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Полноэкранный слой для детального просмотра и покупки - УДАЛЕН -->
+    <!-- <div id="product-detail-page"> ... </div> -->
 
     <script>
         const burger = document.getElementById('burger');
@@ -1327,29 +1020,7 @@
             }
         });
 
-        // Скрипты для полноэкранного слоя детального просмотра и покупки
-        const productDetailPage = document.getElementById('product-detail-page');
-        const productDetailMainImage = document.getElementById('product-detail-main-image');
-        const productDetailName = document.getElementById('product-detail-name');
-        const productDetailArticle = document.getElementById('product-detail-article');
-        const productDetailPriceCurrent = document.getElementById('product-detail-price-current');
-        const productDetailPriceOld = document.getElementById('product-detail-price-old');
-        const productDetailAvailability = document.getElementById('product-detail-availability');
-        const productDetailThumbnailsContainer = productDetailPage.querySelector('.product-detail-thumbnails');
-        const productDetailCloseBtn = productDetailPage.querySelector('.close-btn-page');
-        const productDetailAddToCartBtn = productDetailPage.querySelector('.product-detail-add-to-cart'); // Get the "В КОРЗИНУ" button
-
-        // Function to handle "Оформить заказ" click
-        productDetailAddToCartBtn.addEventListener('click', () => {
-            // In this "old way" version, we simulate the "order form" directly
-            // or perform a simple action. Since a full form page was removed,
-            // we can display a simple confirmation.
-            alert('Ваш заказ оформлен!'); // Using alert for simplicity, but in a real app, you'd show a custom modal or form.
-            productDetailPage.classList.remove('open'); // Close the product detail page after "ordering"
-            document.body.classList.remove('no-scroll');
-        });
-
-
+        // Обработчики для кнопок "Купить", открывающих новое окно
         const buyButtons = document.querySelectorAll('.product-card .btn:first-of-type');
 
         buyButtons.forEach(button => {
@@ -1358,75 +1029,20 @@
                 const productImageSrc = productCard.querySelector('img').src;
                 const productName = productCard.querySelector('.product-name').textContent;
                 const productPrice = productCard.querySelector('.price').textContent;
+                const productArticle = button.dataset.productArticle || 'Не указан'; // Получаем артикул
 
-                // Получаем данные из data-атрибутов
-                const productOldPrice = button.dataset.productOldPrice || '';
-                const productArticle = button.dataset.productArticle || 'Не указан';
-                const productAvailability = button.dataset.productAvailability || 'В наличии'; // По умолчанию "В наличии"
-                const productThumbnails = button.dataset.productThumbnails ? button.dataset.productThumbnails.split(',') : [productImageSrc]; // Если нет миниатюр, используем основное изображение
+                // Кодируем параметры для URL
+                const queryParams = new URLSearchParams({
+                    image: productImageSrc,
+                    name: productName,
+                    price: productPrice,
+                    article: productArticle
+                }).toString();
 
-                // Заполняем "страницу" продукта данными
-                productDetailName.textContent = productName;
-                productDetailArticle.textContent = `Артикул: ${productArticle}`;
-                productDetailPriceCurrent.textContent = productPrice;
-
-                if (productOldPrice) {
-                    productDetailPriceOld.textContent = productOldPrice;
-                    productDetailPriceOld.style.display = 'block'; // Показываем старую цену, если она есть
-                } else {
-                    productDetailPriceOld.style.display = 'none'; // Скрываем старую цену, если ее нет
-                }
-
-                productDetailAvailability.textContent = productAvailability;
-
-                // Очищаем и заполняем миниатюры
-                productDetailThumbnailsContainer.innerHTML = '';
-                // Добавляем основное изображение как первую миниатюру, если она не уже в списке
-                let thumbnailsToAdd = [productImageSrc, ...productThumbnails.filter(src => src.trim() !== productImageSrc.trim())];
-                
-                thumbnailsToAdd.forEach((src, index) => {
-                    const img = document.createElement('img');
-                    img.src = src.trim();
-                    img.alt = productName + ' thumbnail';
-                    img.classList.add('product-detail-thumbnail');
-                    productDetailThumbnailsContainer.appendChild(img);
-
-                    if (index === 0) { // Активируем первую миниатюру
-                        img.classList.add('active');
-                    }
-
-                    img.addEventListener('click', () => {
-                        productDetailMainImage.src = img.src;
-                        // Удаляем класс active со всех миниатюр и добавляем к текущей
-                        productDetailThumbnailsContainer.querySelectorAll('.product-detail-thumbnail').forEach(thumb => {
-                            thumb.classList.remove('active');
-                        });
-                        img.classList.add('active');
-                    });
-                });
-
-                // Устанавливаем основное изображение на основе первой миниатюры (или оригинального изображения)
-                productDetailMainImage.src = thumbnailsToAdd[0] || productImageSrc;
-
-
-                productDetailPage.classList.add('open');
-                document.body.classList.add('no-scroll');
+                // Открываем новое окно с HTML-страницей оформления покупки
+                window.open(`buy_form.html?${queryParams}`, '_blank', 'width=800,height=600,resizable=yes,scrollbars=yes');
             });
         });
-
-        productDetailCloseBtn.addEventListener('click', () => {
-            productDetailPage.classList.remove('open');
-            document.body.classList.remove('no-scroll');
-        });
-
-        productDetailPage.addEventListener('click', (event) => {
-            // Закрытие "страницы" при клике вне содержимого
-            if (event.target === productDetailPage) {
-                productDetailPage.classList.remove('open');
-                document.body.classList.remove('no-scroll');
-            }
-        });
-
 
         const heroSlides = document.querySelectorAll('.hero-slide');
 
