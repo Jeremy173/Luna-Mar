@@ -86,7 +86,8 @@
 
         .menu-item a:focus,
         .btn:focus,
-        .gemini-btn:focus {
+        /* Removed .gemini-btn:focus as it will now use .btn styles */
+        .btn:focus {
             outline: 2px solid var(--accent-green);
             outline-offset: 2px;
             border-radius: 4px;
@@ -280,7 +281,8 @@
             box-shadow: 0 4px 8px rgba(0, 255, 0, 0.4);
         }
 
-        .gemini-btn {
+        /* Removed .gemini-btn specific styles as it will now use .btn styles */
+        /* .gemini-btn {
             background: #007bff;
             color: white;
             padding: 8px 15px;
@@ -296,7 +298,7 @@
 
         .gemini-btn:hover {
             background: #0056b3;
-        }
+        } */
 
         .burger {
             display: none;
@@ -417,6 +419,7 @@
         }
 
         /* Styles for the Description Modal (small overlay) */
+        /* This modal is no longer used, but keeping styles in case it's re-added for different functionality */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -1160,7 +1163,14 @@
                         data-product-old-price=""
                         data-product-article="ПК-001"
                         data-product-availability="В наличии">Купить</button>
-                <button class="gemini-btn">Узнать больше</button>
+                <button class="btn product-detail-trigger"
+                        data-product-image="img/20250613_1853_image.png"
+                        data-product-name="Игровой ПК Luna Pro"
+                        data-product-price="499 990 KZT"
+                        data-product-old-price=""
+                        data-product-article="ПК-001"
+                        data-product-availability="В наличии"
+                        data-product-thumbnails="">В корзину</button>
             </div>
 
             <div class="product-card">
@@ -1176,7 +1186,14 @@
                         data-product-old-price=""
                         data-product-article="МН-001"
                         data-product-availability="В наличии">Купить</button>
-                <button class="gemini-btn">Узнать больше</button>
+                <button class="btn product-detail-trigger"
+                        data-product-image="img/20250615_2001_image.png"
+                        data-product-name="Монитор Luna UltraView 144Hz"
+                        data-product-price="125 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="МН-001"
+                        data-product-availability="В наличии"
+                        data-product-thumbnails="">В корзину</button>
             </div>
 
             <div class="product-card">
@@ -1193,7 +1210,14 @@
                         data-product-article="МШ-001"
                         data-product-availability="В наличии"
                         data-product-thumbnails="">Купить</button>
-                <button class="gemini-btn">Узнать больше</button>
+                <button class="btn product-detail-trigger"
+                        data-product-image="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_h3a_hb0_9529652609054_basilisk-v3-x-hyperspeed-2-500x500.png"
+                        data-product-name="Игровая мышь Luna Precision"
+                        data-product-price="25 000 KZT"
+                        data-product-old-price="28 000 KZT"
+                        data-product-article="МШ-001"
+                        data-product-availability="В наличии"
+                        data-product-thumbnails="">В корзину</button>
             </div>
 
             <div class="product-card">
@@ -1209,7 +1233,14 @@
                         data-product-old-price=""
                         data-product-article="КЛ-001"
                         data-product-availability="В наличии">Купить</button>
-                <button class="gemini-btn">Узнать больше</button>
+                <button class="btn product-detail-trigger"
+                        data-product-image="img/deathstalker-v2-pro-tkl-4-500x500.webp"
+                        data-product-name="Механическая Клавиатура Luna Tactile"
+                        data-product-price="45 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="КЛ-001"
+                        data-product-availability="В наличии"
+                        data-product-thumbnails="">В корзину</button>
             </div>
 
             <div class="product-card">
@@ -1225,7 +1256,14 @@
                         data-product-old-price=""
                         data-product-article="НТ-001"
                         data-product-availability="В наличии">Купить</button>
-                <button class="gemini-btn">Узнать больше</button>
+                <button class="btn product-detail-trigger"
+                        data-product-image="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_hbf_hde_9876443660318_250225-blade-16-s11-black-1500x1000-1.jpg"
+                        data-product-name="Игровой ноутбук Luna Blaze"
+                        data-product-price="399 990 KZT"
+                        data-product-old-price=""
+                        data-product-article="НТ-001"
+                        data-product-availability="В наличии"
+                        data-product-thumbnails="">В корзину</button>
             </div>
 
             <div class="product-card">
@@ -1241,7 +1279,14 @@
                         data-product-old-price=""
                         data-product-article="НШ-001"
                         data-product-availability="В наличии">Купить</button>
-                <button class="gemini-btn">Узнать больше</button>
+                <button class="btn product-detail-trigger"
+                        data-product-image="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_h46_h86_9807445753886_240820-BlackShark-V2-Pro-500x500.png"
+                        data-product-name="Игровые наушники Luna Aura"
+                        data-product-price="35 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="НШ-001"
+                        data-product-availability="В наличии"
+                        data-product-thumbnails="">В корзину</button>
             </div>
         </section>
     </main>
@@ -1263,7 +1308,14 @@
                         data-product-article="МШ-002"
                         data-product-availability="В наличии"
                         data-product-thumbnails="">Купить</button>
-                <button class="gemini-btn">Узнать больше</button>
+                <button class="btn product-detail-trigger"
+                        data-product-image="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_hdd_he4_9829121949726_viper-mini-se-white-500x500.png"
+                        data-product-name="Игровая Мышь Luna Pro X"
+                        data-product-price="30 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="МШ-002"
+                        data-product-availability="В наличии"
+                        data-product-thumbnails="">В корзину</button>
             </div>
             <div class="product-card">
                 <!-- Убедитесь, что файл 'razer-huntsman-v3-pro-tkl-500x500-v2.webp' находится в папке img -->
@@ -1278,7 +1330,14 @@
                         data-product-old-price=""
                         data-product-article="КЛ-002"
                         data-product-availability="В наличии">Купить</button>
-                <button class="gemini-btn">Узнать больше</button>
+                <button class="btn product-detail-trigger"
+                        data-product-image="img/razer-huntsman-v3-pro-tkl-500x500-v2.webp"
+                        data-product-name="Механическая Клавиатура Luna RGB"
+                        data-product-price="55 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="КЛ-002"
+                        data-product-availability="В наличии"
+                        data-product-thumbnails="">В корзину</button>
             </div>
             <div class="product-card">
                 <!-- Убедитесь, что файл 'barracuda-x_render-middle.jpg' находится в папке img -->
@@ -1293,7 +1352,14 @@
                         data-product-old-price=""
                         data-product-article="ГР-001"
                         data-product-availability="В наличии">Купить</button>
-                <button class="gemini-btn">Узнать больше</button>
+                <button class="btn product-detail-trigger"
+                        data-product-image="img/barracuda-x_render-middle.jpg"
+                        data-product-name="Игровая Гарнитура Luna SoundMaster"
+                        data-product-price="40 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="ГР-001"
+                        data-product-availability="В наличии"
+                        data-product-thumbnails="">В корзину</button>
             </div>
              <div class="product-card">
                 <!-- Убедитесь, что файл 'fireflyv2pro-line-fireflyv2-thumbnail.webp' находится в папке img -->
@@ -1308,7 +1374,14 @@
                         data-product-old-price=""
                         data-product-article="КВ-001"
                         data-product-availability="В наличии">Купить</button>
-                <button class="gemini-btn">Узнать больше</button>
+                <button class="btn product-detail-trigger"
+                        data-product-image="img/fireflyv2pro-line-fireflyv2-thumbnail.webp"
+                        data-product-name="Коврик для Мыши Luna Glide XL"
+                        data-product-price="8 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="КВ-001"
+                        data-product-availability="В наличии"
+                        data-product-thumbnails="">В корзину</button>
             </div>
             <div class="product-card">
                 <!-- Убедитесь, что файл '300x410-kiyolinepg-kiyoproultra.webp' находится в папке img -->
@@ -1323,7 +1396,14 @@
                         data-product-old-price=""
                         data-product-article="ВК-001"
                         data-product-availability="В наличии">Купить</button>
-                <button class="gemini-btn">Узнать больше</button>
+                <button class="btn product-detail-trigger"
+                        data-product-image="img/300x410-kiyolinepg-kiyoproultra.webp"
+                        data-product-name="Веб-камера Luna StreamCam Pro"
+                        data-product-price="28 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="ВК-001"
+                        data-product-availability="В наличии"
+                        data-product-thumbnails="">В корзину</button>
             </div>
              <div class="product-card">
                 <!-- Убедитесь, что файл '500x500_seiren-v3-chroma.webp' находится в папке img -->
@@ -1338,7 +1418,14 @@
                         data-product-old-price=""
                         data-product-article="МК-001"
                         data-product-availability="В наличии">Купить</button>
-                <button class="gemini-btn">Узнать больше</button>
+                <button class="btn product-detail-trigger"
+                        data-product-image="img/500x500_seiren-v3-chroma.webp"
+                        data-product-name="Микрофон Luna Broadcast"
+                        data-product-price="32 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="МК-001"
+                        data-product-availability="В наличии"
+                        data-product-thumbnails="">В корзину</button>
             </div>
         </section>
     </section>
@@ -1349,7 +1436,7 @@
             <div class="product-card">
                 <!-- Убедитесь, что файл '2342342.jpg' находится в папке img -->
                 <img src="img/2342342.jpg" alt="Монитор Luna 24 дюйма 144Hz">
-                <h3 class="product-name">Монитор Luna 24 дюйма 144Hz</h3> <!-- Исправлено название -->
+                <h3 class="product-name">Монитор Luna 24 дюйма 144Hz</h3>
                 <p class="product-description-short">Быстрое время отклика и 144 Гц для плавного геймплея.</p>
                 <div class="price">95 000 KZT</div>
                 <button class="btn"
@@ -1359,12 +1446,19 @@
                         data-product-old-price=""
                         data-product-article="МН-002"
                         data-product-availability="В наличии">Купить</button>
-                <button class="gemini-btn">Узнать больше</button>
+                <button class="btn product-detail-trigger"
+                        data-product-image="img/2342342.jpg"
+                        data-product-name="Монитор Luna 24 дюйма 144Hz"
+                        data-product-price="95 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="МН-002"
+                        data-product-availability="В наличии"
+                        data-product-thumbnails="">В корзину</button>
             </div>
             <div class="product-card">
                 <!-- Убедитесь, что файл '20250615_2056_image.png' находится в папке img -->
                 <img src="img/20250615_2056_image.png" alt="Монитор Luna 27 дюйма QHD 165Hz">
-                <h3 class="product-name">Монитор Luna 27 дюйма QHD 165Hz</h3> <!-- Исправлено название -->
+                <h3 class="product-name">Монитор Luna 27 дюйма QHD 165Hz</h3>
                 <p class="product-description-short">Детализированное QHD изображение и сверхвысокая частота обновления.</p>
                 <div class="price">180 000 KZT</div>
                 <button class="btn"
@@ -1374,7 +1468,14 @@
                         data-product-old-price=""
                         data-product-article="МН-003"
                         data-product-availability="В наличии">Купить</button>
-                <button class="gemini-btn">Узнать больше</button>
+                <button class="btn product-detail-trigger"
+                        data-product-image="img/20250615_2056_image.png"
+                        data-product-name="Монитор Luna 27 дюйма QHD 165Hz"
+                        data-product-price="180 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="МН-003"
+                        data-product-availability="В наличии"
+                        data-product-thumbnails="">В корзину</button>
             </div>
             <div class="product-card">
                 <!-- Убедитесь, что файл '20250615_2057_image.png' находится в папке img -->
@@ -1389,7 +1490,14 @@
                         data-product-old-price=""
                         data-product-article="МН-004"
                         data-product-availability="В наличии">Купить</button>
-                <button class="gemini-btn">Узнать больше</button>
+                <button class="btn product-detail-trigger"
+                        data-product-image="img/20250615_2057_image.png"
+                        data-product-name="Изогнутый Монитор Luna UltraWide"
+                        data-product-price="250 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="МН-004"
+                        data-product-availability="В наличии"
+                        data-product-thumbnails="">В корзину</button>
             </div>
         </section>
     </section>
@@ -1410,7 +1518,14 @@
                         data-product-old-price=""
                         data-product-article="КЛ-003"
                         data-product-availability="В наличии">Купить</button>
-                <button class="gemini-btn">Узнать больше</button>
+                <button class="btn product-detail-trigger"
+                        data-product-image="img/800x600-razer-ornata-v3-x-product-promo.png"
+                        data-product-name="Мембранная Клавиатура Luna Silent"
+                        data-product-price="20 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="КЛ-003"
+                        data-product-availability="В наличии"
+                        data-product-thumbnails="">В корзину</button>
             </div>
             <div class="product-card">
                 <!-- Убедитесь, что файл '800x600-razer-blackwidow-v3-pro-product-promo.png' находится в папке img -->
@@ -1425,7 +1540,14 @@
                         data-product-old-price=""
                         data-product-article="КЛ-004"
                         data-product-availability="В наличии">Купить</button>
-                <button class="gemini-btn">Узнать больше</button>
+                <button class="btn product-detail-trigger"
+                        data-product-image="img/800x600-razer-blackwidow-v3-pro-product-promo.png"
+                        data-product-name="Механическая Клавиатура Luna RGB Pro"
+                        data-product-price="60 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="КЛ-004"
+                        data-product-availability="В наличии"
+                        data-product-thumbnails="">В корзину</button>
             </div>
             <div class="product-card">
                 <!-- Убедитесь, что файл '800x600-razer-pro-type-ultra-product-promo.png' находится в папке img -->
@@ -1440,12 +1562,20 @@
                         data-product-old-price=""
                         data-product-article="КЛ-005"
                         data-product-availability="В наличии">Купить</button>
-                <button class="gemini-btn">Узнать больше</button>
+                <button class="btn product-detail-trigger"
+                        data-product-image="img/800x600-razer-pro-type-ultra-product-promo.png"
+                        data-product-name="Беспроводная Клавиатура Luna Compact"
+                        data-product-price="48 000 KZT"
+                        data-product-old-price=""
+                        data-product-article="КЛ-005"
+                        data-product-availability="В наличии"
+                        data-product-thumbnails="">В корзину</button>
             </div>
         </section>
     </section>
 
     <!-- Модальное окно для описания, открываемое кнопкой "Узнать больше" -->
+    <!-- This modal is no longer used, so it's hidden and its script functionality is removed -->
     <div id="description-modal" class="modal-overlay">
         <div class="modal-content">
             <button class="modal-close-btn">&times;</button>
@@ -1568,14 +1698,98 @@
             });
         }
 
-        const descriptionModal = document.getElementById('description-modal');
-        const modalProductName = document.getElementById('modal-product-name');
-        const modalProductDescription = document.getElementById('modal-product-description');
-        const modalCloseBtn = document.querySelector('#description-modal .modal-close-btn');
-        const loadingIndicator = document.getElementById('loading-indicator');
+        // Removed description modal functionality and related elements
+        // const descriptionModal = document.getElementById('description-modal');
+        // const modalProductName = document.getElementById('modal-product-name');
+        // const modalProductDescription = document.getElementById('modal-product-description');
+        // const modalCloseBtn = document.querySelector('#description-modal .modal-close-btn');
+        // const loadingIndicator = document.getElementById('loading-indicator');
 
-        const geminiButtons = document.querySelectorAll('.gemini-btn');
+        // Changed geminiButtons to productDetailTriggerButtons to reflect new purpose
+        const productDetailTriggerButtons = document.querySelectorAll('.product-card .product-detail-trigger');
 
+        productDetailTriggerButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // This logic is duplicated from the "Купить" button to open the product detail page
+                const productCard = button.closest('.product-card');
+                const productImageSrc = button.dataset.productImage; // Use dataset from the button itself
+                const productName = button.dataset.productName;
+                const productPrice = button.dataset.productPrice;
+
+                const productOldPrice = button.dataset.productOldPrice || '';
+                const productArticle = button.dataset.productArticle || 'Не указан';
+                const productAvailability = button.dataset.productAvailability || 'В наличии';
+                const productThumbnails = button.dataset.productThumbnails ? button.dataset.productThumbnails.split(',').filter(src => src.trim() !== '') : [];
+
+
+                productDetailName.textContent = productName;
+                productDetailArticle.textContent = `Артикул: ${productArticle}`;
+                productDetailPriceCurrent.textContent = productPrice;
+
+                if (productOldPrice) {
+                    productDetailPriceOld.textContent = productOldPrice;
+                    productDetailPriceOld.style.display = 'block';
+                } else {
+                    productDetailPriceOld.style.display = 'none';
+                }
+
+                productDetailAvailability.textContent = productAvailability;
+
+                productSpecsList.innerHTML = '';
+                const specs = productSpecs[productName];
+                if (specs) {
+                    for (const key in specs) {
+                        const li = document.createElement('li');
+                        const strong = document.createElement('strong');
+                        strong.textContent = `${key}:`;
+                        const span = document.createElement('span');
+                        span.textContent = specs[key];
+                        li.appendChild(strong);
+                        li.appendChild(span);
+                        productSpecsList.appendChild(li);
+                    }
+                } else {
+                    const li = document.createElement('li');
+                    li.textContent = "Характеристики не найдены для этого продукта.";
+                    productSpecsList.appendChild(li);
+                }
+
+                productDetailThumbnailsContainer.innerHTML = '';
+                let thumbnailsToAdd = [productImageSrc, ...productThumbnails.filter(src => src.trim() !== productImageSrc.trim())];
+                
+                thumbnailsToAdd.forEach((src, index) => {
+                    const img = document.createElement('img');
+                    img.src = src.trim();
+                    img.alt = productName + ' thumbnail';
+                    img.classList.add('product-detail-thumbnail');
+                    productDetailThumbnailsContainer.appendChild(img);
+
+                    if (index === 0) {
+                        img.classList.add('active');
+                    }
+
+                    img.addEventListener('click', () => {
+                        productDetailMainImage.src = img.src;
+                        productDetailThumbnailsContainer.querySelectorAll('.product-detail-thumbnail').forEach(thumb => {
+                            thumb.classList.remove('active');
+                        });
+                        img.classList.add('active');
+                    });
+                });
+
+                productDetailMainImage.src = thumbnailsToAdd[0] || productImageSrc;
+
+
+                productDetailPage.classList.add('open');
+                document.body.classList.add('no-scroll');
+
+                orderMessageBox.classList.remove('show');
+                purchaseForm.reset();
+            });
+        });
+
+        // Event listener for the old "Узнать больше" button (description modal) - removed as the button is changed
+        /*
         geminiButtons.forEach(button => {
             button.addEventListener('click', async () => {
                 const productCard = button.closest('.product-card');
@@ -1649,6 +1863,7 @@
                 document.body.classList.remove('no-scroll');
             }
         });
+        */
 
         // Object holding technical specifications for each product by its name
         const productSpecs = {
@@ -1659,7 +1874,10 @@
                 "Накопитель": "2TB NVMe SSD",
                 "Блок питания": "1000W 80+ Gold",
                 "Охлаждение": "Жидкостное AIO 360мм",
-                "Корпус": "NZXT H7 Flow"
+                "Корпус": "NZXT H7 Flow",
+                "Совместимость": "Windows 10/11",
+                "Гарантия": "3 года",
+                "Цвет": "Черный"
             },
             "Монитор Luna UltraView 144Hz": {
                 "Размер экрана": "27 дюймов",
@@ -1668,7 +1886,10 @@
                 "Время отклика": "1 мс (GtG)",
                 "Тип матрицы": "IPS",
                 "Технологии": "AMD FreeSync Premium, HDR10",
-                "Порты": "2x HDMI 2.0, 1x DisplayPort 1.4"
+                "Порты": "2x HDMI 2.0, 1x DisplayPort 1.4",
+                "Совместимость": "PC, Mac, Консоли",
+                "Гарантия": "1 год",
+                "Цвет": "Черный"
             },
             "Игровая мышь Luna Precision": {
                 "Сенсор": "Оптический, до 20000 DPI",
@@ -1676,7 +1897,10 @@
                 "Подсветка": "Razer Chroma RGB",
                 "Тип подключения": "Проводная / Беспроводная (2.4 ГГц)",
                 "Вес": "85 г",
-                "Аккумулятор": "До 120 часов"
+                "Аккумулятор": "До 120 часов",
+                "Совместимость": "PC, Mac",
+                "Гарантия": "2 года",
+                "Цвет": "Черный"
             },
             "Механическая Клавиатура Luna Tactile": {
                 "Тип переключателей": "Механические, тактильные (Brown)",
@@ -1684,7 +1908,10 @@
                 "Форм-фактор": "TKL (Tenkeyless)",
                 "Подключение": "Проводное (USB-C)",
                 "Материал корпуса": "Алюминий",
-                "Особенности": "N-key rollover, anti-ghosting"
+                "Особенности": "N-key rollover, anti-ghosting",
+                "Совместимость": "PC, Mac",
+                "Гарантия": "2 года",
+                "Цвет": "Черный"
             },
             "Игровой ноутбук Luna Blaze": {
                 "Процессор": "Intel Core i7-13700H",
@@ -1692,14 +1919,19 @@
                 "Оперативная память": "32GB DDR5 4800MHz",
                 "Накопитель": "1TB NVMe SSD",
                 "Экран": "16 дюймов, QHD (2560x1600), 240 Гц",
-                "Вес": "2.2 кг"
+                "Вес": "2.2 кг",
+                "Совместимость": "Windows 11",
+                "Гарантия": "1 год",
+                "Цвет": "Черный"
             },
             "Игровые наушники Luna Aura": {
                 "Тип подключения": "Беспроводной (2.4 ГГц) / Проводной (3.5мм)",
                 "Звук": "Виртуальный объемный 7.1",
                 "Микрофон": "Съемный, однонаправленный",
                 "Диаметр динамиков": "50 мм",
-                "Совместимость": "PC, PlayStation, Nintendo Switch, Mobile"
+                "Совместимость": "PC, PlayStation, Nintendo Switch, Mobile",
+                "Гарантия": "1 год",
+                "Цвет": "Черный"
             },
             "Игровая Мышь Luna Pro X": {
                 "Сенсор": "Оптический, до 16000 DPI",
@@ -1707,28 +1939,40 @@
                 "Подсветка": "Razer Chroma RGB",
                 "Тип подключения": "Беспроводная (2.4 ГГц и Bluetooth)",
                 "Вес": "74 г",
-                "Аккумулятор": "До 70 часов"
+                "Аккумулятор": "До 70 часов",
+                "Совместимость": "PC, Mac, Xbox (ограничено)",
+                "Гарантия": "2 года",
+                "Цвет": "Белый"
             },
             "Механическая Клавиатура Luna RGB": {
                 "Тип переключателей": "Механические, линейные (Red)",
                 "Подсветка": "Полная RGB, настраиваемая",
                 "Форм-фактор": "Полноразмерная",
                 "Подключение": "Проводное (USB)",
-                "Особенности": "Мультимедийные клавиши, металлическая верхняя панель"
+                "Особенности": "Мультимедийные клавиши, металлическая верхняя панель",
+                "Совместимость": "PC, Mac",
+                "Гарантия": "2 года",
+                "Цвет": "Черный"
             },
             "Игровая Гарнитура Luna SoundMaster": {
                 "Тип подключения": "Проводной (USB)",
                 "Звук": "Виртуальный объемный 7.1",
                 "Микрофон": "Выдвижной, шумоподавление",
                 "Диаметр динамиков": "50 мм, неодимовые магниты",
-                "Особенности": "Мягкие амбушюры, прочная конструкция"
+                "Особенности": "Мягкие амбушюры, прочная конструкция",
+                "Совместимость": "PC, PlayStation",
+                "Гарантия": "1 год",
+                "Цвет": "Черный"
             },
             "Коврик для Мыши Luna Glide XL": {
                 "Материал": "Тканевый, с микротекстурой",
                 "Размер": "900 x 400 мм (XL)",
                 "Толщина": "4 мм",
                 "Основание": "Противоскользящая резина",
-                "Край": "Прошитые края"
+                "Край": "Прошитые края",
+                "Совместимость": "Все типы мышей",
+                "Гарантия": "6 месяцев",
+                "Цвет": "Черный"
             },
             "Веб-камера Luna StreamCam Pro": {
                 "Разрешение видео": "1080p Full HD при 60 FPS",
@@ -1736,14 +1980,20 @@
                 "Автофокус": "Да",
                 "Микрофон": "Встроенный стерео",
                 "Крепление": "Универсальное (монитор/штатив)",
-                "Особенности": "Коррекция освещенности, plug-and-play"
+                "Особенности": "Коррекция освещенности, plug-and-play",
+                "Совместимость": "Windows, Mac, Chrome OS",
+                "Гарантия": "1 год",
+                "Цвет": "Черный"
             },
             "Микрофон Luna Broadcast": {
                 "Тип": "Конденсаторный USB",
                 "Направленность": "Кардиоидная",
                 "Частотный диапазон": "20 Гц - 20 кГц",
                 "Частота дискретизации": "48 кГц / 16 бит",
-                "Особенности": "Встроенная поп-защита, выход на наушники"
+                "Особенности": "Встроенная поп-защита, выход на наушники",
+                "Совместимость": "Windows, Mac",
+                "Гарантия": "1 год",
+                "Цвет": "Черный"
             },
             "Монитор Luna 24 дюйма 144Hz": {
                 "Размер экрана": "24 дюйма",
@@ -1752,7 +2002,10 @@
                 "Время отклика": "1 мс (MPRT)",
                 "Тип матрицы": "TN",
                 "Технологии": "AMD FreeSync",
-                "Порты": "1x HDMI 1.4, 1x DisplayPort 1.2"
+                "Порты": "1x HDMI 1.4, 1x DisplayPort 1.2",
+                "Совместимость": "PC, Консоли",
+                "Гарантия": "1 год",
+                "Цвет": "Черный"
             },
             "Монитор Luna 27 дюйма QHD 165Hz": {
                 "Размер экрана": "27 дюймов",
@@ -1761,7 +2014,10 @@
                 "Время отклика": "1 мс (GtG)",
                 "Тип матрицы": "IPS",
                 "Технологии": "NVIDIA G-Sync Compatible, HDR400",
-                "Порты": "2x HDMI 2.0, 1x DisplayPort 1.4, USB Hub"
+                "Порты": "2x HDMI 2.0, 1x DisplayPort 1.4, USB Hub",
+                "Совместимость": "PC, Консоли",
+                "Гарантия": "1 год",
+                "Цвет": "Черный"
             },
             "Изогнутый Монитор Luna UltraWide": {
                 "Размер экрана": "34 дюйма",
@@ -1770,28 +2026,40 @@
                 "Время отклика": "4 мс (GtG)",
                 "Тип матрицы": "VA, изогнутая (1500R)",
                 "Технологии": "AMD FreeSync, Picture-by-Picture",
-                "Порты": "2x HDMI 2.0, 2x DisplayPort 1.4"
+                "Порты": "2x HDMI 2.0, 2x DisplayPort 1.4",
+                "Совместимость": "PC, Mac",
+                "Гарантия": "1 год",
+                "Цвет": "Черный"
             },
             "Мембранная Клавиатура Luna Silent": {
                 "Тип переключателей": "Мембранные, бесшумные",
                 "Подсветка": "Одноцветная (зеленая) или без подсветки",
                 "Форм-фактор": "Полноразмерная",
                 "Подключение": "Проводное (USB)",
-                "Особенности": "Защита от проливания, мягкий ход клавиш"
+                "Особенности": "Защита от проливания, мягкий ход клавиш",
+                "Совместимость": "PC, Mac",
+                "Гарантия": "1 год",
+                "Цвет": "Черный"
             },
             "Механическая Клавиатура Luna RGB Pro": {
                 "Тип переключателей": "Механические, Clicky (Blue)",
                 "Подсветка": "Полная RGB, индивидуальная подсветка клавиш",
                 "Форм-фактор": "Полноразмерная",
                 "Подключение": "Проводное (USB) / Беспроводное (Bluetooth)",
-                "Особенности": "Программируемые макросы, металлическая пластина"
+                "Особенности": "Программируемые макросы, металлическая пластина",
+                "Совместимость": "PC, Mac",
+                "Гарантия": "2 года",
+                "Цвет": "Черный"
             },
             "Беспроводная Клавиатура Luna Compact": {
                 "Тип переключателей": "Ножничные",
                 "Подсветка": "Белая, регулируемая",
                 "Форм-фактор": "Компактная (75%)",
                 "Подключение": "Беспроводное (Bluetooth 5.0) / USB-C",
-                "Особенности": "Мульти-устройство, долгое время работы от батареи"
+                "Особенности": "Мульти-устройство, долгое время работы от батареи",
+                "Совместимость": "PC, Mac, Мобильные устройства",
+                "Гарантия": "1 год",
+                "Цвет": "Белый"
             }
         };
 
@@ -1951,18 +2219,6 @@
                 document.body.classList.remove('no-scroll');
             }
         });
-
-        // Event listener for the "Показать технические характеристики" button (if it were still visible)
-        // Removed as per new layout where specs are always visible on left.
-        // toggleSpecsBtn.addEventListener('click', () => {
-        //     technicalSpecsContent.classList.toggle('open');
-        //     if (technicalSpecsContent.classList.contains('open')) {
-        //         toggleSpecsBtn.textContent = 'Скрыть технические характеристики';
-        //     } else {
-        //         toggleSpecsContent.textContent = 'Показать технические характеристики';
-        //     }
-        // });
-
 
         const heroSlides = document.querySelectorAll('.hero-slide');
 
