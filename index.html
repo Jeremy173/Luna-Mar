@@ -495,6 +495,29 @@
         .loading-indicator.active {
             display: block;
         }
+
+        /* Styles for Purchase Modal */
+        .purchase-details {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .purchase-image {
+            max-width: 80%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 255, 0, 0.2);
+        }
+
+        .purchase-price {
+            font-size: 28px;
+            color: var(--accent-green);
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(0, 255, 0, 0.4);
+        }
     </style>
 </head>
 <body>
@@ -787,6 +810,19 @@
         </div>
     </div>
 
+    <!-- Новый модальный слой для покупки -->
+    <div id="purchase-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-btn">&times;</button>
+            <div class="purchase-details">
+                <img id="purchase-product-image" src="" alt="Product Image" class="purchase-image">
+                <h2 id="purchase-product-name" class="modal-title"></h2>
+                <p id="purchase-product-price" class="purchase-price"></p>
+            </div>
+            <button class="btn">Оформить заказ</button>
+        </div>
+    </div>
+
     <script>
         const burger = document.getElementById('burger');
         const navMenu = document.querySelector('.nav');
@@ -823,7 +859,7 @@
         const descriptionModal = document.getElementById('description-modal');
         const modalProductName = document.getElementById('modal-product-name');
         const modalProductDescription = document.getElementById('modal-product-description');
-        const modalCloseBtn = document.querySelector('.modal-close-btn');
+        const modalCloseBtn = document.querySelector('#description-modal .modal-close-btn'); // Уточняем селектор
         const loadingIndicator = document.getElementById('loading-indicator');
 
         const geminiButtons = document.querySelectorAll('.gemini-btn');
@@ -901,6 +937,45 @@
                 document.body.classList.remove('no-scroll');
             }
         });
+
+        // Скрипты для новой модальной вкладки покупки
+        const purchaseModal = document.getElementById('purchase-modal');
+        const purchaseProductImage = document.getElementById('purchase-product-image');
+        const purchaseProductName = document.getElementById('purchase-product-name');
+        const purchaseProductPrice = document.getElementById('purchase-product-price');
+        const purchaseCloseBtn = document.querySelector('#purchase-modal .modal-close-btn'); // Уточняем селектор
+
+        const buyButtons = document.querySelectorAll('.product-card .btn:first-of-type'); // Выбираем первую кнопку "Купить"
+
+        buyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const productCard = button.closest('.product-card');
+                const productImageSrc = productCard.querySelector('img').src;
+                const productName = productCard.querySelector('.product-name').textContent;
+                const productPrice = productCard.querySelector('.price').textContent;
+
+                purchaseProductImage.src = productImageSrc;
+                purchaseProductName.textContent = productName;
+                purchaseProductPrice.textContent = productPrice;
+
+                purchaseModal.classList.add('open');
+                document.body.classList.add('no-scroll');
+            });
+        });
+
+        purchaseCloseBtn.addEventListener('click', () => {
+            purchaseModal.classList.remove('open');
+            document.body.classList.remove('no-scroll');
+        });
+
+        // Закрытие модального окна при клике вне его
+        purchaseModal.addEventListener('click', (event) => {
+            if (event.target === purchaseModal) {
+                purchaseModal.classList.remove('open');
+                document.body.classList.remove('no-scroll');
+            }
+        });
+
 
         const heroSlides = document.querySelectorAll('.hero-slide');
 
