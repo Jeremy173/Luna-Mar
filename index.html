@@ -18,6 +18,7 @@
             --product-card-bg: #1a1a1a;
             --razer-green: #00FF00; /* Цвет Razer green */
             --razer-text-color: #777; /* Для артикля и тех.характеристик */
+            --red-heart: #ff0000;
         }
 
         * {
@@ -60,6 +61,60 @@
             color: var(--accent-green);
             font-weight: bold;
             text-decoration: none;
+            margin-right: 20px; /* Добавим отступ справа от логотипа */
+        }
+
+        /* Utility icons (cart, search, favorites) */
+        .header-utilities {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-left: auto; /* Push utilities to the right */
+        }
+
+        .utility-item {
+            display: flex;
+            align-items: center;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .utility-item:hover {
+            color: var(--accent-green);
+        }
+
+        .utility-item svg {
+            width: 24px;
+            height: 24px;
+            margin-right: 5px;
+            color: var(--accent-green); /* Default icon color */
+        }
+
+        /* Search input style */
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            padding: 8px 12px;
+            border: 1px solid var(--accent-green);
+            border-radius: 5px;
+            background-color: #0d0d0d;
+            color: var(--text-light);
+            font-size: 1em;
+            width: 200px;
+            transition: width 0.3s ease-in-out, border-color 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-green-hover);
+            box-shadow: 0 0 8px rgba(0, 255, 0, 0.4);
         }
 
         .nav .menu {
@@ -85,8 +140,6 @@
         }
 
         .menu-item a:focus,
-        .btn:focus,
-        /* Removed .gemini-btn:focus as it will now use .btn styles */
         .btn:focus {
             outline: 2px solid var(--accent-green);
             outline-offset: 2px;
@@ -223,6 +276,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            position: relative; /* For heart icon positioning */
         }
 
         .product-card:hover {
@@ -273,6 +327,7 @@
             letter-spacing: 0.5px;
             box-shadow: 0 2px 5px rgba(0, 255, 0, 0.3);
             margin-top: 15px;
+            width: 100%; /* Make buttons full width */
         }
 
         .btn:hover {
@@ -281,24 +336,27 @@
             box-shadow: 0 4px 8px rgba(0, 255, 0, 0.4);
         }
 
-        /* Removed .gemini-btn specific styles as it will now use .btn styles */
-        /* .gemini-btn {
-            background: #007bff;
-            color: white;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 5px;
+        /* Heart icon for favorites */
+        .favorite-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
             cursor: pointer;
-            font-size: 14px;
-            margin-top: 10px;
-            transition: background 0.3s ease;
-            display: block;
-            width: 100%;
+            width: 24px;
+            height: 24px;
+            color: var(--text-medium); /* Default grey */
+            transition: transform 0.2s, color 0.3s;
+            z-index: 10;
         }
 
-        .gemini-btn:hover {
-            background: #0056b3;
-        } */
+        .favorite-icon:hover {
+            transform: scale(1.1);
+            color: var(--text-light);
+        }
+
+        .favorite-icon.active {
+            color: var(--red-heart); /* Red when active */
+        }
 
         .burger {
             display: none;
@@ -398,6 +456,16 @@
             .hero-content p {
                 font-size: 1em;
             }
+
+            .header-utilities {
+                order: -1; /* Move utilities before logo on small screens */
+                width: 100%;
+                justify-content: space-around;
+                margin-bottom: 10px;
+            }
+            .search-input {
+                width: 150px; /* Smaller search input on mobile */
+            }
         }
 
         @media (max-width: 600px) {
@@ -418,15 +486,14 @@
             }
         }
 
-        /* Styles for the Description Modal (small overlay) */
-        /* This modal is no longer used, but keeping styles in case it's re-added for different functionality */
-        .modal-overlay {
+        /* Styles for the Info Modal (dynamic content from Gemini) */
+        #info-modal, #favorites-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -434,18 +501,19 @@
             visibility: hidden;
             opacity: 0;
             transition: visibility 0.3s, opacity 0.3s;
+            overflow-y: auto;
         }
 
-        .modal-overlay.open {
+        #info-modal.open, #favorites-modal.open {
             visibility: visible;
             opacity: 1;
         }
 
-        .modal-content {
+        #info-modal .modal-content, #favorites-modal .modal-content {
             background: var(--product-card-bg);
             padding: 30px;
             border-radius: 10px;
-            max-width: 600px; /* Max width for description modal */
+            max-width: 700px;
             width: 90%;
             box-shadow: 0 5px 15px rgba(0, 255, 0, 0.3);
             position: relative;
@@ -453,6 +521,12 @@
             overflow-y: auto;
             display: flex;
             flex-direction: column;
+            text-align: left;
+        }
+
+        #favorites-modal .modal-content {
+            max-width: 900px; /* Wider for favorite products grid */
+            padding: 20px;
         }
 
         .modal-close-btn {
@@ -473,9 +547,10 @@
 
         .modal-title {
             color: var(--accent-green);
-            font-size: 24px;
-            margin-bottom: 15px;
+            font-size: 28px;
+            margin-bottom: 20px;
             text-align: center;
+            text-shadow: 0 0 8px rgba(0, 255, 0, 0.3);
         }
 
         .modal-description {
@@ -504,7 +579,7 @@
             display: block;
         }
 
-        /* Styles for Product Detail Page (Full-screen Overlay) - RE-ADDED */
+        /* Styles for Product Detail Page (Full-screen Overlay) */
         #product-detail-page {
             position: fixed;
             top: 0;
@@ -807,49 +882,6 @@
             box-shadow: 0 6px 12px rgba(0, 255, 0, 0.5);
         }
 
-        /* Styles for technical specifications section (within right column) */
-        .technical-specs-section {
-            margin-top: 30px;
-            border-top: 1px solid var(--border-color);
-            padding-top: 20px;
-            overflow: hidden;
-            max-height: 0;
-            opacity: 0;
-            transition: max-height 0.7s ease-out, opacity 0.7s ease-out;
-        }
-
-        .technical-specs-section.open {
-            max-height: 1000px;
-            opacity: 1;
-        }
-
-        .technical-specs-section h3 {
-            font-size: 20px;
-            color: var(--accent-green);
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        .technical-specs-section ul {
-            list-style: none;
-            padding: 0;
-            text-align: left;
-        }
-
-        .technical-specs-section li {
-            font-size: 15px;
-            color: var(--text-medium);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .technical-specs-section li strong {
-            color: var(--text-light);
-            min-width: 120px;
-        }
-
         /* Styles for the message box within the product detail page */
         .order-message-box {
             background-color: #333;
@@ -955,6 +987,61 @@
             box-shadow: 0 6px 12px rgba(0, 255, 0, 0.5);
         }
 
+        /* Favorite products grid in modal */
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .favorite-item {
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .favorite-item img {
+            max-width: 100%;
+            height: 120px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .favorite-item h4 {
+            font-size: 1em;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .favorite-item .price {
+            font-size: 1.1em;
+            margin-top: 5px;
+            color: var(--accent-green);
+        }
+
+        .favorite-item .remove-favorite-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: none;
+            border: none;
+            color: var(--red-heart);
+            font-size: 20px;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .favorite-item .remove-favorite-btn:hover {
+            transform: scale(1.1);
+        }
+
 
         /* Media queries for responsiveness */
         @media (max-width: 1200px) {
@@ -989,7 +1076,30 @@
         }
 
         @media (max-width: 768px) {
-            #product-detail-page .page-content-wrapper {
+            .header {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            .header .logo {
+                flex-basis: 100%; /* Logo takes full width */
+                text-align: center;
+            }
+            .header-utilities {
+                margin-right: 0;
+                order: 0; /* Put utilities back to normal flow for mobile */
+                width: 100%;
+                justify-content: space-around;
+                margin-top: 10px;
+            }
+            .nav {
+                order: 1; /* Nav after utilities on mobile */
+                /* Rest of nav styles already handle full screen overlay */
+            }
+
+            #product-detail-page .page-content-wrapper,
+            #info-modal .modal-content,
+            #favorites-modal .modal-content {
                 padding: 15px;
             }
             .product-detail-title {
@@ -1006,17 +1116,17 @@
                 padding: 12px 20px;
             }
             .product-detail-add-to-razer {
-                align-self: center; /* Center on mobile */
+                align-self: center;
             }
             .purchase-form {
-                grid-template-columns: 1fr; /* Одна колонка для полей ввода */
+                grid-template-columns: 1fr;
             }
             .purchase-form textarea {
                 grid-column: span 1;
             }
             .submit-order-btn {
                 grid-column: span 1;
-                width: 100%; /* Кнопка на всю ширину */
+                width: 100%;
             }
             .product-detail-specs-column li {
                 flex-direction: column;
@@ -1025,6 +1135,10 @@
             }
             .product-detail-specs-column li span {
                 text-align: left;
+            }
+
+            .favorites-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -1052,6 +1166,12 @@
             .contact-button {
                 padding: 12px 25px;
                 font-size: 16px;
+            }
+            .search-input {
+                width: 120px;
+            }
+            .header-utilities {
+                gap: 10px;
             }
         }
 
@@ -1110,6 +1230,19 @@
                 </li>
             </ul>
         </nav>
+        <div class="header-utilities">
+            <a href="#" class="utility-item" id="cart-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+                Корзина
+            </a>
+            <div class="search-container">
+                <input type="text" placeholder="Поиск..." class="search-input">
+            </div>
+            <a href="#" class="utility-item" id="my-razer-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                Мой Razer
+            </a>
+        </div>
         <div class="burger" id="burger">
             <div class="line"></div>
             <div class="line"></div>
@@ -1151,18 +1284,19 @@
 
         <section class="products">
             <div class="product-card">
-                <!-- Убедитесь, что файл '20250613_1853_image.png' находится в папке img -->
+                <!-- Сердечко для избранного -->
+                <svg class="favorite-icon" data-product-id="ПК-001" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                 <img src="img/20250613_1853_image.png" alt="Игровой ПК Luna Pro">
                 <h3 class="product-name">Игровой ПК Luna Pro</h3>
                 <p class="product-description-short">Мощный компьютер для максимальной производительности в любых играх.</p>
                 <div class="price">499 990 KZT</div>
-                <button class="btn"
+                <button class="btn product-info-trigger"
                         data-product-image="img/20250613_1853_image.png"
                         data-product-name="Игровой ПК Luna Pro"
                         data-product-price="499 990 KZT"
                         data-product-old-price=""
                         data-product-article="ПК-001"
-                        data-product-availability="В наличии">Купить</button>
+                        data-product-availability="В наличии">Дополнительная информация</button>
                 <button class="btn product-detail-trigger"
                         data-product-image="img/20250613_1853_image.png"
                         data-product-name="Игровой ПК Luna Pro"
@@ -1174,18 +1308,19 @@
             </div>
 
             <div class="product-card">
-                <!-- Убедитесь, что файл '20250615_2001_image.png' находится в папке img -->
+                <!-- Сердечко для избранного -->
+                <svg class="favorite-icon" data-product-id="МН-001" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                 <img src="img/20250615_2001_image.png" alt="Монитор Luna UltraView 144Hz">
                 <h3 class="product-name">Монитор Luna UltraView 144Hz</h3>
                 <p class="product-description-short">Погрузитесь в игру с высокой частотой обновления и четким изображением.</p>
                 <div class="price">125 000 KZT</div>
-                <button class="btn"
+                <button class="btn product-info-trigger"
                         data-product-image="img/20250615_2001_image.png"
                         data-product-name="Монитор Luna UltraView 144Hz"
                         data-product-price="125 000 KZT"
                         data-product-old-price=""
                         data-product-article="МН-001"
-                        data-product-availability="В наличии">Купить</button>
+                        data-product-availability="В наличии">Дополнительная информация</button>
                 <button class="btn product-detail-trigger"
                         data-product-image="img/20250615_2001_image.png"
                         data-product-name="Монитор Luna UltraView 144Hz"
@@ -1197,19 +1332,20 @@
             </div>
 
             <div class="product-card">
-                <!-- Убедитесь, что файл 'https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_h3a_hb0_9529652609054_basilisk-v3-x-hyperspeed-2-500x500.png' находится в папке img -->
+                <!-- Сердечко для избранного -->
+                <svg class="favorite-icon" data-product-id="МШ-001" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                 <img src="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_h3a_hb0_9529652609054_basilisk-v3-x-hyperspeed-2-500x500.png" alt="Игровая мышь Luna Precision">
                 <h3 class="product-name">Игровая мышь Luna Precision</h3>
                 <p class="product-description-short">Точность и комфорт для долгих игровых сессий.</p>
                 <div class="price">25 000 KZT</div>
-                <button class="btn"
+                <button class="btn product-info-trigger"
                         data-product-image="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_h3a_hb0_9529652609054_basilisk-v3-x-hyperspeed-2-500x500.png"
                         data-product-name="Игровая мышь Luna Precision"
                         data-product-price="25 000 KZT"
                         data-product-old-price="28 000 KZT"
                         data-product-article="МШ-001"
                         data-product-availability="В наличии"
-                        data-product-thumbnails="">Купить</button>
+                        data-product-thumbnails="">Дополнительная информация</button>
                 <button class="btn product-detail-trigger"
                         data-product-image="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_h3a_hb0_9529652609054_basilisk-v3-x-hyperspeed-2-500x500.png"
                         data-product-name="Игровая мышь Luna Precision"
@@ -1221,18 +1357,19 @@
             </div>
 
             <div class="product-card">
-                <!-- Убедитесь, что файл 'deathstalker-v2-pro-tkl-4-500x500.webp' находится в папке img -->
+                <!-- Сердечко для избранного -->
+                <svg class="favorite-icon" data-product-id="КЛ-001" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                 <img src="img/deathstalker-v2-pro-tkl-4-500x500.webp" alt="Механическая клавиатура Luna Tactile">
                 <h3 class="product-name">Механическая Клавиатура Luna Tactile</h3>
                 <p class="product-description-short">Быстрый отклик и приятные тактильные ощущения.</p>
                 <div class="price">45 000 KZT</div>
-                <button class="btn"
+                <button class="btn product-info-trigger"
                         data-product-image="img/deathstalker-v2-pro-tkl-4-500x500.webp"
                         data-product-name="Механическая Клавиатура Luna Tactile"
                         data-product-price="45 000 KZT"
                         data-product-old-price=""
                         data-product-article="КЛ-001"
-                        data-product-availability="В наличии">Купить</button>
+                        data-product-availability="В наличии">Дополнительная информация</button>
                 <button class="btn product-detail-trigger"
                         data-product-image="img/deathstalker-v2-pro-tkl-4-500x500.webp"
                         data-product-name="Механическая Клавиатура Luna Tactile"
@@ -1244,18 +1381,19 @@
             </div>
 
             <div class="product-card">
-                <!-- Убедитесь, что файл 'https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_hbf_hde_9876443660318_250225-blade-16-s11-black-1500x1000-1.jpg' находится в папке img -->
+                <!-- Сердечко для избранного -->
+                <svg class="favorite-icon" data-product-id="НТ-001" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                 <img src="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_hbf_hde_9876443660318_250225-blade-16-s11-black-1500x1000-1.jpg" alt="Игровой ноутбук Luna Blaze">
                 <h3 class="product-name">Игровой ноутбук Luna Blaze</h3>
                 <p class="product-description-short">Мощность настольного ПК в компактном корпусе.</p>
                 <div class="price">399 990 KZT</div>
-                <button class="btn"
+                <button class="btn product-info-trigger"
                         data-product-image="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_hbf_hde_9876443660318_250225-blade-16-s11-black-1500x1000-1.jpg"
                         data-product-name="Игровой ноутбук Luna Blaze"
                         data-product-price="399 990 KZT"
                         data-product-old-price=""
                         data-product-article="НТ-001"
-                        data-product-availability="В наличии">Купить</button>
+                        data-product-availability="В наличии">Дополнительная информация</button>
                 <button class="btn product-detail-trigger"
                         data-product-image="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_hbf_hde_9876443660318_250225-blade-16-s11-black-1500x1000-1.jpg"
                         data-product-name="Игровой ноутбук Luna Blaze"
@@ -1267,18 +1405,19 @@
             </div>
 
             <div class="product-card">
-                <!-- Убедитесь, что файл 'https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_h46_h86_9807445753886_240820-BlackShark-V2-Pro-500x500.png' находится в папке img -->
+                <!-- Сердечко для избранного -->
+                <svg class="favorite-icon" data-product-id="НШ-001" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                 <img src="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_h46_h86_9807445753886_240820-BlackShark-V2-Pro-500x500.png" alt="Игровые наушники Luna Aura">
                 <h3 class="product-name">Игровые наушники Luna Aura</h3>
                 <p class="product-description-short">Чистый звук и удобство для полного погружения.</p>
                 <div class="price">35 000 KZT</div>
-                <button class="btn"
+                <button class="btn product-info-trigger"
                         data-product-image="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_h46_h86_9807445753886_240820-BlackShark-V2-Pro-500x500.png"
                         data-product-name="Игровые наушники Luna Aura"
                         data-product-price="35 000 KZT"
                         data-product-old-price=""
                         data-product-article="НШ-001"
-                        data-product-availability="В наличии">Купить</button>
+                        data-product-availability="В наличии">Дополнительная информация</button>
                 <button class="btn product-detail-trigger"
                         data-product-image="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_h46_h86_9807445753886_240820-BlackShark-V2-Pro-500x500.png"
                         data-product-name="Игровые наушники Luna Aura"
@@ -1295,19 +1434,20 @@
         <h2 class="products-section-title">Игровая Периферия</h2>
         <section class="products">
             <div class="product-card">
-                <!-- Убедитесь, что файл 'https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_hdd_he4_9829121949726_viper-mini-se-white-500x500.png' находится в папке img -->
+                <!-- Сердечко для избранного -->
+                <svg class="favorite-icon" data-product-id="МШ-002" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                 <img src="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_hdd_he4_9829121949726_viper-mini-se-white-500x500.png" alt="Игровая Мышь Luna Pro X">
                 <h3 class="product-name">Игровая Мышь Luna Pro X</h3>
                 <p class="product-description-short">Высокоточная мышь для киберспортсменов, 16000 DPI.</p>
                 <div class="price">30 000 KZT</div>
-                <button class="btn"
+                <button class="btn product-info-trigger"
                         data-product-image="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_hdd_he4_9829121949726_viper-mini-se-white-500x500.png"
                         data-product-name="Игровая Мышь Luna Pro X"
                         data-product-price="30 000 KZT"
                         data-product-old-price=""
                         data-product-article="МШ-002"
                         data-product-availability="В наличии"
-                        data-product-thumbnails="">Купить</button>
+                        data-product-thumbnails="">Дополнительная информация</button>
                 <button class="btn product-detail-trigger"
                         data-product-image="img/https___medias-p1.phoenix.razer.com_sys-master-phoenix-images-container_hdd_he4_9829121949726_viper-mini-se-white-500x500.png"
                         data-product-name="Игровая Мышь Luna Pro X"
@@ -1318,18 +1458,19 @@
                         data-product-thumbnails="">В корзину</button>
             </div>
             <div class="product-card">
-                <!-- Убедитесь, что файл 'razer-huntsman-v3-pro-tkl-500x500-v2.webp' находится в папке img -->
+                <!-- Сердечко для избранного -->
+                <svg class="favorite-icon" data-product-id="КЛ-002" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                 <img src="img/razer-huntsman-v3-pro-tkl-500x500-v2.webp" alt="Механическая Клавиатура Luna RGB">
                 <h3 class="product-name">Механическая Клавиатура Luna RGB</h3>
                 <p class="product-description-short">Надежная механическая клавиатура с настраиваемой RGB подсветкой.</p>
                 <div class="price">55 000 KZT</div>
-                <button class="btn"
+                <button class="btn product-info-trigger"
                         data-product-image="img/razer-huntsman-v3-pro-tkl-500x500-v2.webp"
                         data-product-name="Механическая Клавиатура Luna RGB"
                         data-product-price="55 000 KZT"
                         data-product-old-price=""
                         data-product-article="КЛ-002"
-                        data-product-availability="В наличии">Купить</button>
+                        data-product-availability="В наличии">Дополнительная информация</button>
                 <button class="btn product-detail-trigger"
                         data-product-image="img/razer-huntsman-v3-pro-tkl-500x500-v2.webp"
                         data-product-name="Механическая Клавиатура Luna RGB"
@@ -1340,18 +1481,19 @@
                         data-product-thumbnails="">В корзину</button>
             </div>
             <div class="product-card">
-                <!-- Убедитесь, что файл 'barracuda-x_render-middle.jpg' находится в папке img -->
+                <!-- Сердечко для избранного -->
+                <svg class="favorite-icon" data-product-id="ГР-001" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                 <img src="img/barracuda-x_render-middle.jpg" alt="Игровая Гарнитура Luna SoundMaster">
                 <h3 class="product-name">Игровая Гарнитура Luna SoundMaster</h3>
                 <p class="product-description-short">Погрузитесь в игру с объемным звуком 7.1 и кристально чистым микрофоном.</p>
                 <div class="price">40 000 KZT</div>
-                <button class="btn"
+                <button class="btn product-info-trigger"
                         data-product-image="img/barracuda-x_render-middle.jpg"
                         data-product-name="Игровая Гарнитура Luna SoundMaster"
                         data-product-price="40 000 KZT"
                         data-product-old-price=""
                         data-product-article="ГР-001"
-                        data-product-availability="В наличии">Купить</button>
+                        data-product-availability="В наличии">Дополнительная информация</button>
                 <button class="btn product-detail-trigger"
                         data-product-image="img/barracuda-x_render-middle.jpg"
                         data-product-name="Игровая Гарнитура Luna SoundMaster"
@@ -1362,18 +1504,19 @@
                         data-product-thumbnails="">В корзину</button>
             </div>
              <div class="product-card">
-                <!-- Убедитесь, что файл 'fireflyv2pro-line-fireflyv2-thumbnail.webp' находится в папке img -->
+                <!-- Сердечко для избранного -->
+                <svg class="favorite-icon" data-product-id="КВ-001" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                 <img src="img/fireflyv2pro-line-fireflyv2-thumbnail.webp" alt="Коврик для Мыши Luna Glide XL">
                 <h3 class="product-name">Коврик для Мыши Luna Glide XL</h3>
                 <p class="product-description-short">Игровой коврик увеличенного размера для максимального контроля.</p>
                 <div class="price">8 000 KZT</div>
-                <button class="btn"
+                <button class="btn product-info-trigger"
                         data-product-image="img/fireflyv2pro-line-fireflyv2-thumbnail.webp"
                         data-product-name="Коврик для Мыши Luna Glide XL"
                         data-product-price="8 000 KZT"
                         data-product-old-price=""
                         data-product-article="КВ-001"
-                        data-product-availability="В наличии">Купить</button>
+                        data-product-availability="В наличии">Дополнительная информация</button>
                 <button class="btn product-detail-trigger"
                         data-product-image="img/fireflyv2pro-line-fireflyv2-thumbnail.webp"
                         data-product-name="Коврик для Мыши Luna Glide XL"
@@ -1384,18 +1527,19 @@
                         data-product-thumbnails="">В корзину</button>
             </div>
             <div class="product-card">
-                <!-- Убедитесь, что файл '300x410-kiyolinepg-kiyoproultra.webp' находится в папке img -->
+                <!-- Сердечко для избранного -->
+                <svg class="favorite-icon" data-product-id="ВК-001" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                 <img src="img/300x410-kiyolinepg-kiyoproultra.webp" alt="Веб-камера Luna StreamCam Pro">
                 <h3 class="product-name">Веб-камера Luna StreamCam Pro</h3>
                 <p class="product-description-short">Full HD веб-камера для стримов и видеосвязи.</p>
                 <div class="price">28 000 KZT</div>
-                <button class="btn"
+                <button class="btn product-info-trigger"
                         data-product-image="img/300x410-kiyolinepg-kiyoproultra.webp"
                         data-product-name="Веб-камера Luna StreamCam Pro"
                         data-product-price="28 000 KZT"
                         data-product-old-price=""
                         data-product-article="ВК-001"
-                        data-product-availability="В наличии">Купить</button>
+                        data-product-availability="В наличии">Дополнительная информация</button>
                 <button class="btn product-detail-trigger"
                         data-product-image="img/300x410-kiyolinepg-kiyoproultra.webp"
                         data-product-name="Веб-камера Luna StreamCam Pro"
@@ -1406,18 +1550,19 @@
                         data-product-thumbnails="">В корзину</button>
             </div>
              <div class="product-card">
-                <!-- Убедитесь, что файл '500x500_seiren-v3-chroma.webp' находится в папке img -->
+                <!-- Сердечко для избранного -->
+                <svg class="favorite-icon" data-product-id="МК-001" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                 <img src="img/500x500_seiren-v3-chroma.webp" alt="Микрофон Luna Broadcast">
                 <h3 class="product-name">Микрофон Luna Broadcast</h3>
                 <p class="product-description-short">Профессиональный USB-микрофон для чистого голоса в играх и стримах.</p>
                 <div class="price">32 000 KZT</div>
-                <button class="btn"
+                <button class="btn product-info-trigger"
                         data-product-image="img/500x500_seiren-v3-chroma.webp"
                         data-product-name="Микрофон Luna Broadcast"
                         data-product-price="32 000 KZT"
                         data-product-old-price=""
                         data-product-article="МК-001"
-                        data-product-availability="В наличии">Купить</button>
+                        data-product-availability="В наличии">Дополнительная информация</button>
                 <button class="btn product-detail-trigger"
                         data-product-image="img/500x500_seiren-v3-chroma.webp"
                         data-product-name="Микрофон Luna Broadcast"
@@ -1434,18 +1579,19 @@
         <h2 class="products-section-title">Игровые Мониторы</h2>
         <section class="products">
             <div class="product-card">
-                <!-- Убедитесь, что файл '2342342.jpg' находится в папке img -->
+                <!-- Сердечко для избранного -->
+                <svg class="favorite-icon" data-product-id="МН-002" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                 <img src="img/2342342.jpg" alt="Монитор Luna 24 дюйма 144Hz">
                 <h3 class="product-name">Монитор Luna 24 дюйма 144Hz</h3>
                 <p class="product-description-short">Быстрое время отклика и 144 Гц для плавного геймплея.</p>
                 <div class="price">95 000 KZT</div>
-                <button class="btn"
+                <button class="btn product-info-trigger"
                         data-product-image="img/2342342.jpg"
                         data-product-name="Монитор Luna 24 дюйма 144Hz"
                         data-product-price="95 000 KZT"
                         data-product-old-price=""
                         data-product-article="МН-002"
-                        data-product-availability="В наличии">Купить</button>
+                        data-product-availability="В наличии">Дополнительная информация</button>
                 <button class="btn product-detail-trigger"
                         data-product-image="img/2342342.jpg"
                         data-product-name="Монитор Luna 24 дюйма 144Hz"
@@ -1456,18 +1602,19 @@
                         data-product-thumbnails="">В корзину</button>
             </div>
             <div class="product-card">
-                <!-- Убедитесь, что файл '20250615_2056_image.png' находится в папке img -->
+                <!-- Сердечко для избранного -->
+                <svg class="favorite-icon" data-product-id="МН-003" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                 <img src="img/20250615_2056_image.png" alt="Монитор Luna 27 дюйма QHD 165Hz">
                 <h3 class="product-name">Монитор Luna 27 дюйма QHD 165Hz</h3>
                 <p class="product-description-short">Детализированное QHD изображение и сверхвысокая частота обновления.</p>
                 <div class="price">180 000 KZT</div>
-                <button class="btn"
+                <button class="btn product-info-trigger"
                         data-product-image="img/20250615_2056_image.png"
                         data-product-name="Монитор Luna 27 дюйма QHD 165Hz"
                         data-product-price="180 000 KZT"
                         data-product-old-price=""
                         data-product-article="МН-003"
-                        data-product-availability="В наличии">Купить</button>
+                        data-product-availability="В наличии">Дополнительная информация</button>
                 <button class="btn product-detail-trigger"
                         data-product-image="img/20250615_2056_image.png"
                         data-product-name="Монитор Luna 27 дюйма QHD 165Hz"
@@ -1478,18 +1625,19 @@
                         data-product-thumbnails="">В корзину</button>
             </div>
             <div class="product-card">
-                <!-- Убедитесь, что файл '20250615_2057_image.png' находится в папке img -->
+                <!-- Сердечко для избранного -->
+                <svg class="favorite-icon" data-product-id="МН-004" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                 <img src="img/20250615_2057_image.png" alt="Изогнутый Монитор Luna UltraWide">
                 <h3 class="product-name">Изогнутый Монитор Luna UltraWide</h3>
                 <p class="product-description-short">Погружение в игру с панорамным видом на изогнутом экране.</p>
                 <div class="price">250 000 KZT</div>
-                <button class="btn"
+                <button class="btn product-info-trigger"
                         data-product-image="img/20250615_2057_image.png"
                         data-product-name="Изогнутый Монитор Luna UltraWide"
                         data-product-price="250 000 KZT"
                         data-product-old-price=""
                         data-product-article="МН-004"
-                        data-product-availability="В наличии">Купить</button>
+                        data-product-availability="В наличии">Дополнительная информация</button>
                 <button class="btn product-detail-trigger"
                         data-product-image="img/20250615_2057_image.png"
                         data-product-name="Изогнутый Монитор Luna UltraWide"
@@ -1506,18 +1654,19 @@
         <h2 class="products-section-title">Игровые Клавиатуры</h2>
         <section class="products">
             <div class="product-card">
-                <!-- Убедитесь, что файл '800x600-razer-ornata-v3-x-product-promo.png' находится в папке img -->
+                <!-- Сердечко для избранного -->
+                <svg class="favorite-icon" data-product-id="КЛ-003" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                 <img src="img/800x600-razer-ornata-v3-x-product-promo.png" alt="Мембранная Клавиатура Luna Silent">
                 <h3 class="product-name">Мембранная Клавиатура Luna Silent</h3>
                 <p class="product-description-short">Тихая мембранная клавиатура с мягким нажатием для комфортной игры.</p>
                 <div class="price">20 000 KZT</div>
-                <button class="btn"
+                <button class="btn product-info-trigger"
                         data-product-image="img/800x600-razer-ornata-v3-x-product-promo.png"
                         data-product-name="Мембранная Клавиатура Luna Silent"
                         data-product-price="20 000 KZT"
                         data-product-old-price=""
                         data-product-article="КЛ-003"
-                        data-product-availability="В наличии">Купить</button>
+                        data-product-availability="В наличии">Дополнительная информация</button>
                 <button class="btn product-detail-trigger"
                         data-product-image="img/800x600-razer-ornata-v3-x-product-promo.png"
                         data-product-name="Мембранная Клавиатура Luna Silent"
@@ -1528,18 +1677,19 @@
                         data-product-thumbnails="">В корзину</button>
             </div>
             <div class="product-card">
-                <!-- Убедитесь, что файл '800x600-razer-blackwidow-v3-pro-product-promo.png' находится в папке img -->
+                <!-- Сердечко для избранного -->
+                <svg class="favorite-icon" data-product-id="КЛ-004" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                 <img src="img/800x600-razer-blackwidow-v3-pro-product-promo.png" alt="Механическая Клавиатура Luna RGB Pro">
                 <h3 class="product-name">Механическая Клавиатура Luna RGB Pro</h3>
                 <p class="product-description-short">Полноразмерная клавиатура с настраиваемой RGB подсветкой и переключателями Cherry MX.</p>
                 <div class="price">60 000 KZT</div>
-                <button class="btn"
+                <button class="btn product-info-trigger"
                         data-product-image="img/800x600-razer-blackwidow-v3-pro-product-promo.png"
                         data-product-name="Механическая Клавиатура Luna RGB Pro"
                         data-product-price="60 000 KZT"
                         data-product-old-price=""
                         data-product-article="КЛ-004"
-                        data-product-availability="В наличии">Купить</button>
+                        data-product-availability="В наличии">Дополнительная информация</button>
                 <button class="btn product-detail-trigger"
                         data-product-image="img/800x600-razer-blackwidow-v3-pro-product-promo.png"
                         data-product-name="Механическая Клавиатура Luna RGB Pro"
@@ -1550,18 +1700,19 @@
                         data-product-thumbnails="">В корзину</button>
             </div>
             <div class="product-card">
-                <!-- Убедитесь, что файл '800x600-razer-pro-type-ultra-product-promo.png' находится в папке img -->
+                <!-- Сердечко для избранного -->
+                <svg class="favorite-icon" data-product-id="КЛ-005" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                 <img src="img/800x600-razer-pro-type-ultra-product-promo.png" alt="Беспроводная Клавиатура Luna Compact">
                 <h3 class="product-name">Беспроводная Клавиатура Luna Compact</h3>
                 <p class="product-description-short">Компактная беспроводная клавиатура с быстрым откликом, идеальна для путешествий.</p>
                 <div class="price">48 000 KZT</div>
-                <button class="btn"
+                <button class="btn product-info-trigger"
                         data-product-image="img/800x600-razer-pro-type-ultra-product-promo.png"
                         data-product-name="Беспроводная Клавиатура Luna Compact"
                         data-product-price="48 000 KZT"
                         data-product-old-price=""
                         data-product-article="КЛ-005"
-                        data-product-availability="В наличии">Купить</button>
+                        data-product-availability="В наличии">Дополнительная информация</button>
                 <button class="btn product-detail-trigger"
                         data-product-image="img/800x600-razer-pro-type-ultra-product-promo.png"
                         data-product-name="Беспроводная Клавиатура Luna Compact"
@@ -1574,14 +1725,27 @@
         </section>
     </section>
 
-    <!-- Модальное окно для описания, открываемое кнопкой "Узнать больше" -->
-    <!-- This modal is no longer used, so it's hidden and its script functionality is removed -->
-    <div id="description-modal" class="modal-overlay">
+    <!-- Модальное окно для дополнительной информации (ранее описание) -->
+    <div id="info-modal" class="modal-overlay">
         <div class="modal-content">
             <button class="modal-close-btn">&times;</button>
-            <h2 id="modal-product-name" class="modal-title"></h2>
+            <h2 id="modal-info-product-name" class="modal-title"></h2>
             <div id="loading-indicator" class="loading-indicator"></div>
-            <p id="modal-product-description" class="modal-description"></p>
+            <p id="modal-info-product-description" class="modal-description"></p>
+        </div>
+    </div>
+
+    <!-- Модальное окно для избранных продуктов "Мой Razer" -->
+    <div id="favorites-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-btn">&times;</button>
+            <h2 class="modal-title">Мой Razer (Избранное)</h2>
+            <div id="favorites-grid" class="favorites-grid">
+                <!-- Избранные продукты будут загружены здесь динамически -->
+            </div>
+            <p id="empty-favorites-message" style="text-align: center; color: var(--text-medium); display: none;">
+                У вас пока нет избранных продуктов.
+            </p>
         </div>
     </div>
 
@@ -1698,108 +1862,24 @@
             });
         }
 
-        // Removed description modal functionality and related elements
-        // const descriptionModal = document.getElementById('description-modal');
-        // const modalProductName = document.getElementById('modal-product-name');
-        // const modalProductDescription = document.getElementById('modal-product-description');
-        // const modalCloseBtn = document.querySelector('#description-modal .modal-close-btn');
-        // const loadingIndicator = document.getElementById('loading-indicator');
+        const infoModal = document.getElementById('info-modal');
+        const modalInfoProductName = document.getElementById('modal-info-product-name');
+        const modalInfoProductDescription = document.getElementById('modal-info-product-description');
+        const infoModalCloseBtn = infoModal.querySelector('.modal-close-btn');
+        const loadingIndicator = document.getElementById('loading-indicator');
 
-        // Changed geminiButtons to productDetailTriggerButtons to reflect new purpose
-        const productDetailTriggerButtons = document.querySelectorAll('.product-card .product-detail-trigger');
+        const productInfoTriggers = document.querySelectorAll('.product-card .product-info-trigger');
 
-        productDetailTriggerButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // This logic is duplicated from the "Купить" button to open the product detail page
-                const productCard = button.closest('.product-card');
-                const productImageSrc = button.dataset.productImage; // Use dataset from the button itself
-                const productName = button.dataset.productName;
-                const productPrice = button.dataset.productPrice;
-
-                const productOldPrice = button.dataset.productOldPrice || '';
-                const productArticle = button.dataset.productArticle || 'Не указан';
-                const productAvailability = button.dataset.productAvailability || 'В наличии';
-                const productThumbnails = button.dataset.productThumbnails ? button.dataset.productThumbnails.split(',').filter(src => src.trim() !== '') : [];
-
-
-                productDetailName.textContent = productName;
-                productDetailArticle.textContent = `Артикул: ${productArticle}`;
-                productDetailPriceCurrent.textContent = productPrice;
-
-                if (productOldPrice) {
-                    productDetailPriceOld.textContent = productOldPrice;
-                    productDetailPriceOld.style.display = 'block';
-                } else {
-                    productDetailPriceOld.style.display = 'none';
-                }
-
-                productDetailAvailability.textContent = productAvailability;
-
-                productSpecsList.innerHTML = '';
-                const specs = productSpecs[productName];
-                if (specs) {
-                    for (const key in specs) {
-                        const li = document.createElement('li');
-                        const strong = document.createElement('strong');
-                        strong.textContent = `${key}:`;
-                        const span = document.createElement('span');
-                        span.textContent = specs[key];
-                        li.appendChild(strong);
-                        li.appendChild(span);
-                        productSpecsList.appendChild(li);
-                    }
-                } else {
-                    const li = document.createElement('li');
-                    li.textContent = "Характеристики не найдены для этого продукта.";
-                    productSpecsList.appendChild(li);
-                }
-
-                productDetailThumbnailsContainer.innerHTML = '';
-                let thumbnailsToAdd = [productImageSrc, ...productThumbnails.filter(src => src.trim() !== productImageSrc.trim())];
-                
-                thumbnailsToAdd.forEach((src, index) => {
-                    const img = document.createElement('img');
-                    img.src = src.trim();
-                    img.alt = productName + ' thumbnail';
-                    img.classList.add('product-detail-thumbnail');
-                    productDetailThumbnailsContainer.appendChild(img);
-
-                    if (index === 0) {
-                        img.classList.add('active');
-                    }
-
-                    img.addEventListener('click', () => {
-                        productDetailMainImage.src = img.src;
-                        productDetailThumbnailsContainer.querySelectorAll('.product-detail-thumbnail').forEach(thumb => {
-                            thumb.classList.remove('active');
-                        });
-                        img.classList.add('active');
-                    });
-                });
-
-                productDetailMainImage.src = thumbnailsToAdd[0] || productImageSrc;
-
-
-                productDetailPage.classList.add('open');
-                document.body.classList.add('no-scroll');
-
-                orderMessageBox.classList.remove('show');
-                purchaseForm.reset();
-            });
-        });
-
-        // Event listener for the old "Узнать больше" button (description modal) - removed as the button is changed
-        /*
-        geminiButtons.forEach(button => {
+        productInfoTriggers.forEach(button => {
             button.addEventListener('click', async () => {
                 const productCard = button.closest('.product-card');
                 const productName = productCard.querySelector('.product-name').textContent;
                 const productShortDescription = productCard.querySelector('.product-description-short').textContent;
 
-                modalProductName.textContent = productName;
-                modalProductDescription.textContent = '';
+                modalInfoProductName.textContent = productName;
+                modalInfoProductDescription.textContent = '';
                 loadingIndicator.classList.add('active');
-                descriptionModal.classList.add('open');
+                infoModal.classList.add('open');
                 document.body.classList.add('no-scroll');
 
                 const prompt = `Расширьте и сделайте более привлекательным следующее описание игрового продукта для магазина:
@@ -1832,13 +1912,13 @@
                         result.candidates[0].content && result.candidates[0].content.parts &&
                         result.candidates[0].content.parts.length > 0) {
                         const generatedText = result.candidates[0].content.parts[0].text;
-                        modalProductDescription.textContent = generatedText;
+                        modalInfoProductDescription.textContent = generatedText;
                     } else {
-                        modalProductDescription.textContent = 'Не удалось получить улучшенное описание. Попробуйте еще раз.';
+                        modalInfoProductDescription.textContent = 'Не удалось получить улучшенное описание. Попробуйте еще раз.';
                         console.error('Неожиданная структура ответа от Gemini API:', result);
                     }
                 } catch (error) {
-                    modalProductDescription.textContent = `Ошибка при получении описания: ${error.message}`;
+                    modalInfoProductDescription.textContent = `Ошибка при получении описания: ${error.message}`;
                     console.error('Ошибка вызова Gemini API:', error);
                 } finally {
                     loadingIndicator.classList.remove('active');
@@ -1846,24 +1926,17 @@
             });
         });
 
-        modalCloseBtn.addEventListener('click', () => {
-            descriptionModal.classList.remove('open');
+        infoModalCloseBtn.addEventListener('click', () => {
+            infoModal.classList.remove('open');
             document.body.classList.remove('no-scroll');
         });
 
-        modalCloseBtn.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape') {
-                modalCloseBtn.click();
-            }
-        });
-
-        descriptionModal.addEventListener('click', (event) => {
-            if (event.target === descriptionModal) {
-                descriptionModal.classList.remove('open');
+        infoModal.addEventListener('click', (event) => {
+            if (event.target === infoModal) {
+                infoModal.classList.remove('open');
                 document.body.classList.remove('no-scroll');
             }
         });
-        */
 
         // Object holding technical specifications for each product by its name
         const productSpecs = {
@@ -2113,39 +2186,35 @@
         });
 
 
-        const buyButtons = document.querySelectorAll('.product-card .btn:first-of-type');
+        const productDetailTriggerButtons = document.querySelectorAll('.product-card .product-detail-trigger');
 
-        buyButtons.forEach(button => {
+        productDetailTriggerButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const productCard = button.closest('.product-card');
-                const productImageSrc = productCard.querySelector('img').src;
-                const productName = productCard.querySelector('.product-name').textContent;
-                const productPrice = productCard.querySelector('.price').textContent;
+                const productImageSrc = button.dataset.productImage;
+                const productName = button.dataset.productName;
+                const productPrice = button.dataset.productPrice;
 
-                // Получаем данные из data-атрибутов
                 const productOldPrice = button.dataset.productOldPrice || '';
                 const productArticle = button.dataset.productArticle || 'Не указан';
-                const productAvailability = button.dataset.productAvailability || 'В наличии'; // По умолчанию "В наличии"
-                // Исправлено: если data-product-thumbnails пуст, используем только основное изображение
+                const productAvailability = button.dataset.productAvailability || 'В наличии';
                 const productThumbnails = button.dataset.productThumbnails ? button.dataset.productThumbnails.split(',').filter(src => src.trim() !== '') : [];
 
 
-                // Заполняем "страницу" продукта данными
                 productDetailName.textContent = productName;
                 productDetailArticle.textContent = `Артикул: ${productArticle}`;
                 productDetailPriceCurrent.textContent = productPrice;
 
                 if (productOldPrice) {
                     productDetailPriceOld.textContent = productOldPrice;
-                    productDetailPriceOld.style.display = 'block'; // Показываем старую цену, если она есть
+                    productDetailPriceOld.style.display = 'block';
                 } else {
-                    productDetailPriceOld.style.display = 'none'; // Скрываем старую цену, если ее нет
+                    productDetailPriceOld.style.display = 'none';
                 }
 
                 productDetailAvailability.textContent = productAvailability;
 
-                // Заполнение характеристик
-                productSpecsList.innerHTML = ''; // Очищаем старые характеристики
+                productSpecsList.innerHTML = '';
                 const specs = productSpecs[productName];
                 if (specs) {
                     for (const key in specs) {
@@ -2164,10 +2233,7 @@
                     productSpecsList.appendChild(li);
                 }
 
-
-                // Очищаем и заполняем миниатюры
                 productDetailThumbnailsContainer.innerHTML = '';
-                // Добавляем основное изображение как первую миниатюру, если она не уже в списке
                 let thumbnailsToAdd = [productImageSrc, ...productThumbnails.filter(src => src.trim() !== productImageSrc.trim())];
                 
                 thumbnailsToAdd.forEach((src, index) => {
@@ -2177,13 +2243,12 @@
                     img.classList.add('product-detail-thumbnail');
                     productDetailThumbnailsContainer.appendChild(img);
 
-                    if (index === 0) { // Активируем первую миниатюру
+                    if (index === 0) {
                         img.classList.add('active');
                     }
 
                     img.addEventListener('click', () => {
                         productDetailMainImage.src = img.src;
-                        // Удаляем класс active со всех миниатюр и добавляем к текущей
                         productDetailThumbnailsContainer.querySelectorAll('.product-detail-thumbnail').forEach(thumb => {
                             thumb.classList.remove('active');
                         });
@@ -2191,19 +2256,14 @@
                     });
                 });
 
-                // Устанавливаем основное изображение на основе первой миниатюры (или оригинального изображения)
                 productDetailMainImage.src = thumbnailsToAdd[0] || productImageSrc;
 
 
                 productDetailPage.classList.add('open');
                 document.body.classList.add('no-scroll');
 
-                // Reset technical specs section state when opening a new product
-                // This section is now static content on the left, so no toggle needed inside info section.
-                // technicalSpecsContent.classList.remove('open');
-                // toggleSpecsBtn.textContent = 'Показать технические характеристики'; // Сброс текста кнопки
-                orderMessageBox.classList.remove('show'); // Скрываем сообщение о заказе
-                purchaseForm.reset(); // Очищаем форму заказа
+                orderMessageBox.classList.remove('show');
+                purchaseForm.reset();
             });
         });
 
@@ -2213,7 +2273,6 @@
         });
 
         productDetailPage.addEventListener('click', (event) => {
-            // Закрытие "страницы" при клике вне содержимого
             if (event.target === productDetailPage) {
                 productDetailPage.classList.remove('open');
                 document.body.classList.remove('no-scroll');
@@ -2279,6 +2338,123 @@
                     }
                 }
             });
+        });
+
+        // Favorites functionality
+        const favoritesModal = document.getElementById('favorites-modal');
+        const favoritesGrid = document.getElementById('favorites-grid');
+        const emptyFavoritesMessage = document.getElementById('empty-favorites-message');
+        const myRazerLink = document.getElementById('my-razer-link');
+        const favoriteIcons = document.querySelectorAll('.favorite-icon');
+
+        // Load favorites from localStorage
+        let favorites = JSON.parse(localStorage.getItem('lunaFavorites')) || [];
+
+        function saveFavorites() {
+            localStorage.setItem('lunaFavorites', JSON.stringify(favorites));
+        }
+
+        function renderFavorites() {
+            favoritesGrid.innerHTML = ''; // Clear current favorites display
+            if (favorites.length === 0) {
+                emptyFavoritesMessage.style.display = 'block';
+            } else {
+                emptyFavoritesMessage.style.display = 'none';
+                favorites.forEach(product => {
+                    const favoriteItem = document.createElement('div');
+                    favoriteItem.classList.add('favorite-item');
+                    favoriteItem.innerHTML = `
+                        <button class="remove-favorite-btn" data-product-id="${product.id}">&times;</button>
+                        <img src="${product.image}" alt="${product.name}">
+                        <h4>${product.name}</h4>
+                        <div class="price">${product.price}</div>
+                    `;
+                    favoritesGrid.appendChild(favoriteItem);
+                });
+            }
+        }
+
+        // Initialize favorite icons based on saved favorites
+        function updateFavoriteIcons() {
+            favoriteIcons.forEach(icon => {
+                const productId = icon.dataset.productId;
+                if (favorites.some(fav => fav.id === productId)) {
+                    icon.classList.add('active');
+                } else {
+                    icon.classList.remove('active');
+                }
+            });
+        }
+
+        // Toggle favorite status on click
+        favoriteIcons.forEach(icon => {
+            icon.addEventListener('click', (event) => {
+                event.stopPropagation(); // Prevent card click if it has one
+                const productId = icon.dataset.productId;
+                const productCard = icon.closest('.product-card');
+                const productName = productCard.querySelector('.product-name').textContent;
+                const productImage = productCard.querySelector('img').src;
+                const productPrice = productCard.querySelector('.price').textContent;
+
+                const existingIndex = favorites.findIndex(fav => fav.id === productId);
+
+                if (existingIndex > -1) {
+                    favorites.splice(existingIndex, 1); // Remove
+                    icon.classList.remove('active');
+                } else {
+                    favorites.push({
+                        id: productId,
+                        name: productName,
+                        image: productImage,
+                        price: productPrice
+                    }); // Add
+                    icon.classList.add('active');
+                }
+                saveFavorites();
+            });
+        });
+
+        // Open favorites modal
+        myRazerLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            renderFavorites();
+            favoritesModal.classList.add('open');
+            document.body.classList.add('no-scroll');
+        });
+
+        // Close favorites modal
+        favoritesModal.querySelector('.modal-close-btn').addEventListener('click', () => {
+            favoritesModal.classList.remove('open');
+            document.body.classList.remove('no-scroll');
+        });
+
+        favoritesModal.addEventListener('click', (event) => {
+            if (event.target === favoritesModal) {
+                favoritesModal.classList.remove('open');
+                document.body.classList.remove('no-scroll');
+            }
+        });
+
+        // Remove from favorites from within the favorites modal
+        favoritesGrid.addEventListener('click', (event) => {
+            if (event.target.classList.contains('remove-favorite-btn')) {
+                const productIdToRemove = event.target.dataset.productId;
+                favorites = favorites.filter(product => product.id !== productIdToRemove);
+                saveFavorites();
+                renderFavorites(); // Re-render the favorites list
+                updateFavoriteIcons(); // Update icons on main page
+            }
+        });
+
+        // Initial update of favorite icons when page loads
+        updateFavoriteIcons();
+
+        // Cart functionality (placeholder for now)
+        const cartLink = document.getElementById('cart-link');
+        cartLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            // In a real application, this would open a cart modal/page
+            alert('Функционал корзины пока в разработке!');
         });
     </script>
 </body>
