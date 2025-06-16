@@ -489,7 +489,9 @@
         }
 
         /* Styles for the Info Modal (dynamic content from Gemini) */
-        #info-modal, #favorites-modal, #cart-modal {
+        /* Removed #info-modal styles as per user request */
+
+        #favorites-modal, #cart-modal {
             position: fixed;
             top: 0;
             left: 0;
@@ -506,12 +508,12 @@
             overflow-y: auto;
         }
 
-        #info-modal.open, #favorites-modal.open, #cart-modal.open {
+        #favorites-modal.open, #cart-modal.open {
             visibility: visible;
             opacity: 1;
         }
 
-        #info-modal .modal-content, #favorites-modal .modal-content, #cart-modal .modal-content {
+        #favorites-modal .modal-content, #cart-modal .modal-content {
             background: var(--product-card-bg);
             padding: 30px;
             border-radius: 10px;
@@ -1193,7 +1195,6 @@
             }
 
             #product-detail-page .page-content-wrapper,
-            #info-modal .modal-content,
             #favorites-modal .modal-content,
             #cart-modal .modal-content {
                 padding: 15px;
@@ -1722,16 +1723,6 @@
         </section>
     </section>
 
-    <!-- Модальное окно для дополнительной информации (ранее описание) -->
-    <div id="info-modal" class="modal-overlay">
-        <div class="modal-content">
-            <button class="modal-close-btn">&times;</button>
-            <h2 id="modal-info-product-name" class="modal-title"></h2>
-            <div id="loading-indicator" class="loading-indicator"></div>
-            <p id="modal-info-product-description" class="modal-description"></p>
-        </div>
-    </div>
-
     <!-- Модальное окно для избранных продуктов "Мой Razer" -->
     <div id="favorites-modal" class="modal-overlay">
         <div class="modal-content">
@@ -1877,25 +1868,7 @@
             });
         }
 
-        const infoModal = document.getElementById('info-modal');
-        const modalInfoProductName = document.getElementById('modal-info-product-name');
-        const modalInfoProductDescription = document.getElementById('modal-info-product-description');
-        const infoModalCloseBtn = infoModal.querySelector('.modal-close-btn');
-        const loadingIndicator = document.getElementById('loading-indicator');
-
-        // Removed productInfoTriggers as per user request (no separate "Дополнительная информация" button on card)
-
-        infoModalCloseBtn.addEventListener('click', () => {
-            infoModal.classList.remove('open');
-            document.body.classList.remove('no-scroll');
-        });
-
-        infoModal.addEventListener('click', (event) => {
-            if (event.target === infoModal) {
-                infoModal.classList.remove('open');
-                document.body.classList.remove('no-scroll');
-            }
-        });
+        // Removed infoModal related elements and event listeners as per user request (no more "Дополнительная информация" button)
 
         // Object holding technical specifications for each product by its name
         const productSpecs = {
@@ -2472,6 +2445,7 @@
         }
 
         function renderCart() {
+            console.log('renderCart: Rendering cart...');
             cartItemsContainer.innerHTML = ''; // Clear current cart display
             let total = 0;
 
@@ -2479,10 +2453,12 @@
                 emptyCartMessage.style.display = 'block';
                 cartTotalContainer.style.display = 'none';
                 cartCheckoutBtn.style.display = 'none';
+                console.log('renderCart: Cart is empty.');
             } else {
                 emptyCartMessage.style.display = 'none';
                 cartTotalContainer.style.display = 'block';
                 cartCheckoutBtn.style.display = 'block';
+                console.log('renderCart: Cart has items, rendering them.');
 
                 cart.forEach(item => {
                     const cartItemDiv = document.createElement('div');
@@ -2508,14 +2484,16 @@
                 });
             }
             cartTotalPriceElement.textContent = formatPrice(total);
+            console.log('renderCart: Total price updated to', total);
         }
 
         function addToCart(product) {
+            console.log('addToCart: Attempting to add product', product.name, product.id);
             const existingItemIndex = cart.findIndex(item => item.id === product.id);
             if (existingItemIndex > -1) {
                 cart[existingItemIndex].quantity++;
+                console.log('addToCart: Increased quantity for existing item.', cart[existingItemIndex]);
             } else {
-                // Ensure all necessary properties are present and parsed
                 cart.push({
                     id: product.id,
                     name: product.name,
@@ -2523,23 +2501,28 @@
                     price: product.price, // Store as string, parse for calculation
                     quantity: 1
                 });
+                console.log('addToCart: Added new item to cart.', cart[cart.length - 1]);
             }
             saveCart();
             renderCart(); // Update cart display immediately
+            console.log('addToCart: Cart state after adding:', cart);
         }
 
         // Event listener for "В корзину" buttons on product cards
         document.querySelectorAll('.add-to-cart-card-button').forEach(button => {
             button.addEventListener('click', (event) => {
+                console.log('Card "В корзину" button clicked!');
                 const productData = event.target.dataset;
                 addToCart(productData);
                 cartModal.classList.add('open'); // Open cart modal when product is added from card
                 document.body.classList.add('no-scroll');
+                console.log('Cart modal classList after card button click:', cartModal.classList);
             });
         });
 
         // Event listener for "В КОРЗИНУ" button on product detail page
         document.querySelector('.product-detail-add-to-cart').addEventListener('click', (event) => {
+            console.log('Product detail page "В КОРЗИНУ" button clicked!');
             const productData = {
                 id: productDetailArticle.textContent.replace('Артикул: ', ''), // Use article as ID
                 name: productDetailName.textContent,
@@ -2549,6 +2532,7 @@
             addToCart(productData);
             cartModal.classList.add('open'); // Open cart modal from detail page too
             document.body.classList.add('no-scroll');
+            console.log('Cart modal classList after detail page button click:', cartModal.classList);
         });
 
 
@@ -2564,37 +2548,46 @@
 
             if (target.classList.contains('increase')) {
                 cart[itemIndex].quantity++;
+                console.log('Increased quantity for product', productId, 'to', cart[itemIndex].quantity);
             } else if (target.classList.contains('decrease')) {
                 if (cart[itemIndex].quantity > 1) {
                     cart[itemIndex].quantity--;
+                    console.log('Decreased quantity for product', productId, 'to', cart[itemIndex].quantity);
                 } else {
-                    // Remove item if quantity drops to 0
                     cart.splice(itemIndex, 1);
+                    console.log('Removed product', productId, 'from cart.');
                 }
             } else if (target.classList.contains('remove-cart-item')) {
                 cart.splice(itemIndex, 1);
+                console.log('Removed product', productId, 'from cart.');
             }
             saveCart();
             renderCart();
+            console.log('Cart state after quantity/removal:', cart);
         });
 
 
         // Open cart modal from header icon
         cartLink.addEventListener('click', (event) => {
             event.preventDefault();
+            console.log('Header Cart icon clicked!');
             renderCart(); // Always re-render to ensure latest state
             cartModal.classList.add('open');
             document.body.classList.add('no-scroll');
+            console.log('Cart modal classList after header icon click:', cartModal.classList);
         });
 
         // Close cart modal
         cartModal.querySelector('.modal-close-btn').addEventListener('click', () => {
+            console.log('Cart modal close button clicked!');
             cartModal.classList.remove('open');
             document.body.classList.remove('no-scroll');
+            console.log('Cart modal classList after closing:', cartModal.classList);
         });
 
         cartModal.addEventListener('click', (event) => {
             if (event.target === cartModal) {
+                console.log('Clicked outside cart modal, closing.');
                 cartModal.classList.remove('open');
                 document.body.classList.remove('no-scroll');
             }
@@ -2602,13 +2595,36 @@
 
         // Placeholder for checkout button in cart modal
         cartCheckoutBtn.addEventListener('click', () => {
-            alert('Переходим к оформлению заказа!'); // Replace with actual checkout logic
-            // You might want to clear the cart here or navigate to a checkout page
-            // cart = [];
-            // saveCart();
-            // renderCart();
-            // cartModal.classList.remove('open');
-            // document.body.classList.remove('no-scroll');
+            // alert('Переходим к оформлению заказа!'); // Replace with actual checkout logic
+            // Using a custom message box instead of alert()
+            const messageBox = document.createElement('div');
+            messageBox.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: var(--accent-green);
+                color: var(--header-bg);
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0,255,0,0.5);
+                font-size: 1.2em;
+                font-weight: bold;
+                z-index: 2001;
+                text-align: center;
+            `;
+            messageBox.textContent = 'Переходим к оформлению заказа!';
+            document.body.appendChild(messageBox);
+
+            setTimeout(() => {
+                messageBox.remove();
+                // Optionally clear cart and close modal after message
+                cart = [];
+                saveCart();
+                renderCart();
+                cartModal.classList.remove('open');
+                document.body.classList.remove('no-scroll');
+            }, 2000); // Hide message and proceed after 2 seconds
         });
 
         // Initial render of the cart when the page loads
